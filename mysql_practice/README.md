@@ -431,7 +431,19 @@ PRIMARY KEY (`emp_no`,`from_date`));
 获取所有非manager员工薪水情况，给出dept_no、emp_no以及salary，以上例子输出:             
 ![sql24_5](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql24_5.jpg)                                             
 ### solution
-> 
+> select de.dept_no, s.emp_no, s.salary 
+  from (employees as e inner join salaries as s on s.emp_no = e.emp_no and s.to_date = '9999-01-01')
+  inner join dept_emp as de on e.emp_no = de.emp_no
+  where de.emp_no not in (select emp_no from dept_manager where to_date = '9999-01-01');
+>       
+>select de.dept_no, s.emp_no, s.salary 
+ from dept_emp as de inner join salaries as s on s.emp_no = de.emp_no and s.to_date = '9999-01-01'
+ where de.emp_no not in (select emp_no from dept_manager where to_date = '9999-01-01');     
+>           
+>select de.dept_no,de.emp_no,s.salary
+ from dept_emp de,employees em,salaries s
+ where de.emp_no=em.emp_no and de.emp_no=s.emp_no and de.to_date='9999-01-01' and s.to_date='9999-01-01'
+ and de.emp_no not in (select emp_no from dept_manager);                     
 ## 25.获取员工其当前的薪水比其manager当前薪水还高的相关信息
 ## 26.汇总各个部门当前员工的title类型的分配数目
 ## 27.
