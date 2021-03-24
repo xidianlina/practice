@@ -784,7 +784,7 @@ CREATE TRIGGER trigger_name [BEFORE|AFTER] event_name ON table_name
 FOR EACH ROW        
 BEGIN           
    -- Trigger logic goes here ;
-END;
+END;            
 >1.create trigger ：创建触发器                  
 2.触发器要说明是在after 还是before事务发生时触发                    
 3.要指明是insert 、delete、update操作                  
