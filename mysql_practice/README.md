@@ -495,7 +495,19 @@ PRIMARY KEY (`emp_no`,`from_date`));
  from titles as t , dept_emp as de ,departments as dp
  where t.emp_no = de.emp_no and de.dept_no = dp.dept_no and de.to_date = '9999-01-01' and t.to_date = '9999-01-01'
  group by de.dept_no, t.title order by de.dept_no;
-## 27.
+## 27.给出每年薪水涨幅超过5000的员工信息
+题目描述                
+给出每年薪水涨幅超过5000的员工编号emp_no和薪水涨幅值salary_growth，并按照salary_growth逆序排列。               
+CREATE TABLE `salaries` (                   
+`emp_no` int(11) NOT NULL,                  
+`salary` int(11) NOT NULL,                  
+`from_date` date NOT NULL,                  
+`to_date` date NOT NULL,                    
+PRIMARY KEY (`emp_no`,`from_date`));                               
+### solution
+> select s2.emp_no, (s2.salary - s1.salary) as salary_growth
+  from salaries as s1, salaries as s2 where s1.emp_no = s2.emp_no and salary_growth > 5000
+  order by salary_growth desc;
 ## 28.查找描述信息中包括robot的电影对应的分类名称以及电影数目
 ## 29.使用join查询方式找出没有分类的电影id以及名称
 ## 30.使用子查询的方式找出属于Action分类的所有电影对应的title,description
