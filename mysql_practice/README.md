@@ -783,7 +783,7 @@ end;
 CREATE TRIGGER trigger_name [BEFORE|AFTER] event_name ON table_name         
 FOR EACH ROW        
 BEGIN           
-   -- Trigger logic goes here ;
+   -- Trigger logic goes here ;                 
 END;            
 >1.create trigger ：创建触发器                  
 2.触发器要说明是在after 还是before事务发生时触发                    
@@ -792,12 +792,92 @@ END;
 5.begin和end之间写触发的动作         
 6.new 关键字表示更新后的表的字段 ，old表示更新前的表的字段              
 ## 42.删除emp_no重复的记录，只保留最小的id对应的记录。
+题目描述            
+删除emp_no重复的记录，只保留最小的id对应的记录。            
+CREATE TABLE IF NOT EXISTS titles_test (            
+id int(11) not null primary key,                
+emp_no int(11) NOT NULL,            
+title varchar(50) NOT NULL,             
+from_date date NOT NULL,            
+to_date date DEFAULT NULL);         
+                
+insert into titles_test values ('1', '10001', 'Senior Engineer', '1986-06-26', '9999-01-01'),               
+('2', '10002', 'Staff', '1996-08-03', '9999-01-01'),                
+('3', '10003', 'Senior Engineer', '1995-12-03', '9999-01-01'),              
+('4', '10004', 'Senior Engineer', '1995-12-03', '9999-01-01'),              
+('5', '10001', 'Senior Engineer', '1986-06-26', '9999-01-01'),              
+('6', '10002', 'Staff', '1996-08-03', '9999-01-01'),                
+('7', '10003', 'Senior Engineer', '1995-12-03', '9999-01-01');
+删除后titles_test表为                
+![sql42](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql42.png)
 ### solution
-## 43.将所有to_date为9999-01-01的全部更新为NULL,且 from_date更新为2001-01-01。
+> delete from titles_test where id not in( select min_id from (select min(id) as min_id from titles_test group by emp_no) t);           
+## 43.将所有to_date为9999-01-01的全部更新为NULL,且from_date更新为2001-01-01。
+题目描述            
+将所有to_date为9999-01-01的全部更新为NULL,且from_date更新为2001-01-01。           
+CREATE TABLE IF NOT EXISTS titles_test (            
+id int(11) not null primary key,            
+emp_no int(11) NOT NULL,            
+title varchar(50) NOT NULL,         
+from_date date NOT NULL,            
+to_date date DEFAULT NULL);             
+                
+insert into titles_test values ('1', '10001', 'Senior Engineer', '1986-06-26', '9999-01-01'),               
+('2', '10002', 'Staff', '1996-08-03', '9999-01-01'),                
+('3', '10003', 'Senior Engineer', '1995-12-03', '9999-01-01'),              
+('4', '10004', 'Senior Engineer', '1995-12-03', '9999-01-01'),              
+('5', '10001', 'Senior Engineer', '1986-06-26', '9999-01-01'),                  
+('6', '10002', 'Staff', '1996-08-03', '9999-01-01'),                
+('7', '10003', 'Senior Engineer', '1995-12-03', '9999-01-01');              
+更新后titles_test表的值：              
+![sql43](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql43.png)
 ### solution
+> update titles_test set to_date=NULL,from_date='2001-01-01' where to_date='9999-01-01';        
+>       
+> 注意若干列 to_date = NULL 和 from_date = '2001-01-01' 之间只能用逗号连接，切勿用 AND 连接。
 ## 44.将id=5以及emp_no=10001的行数据替换成id=5以及emp_no=10005,其他数据保持不变，使用replace实现。
+题目描述            
+将id=5以及emp_no=10001的行数据替换成id=5以及emp_no=10005,其他数据保持不变，使用replace实现，直接使用update会报错。            
+CREATE TABLE titles_test (              
+id int(11) not null primary key,                
+emp_no  int(11) NOT NULL,               
+title  varchar(50) NOT NULL,                
+from_date  date NOT NULL,           
+to_date  date DEFAULT NULL);            
+                
+insert into titles_test values              
+('1', '10001', 'Senior Engineer', '1986-06-26', '9999-01-01'),              
+('2', '10002', 'Staff', '1996-08-03', '9999-01-01'),                
+('3', '10003', 'Senior Engineer', '1995-12-03', '9999-01-01'),              
+('4', '10004', 'Senior Engineer', '1995-12-03', '9999-01-01'),          
+('5', '10001', 'Senior Engineer', '1986-06-26', '9999-01-01'),          
+('6', '10002', 'Staff', '1996-08-03', '9999-01-01'),            
+('7', '10003', 'Senior Engineer', '1995-12-03', '9999-01-01');
 ### solution
+> update titles_test set emp_no = replace(emp_no,10001,10005) where id = 5;         
+>       
+> 运用REPLACE(X,Y,Z)函数。其中X是要处理的字符串，Y是X中将要被替换的字符串，Z是用来替换Y的字符串，最终返回替换后的字符串。     
+>       
+> replace into titles_test values (5, 10005, 'Senior Engineer', '1986-06-26', '9999-01-01');        
+>           
+> 全字段更新替换。由于REPLACE的新记录中id=5，与表中的主键id=5冲突，故会替换掉表中id=5的记录，
+否则会插入一条新记录（例如新插入的记录id = 10）。并且要将所有字段的值写出，否则将置为空。
 ## 45.将titles_test表名修改为titles_2017
+题目描述                
+将titles_test表名修改为titles_2017。                         
+CREATE TABLE IF NOT EXISTS titles_test (                
+id int(11) not null primary key,            
+emp_no int(11) NOT NULL,                
+title varchar(50) NOT NULL,             
+from_date date NOT NULL,                
+to_date date DEFAULT NULL);             
+                
+insert into titles_test values ('1', '10001', 'Senior Engineer', '1986-06-26', '9999-01-01'),           
+('2', '10002', 'Staff', '1996-08-03', '9999-01-01'),                
+('3', '10003', 'Senior Engineer', '1995-12-03', '9999-01-01'),              
+('4', '10004', 'Senior Engineer', '1995-12-03', '9999-01-01'),          
+('5', '10001', 'Senior Engineer', '1986-06-26', '9999-01-01'),                        
+('6', '10002', 'Staff', '1996-08-03', '9999-01-01'),                
+('7', '10003', 'Senior Engineer', '1995-12-03', '9999-01-01');          
 ### solution
-
-
+> alter table titles_test rename titles_2017;       
