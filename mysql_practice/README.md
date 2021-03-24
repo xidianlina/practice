@@ -607,8 +607,40 @@ PRIMARY KEY (`emp_no`));
 > select concat(last_name," ",first_name) as name from employees;               
 >           
 > select concat(concat(last_name," "),first_name) as name from employees;
-## 33.创建一个actor表，包含如下列信息
+## 33.创建一个actor表
+题目描述            
+创建一个actor表，包含如下列信息:             
+![sql33](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql33.png)  
+### solution
+> create table if not exists `actor`(
+      actor_id smallint(5) primary key not null comment '主键id',
+      first_name varchar(45) not null comment '名字',
+      last_name varchar(45) not null comment '姓氏',
+      last_update date not null comment '日期'
+  )engine=innodb default charset=utf8;              
+>           
+> create table if not exists `actor`(
+      actor_id smallint(5) not null comment '主键id',
+      first_name varchar(45) not null comment '名字',
+      last_name varchar(45) not null comment '姓氏',
+      last_update date not null comment '日期',
+      primary key (actor_id)
+  )engine=innodb default charset=utf8;                                                                            
 ## 34.批量插入数据
+题目描述                
+题目已经先执行了如下语句:               
+drop table if exists actor;             
+CREATE TABLE actor (                
+   actor_id  smallint(5)  NOT NULL PRIMARY KEY,             
+   first_name  varchar(45) NOT NULL,                
+   last_name  varchar(45) NOT NULL,                 
+   last_update  DATETIME NOT NULL)              
+请你对于表actor批量插入如下数据(不能有2条insert语句哦!)             
+![sql34](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql34.png)  
+### solution
+> insert into actor values (1, 'PENELOPE', 'GUINESS', '2006-02-15 12:34:33'),(2, 'NICK', 'WAHLBERG', '2006-02-15 12:34:33');                
+>           
+> insert into actor select 1, 'PENELOPE', 'GUINESS', '2006-02-15 12:34:33' union select 2, 'NICK', 'WAHLBERG', '2006-02-15 12:34:33';
 ## 35.批量插入数据,如果数据已经存在，请忽略，不使用replace操作
 ## 36.
 ## 37.
