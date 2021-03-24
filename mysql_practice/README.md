@@ -460,9 +460,41 @@ PRIMARY KEY (`emp_no`,`from_date`));
 以上例子输出如下:                   
 ![sql25_4](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql25_4.png)            
 ### solution
->                                                                
-
+> select sem.emp_no as emp_no, sdm.emp_no as manager_no, sem.salary as emp_salary, sdm.salary as manager_salary
+  from (select s.salary, s.emp_no, de.dept_no from salaries s inner join dept_emp de
+  on s.emp_no = de.emp_no and s.to_date = '9999-01-01' ) as sem, 
+  (select s.salary, s.emp_no, dm.dept_no from salaries s inner join dept_manager dm
+  on s.emp_no = dm.emp_no and s.to_date = '9999-01-01' ) as sdm
+  where sem.dept_no = sdm.dept_no and sem.salary > sdm.salary;          
+>           
+> select sem.emp_no as emp_no, sdm.emp_no as manager_no, sem.salary as emp_salary, sdm.salary as manager_salary
+  from (select s.salary, s.emp_no, de.dept_no from salaries s inner join dept_emp de
+  on s.emp_no = de.emp_no and s.to_date = '9999-01-01' ) as sem
+  inner join 
+  (select s.salary, s.emp_no, dm.dept_no from salaries s inner join dept_manager dm
+  on s.emp_no = dm.emp_no and s.to_date = '9999-01-01' ) as sdm
+  on sem.dept_no = sdm.dept_no where sem.salary > sdm.salary;                                                              
 ## 26.汇总各个部门当前员工的title类型的分配数目
+题目描述                
+有一个部门表departments简况如下:          
+![sql26](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql26.png)                                                                               
+有一个，部门员工关系表dept_emp简况如下:                
+![sql26_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql26_2.png)                                                                               
+有一个职称表titles简况如下:               
+![sql26_3](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql26_3.png)                                                                               
+汇总各个部门当前员工的title类型的分配数目，即结果给出部门编号dept_no、dept_name、其部门下所有的员工的title以及该类型title对应的数目count，结果按照dept_no升序排序              
+![sql26_4](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql26_4.png)                                                                               
+### solution
+> select de.dept_no, dp.dept_name, t.title, count(t.title) as count
+  from titles as t inner join dept_emp as de 
+  on t.emp_no = de.emp_no and de.to_date = '9999-01-01' and t.to_date = '9999-01-01'
+  inner join departments as dp on de.dept_no = dp.dept_no
+  group by de.dept_no, t.title order by de.dept_no;             
+>           
+>select de.dept_no, dp.dept_name, t.title, count(t.title)
+ from titles as t , dept_emp as de ,departments as dp
+ where t.emp_no = de.emp_no and de.dept_no = dp.dept_no and de.to_date = '9999-01-01' and t.to_date = '9999-01-01'
+ group by de.dept_no, t.title order by de.dept_no;
 ## 27.
 ## 28.查找描述信息中包括robot的电影对应的分类名称以及电影数目
 ## 29.使用join查询方式找出没有分类的电影id以及名称
