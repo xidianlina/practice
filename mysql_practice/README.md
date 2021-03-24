@@ -537,4 +537,27 @@ category_id  tinyint(3)  NOT NULL, `last_update` timestamp);
   where film.description like '%robot%' and film.film_id=film_category.film_id and film_category.category_id=category.category_id
   and category.category_id in(select category_id from film_category group by category_id having count(film_id)>=5);              
 ## 29.使用join查询方式找出没有分类的电影id以及名称
+题目描述            
+有一个film表，一个category表和一个film_category表，建表语句如下:           
+CREATE TABLE IF NOT EXISTS film (               
+film_id smallint(5)  NOT NULL DEFAULT '0',              
+title varchar(255) NOT NULL,                
+description text,               
+PRIMARY KEY (film_id));             
+
+CREATE TABLE category  (                
+category_id  tinyint(3)  NOT NULL ,             
+name  varchar(25) NOT NULL, `last_update` timestamp,                
+PRIMARY KEY ( category_id ));               
+
+CREATE TABLE film_category  (                   
+film_id  smallint(5)  NOT NULL,                 
+category_id  tinyint(3)  NOT NULL, `last_update` timestamp); 
+使用join查询方式找出没有分类的电影id以及名称
+### solution
+> select f.film_id, f.title from film f left join film_category fc
+  on f.film_id = fc.film_id where fc.category_id is null;
+>               
+> select film.film_id,film.title from film
+  where film.film_id not in (select fc.film_id from film_category fc);
 ## 30.使用子查询的方式找出属于Action分类的所有电影对应的title,description
