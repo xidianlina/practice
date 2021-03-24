@@ -666,8 +666,33 @@ insert into actor values ('3', 'WD', 'GUINESS', '2006-02-15 12:34:33');
 请你创建一个actor_name表，并且将actor表中的所有first_name以及last_name导入该表。actor_name表结构如下：           
 ![sql36_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql36_2.png)
 ### solution
+> create table if not exists `actor_name`(
+first_name varchar(45) not null,
+last_name varchar(45) not null
+);
+insert into actor_name select first_name,last_name from actor;
+>       
+> create table if not exists `actor_name` as select first_name,last_name from actor;            
+>       
+> create table if not exists `actor_name` select first_name,last_name from actor;
 ## 37.对first_name创建唯一索引uniq_idx_firstname，对last_name创建普通索引idx_lastname
+题目描述                
+针对如下表actor结构创建索引：               
+(注:在SQLite中,除了重命名表和在已有的表中添加列,ALTER TABLE命令不支持其他操作，mysql支持ALTER TABLE创建索引)                                    
+CREATE TABLE actor  (                   
+actor_id  smallint(5)  NOT NULL PRIMARY KEY,                
+first_name  varchar(45) NOT NULL,               
+last_name  varchar(45) NOT NULL,            
+last_update  datetime NOT NULL);                
+对first_name创建唯一索引uniq_idx_firstname，对last_name创建普通索引idx_lastname
 ### solution
+> create unique index uniq_idx_firstname on actor(first_name);              
+  create index idx_lastname on actor(last_name);            
+>                   
+> 创建唯一索引:create unique index 'index_name' on table_name(column)                 
+  创建普通索引:create index 'index_name' on table_name(column)                
+> alter table actor add unique index uniq_idx_firstname(first_name);                    
+  alter table actor add index idx_lastname(last_name);
 ## 38.针对actor表创建视图actor_name_view
 ### solution
 ## 39.针对上面的salaries表emp_no字段创建索引idx_emp_no，查询emp_no为10005
