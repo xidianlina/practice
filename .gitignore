@@ -1,0 +1,12 @@
+es_practice/.idea/
+kafka_practice/.idea/
+mongo_practice/.idea/
+mongo_practice/target/
+mongo_practice/mongo_practice.iml
+mysql_practice/.idea/
+mysql_practice/mysql_practice.iml
+es_practice/es_practice.iml
+es_practice/target/
+kafka_practice/kafka_practice.iml
+kafka_practice/.DS_Store
+kafka_practice/target/
