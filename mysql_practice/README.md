@@ -642,6 +642,23 @@ CREATE TABLE actor (
 >           
 > insert into actor select 1, 'PENELOPE', 'GUINESS', '2006-02-15 12:34:33' union select 2, 'NICK', 'WAHLBERG', '2006-02-15 12:34:33';
 ## 35.批量插入数据,如果数据已经存在，请忽略，不使用replace操作
+题目描述                
+题目已经先执行了如下语句:               
+drop table if exists actor;                 
+CREATE TABLE actor (                    
+   actor_id  smallint(5)  NOT NULL PRIMARY KEY,             
+   first_name  varchar(45) NOT NULL,                    
+   last_name  varchar(45) NOT NULL,                 
+   last_update  DATETIME NOT NULL);                     
+insert into actor values ('3', 'WD', 'GUINESS', '2006-02-15 12:34:33');                 
+对于表actor插入如下数据,如果数据已经存在，请忽略(不支持使用replace操作)             
+![sql35](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql35.png)            
+### solution
+> insert ignore into actor values (3, 'ED', 'CHASE', '2006-02-15 12:34:33');            
+>       
+> insert ignore 来插入记录，或忽略插入与表内unique字段都相同的记录                    
+  insert replace 来插入记录，或更新替代与表内unique字段都相同的记录                   
+  如果某字段设置了UNIQUE，则表中该字段值不允许重复，即只能唯一。PRIMARY KEY也具有UNIQUE属性。                 
 ## 36.
 ## 37.
 ## 38.
