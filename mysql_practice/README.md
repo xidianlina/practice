@@ -758,8 +758,47 @@ last_update  datetime NOT NULL);
 >       
 > 用ALTER TABLE ... ADD ... 语句可以向已存在的表插入新字段，并且能够与创建表时一样，在字段名和数据类型后加入NOT NULL、DEFAULT等限定。
   其中ADD后的COLUMN可省略，NOT NULL和DEFAULT '0000-00-00 00:00:00' 可交换。
-## 41.
-## 42.
-## 43.
-## 44.
-## 45.
+## 41.构造一个触发器audit_log，在向employees表中插入一条数据的时候，触发插入相关的数据到audit中
+题目描述        
+构造一个触发器audit_log，在向employees_test表中插入一条数据的时候，触发插入相关的数据到audit中。      
+CREATE TABLE employees_test(        
+ID INT PRIMARY KEY NOT NULL,        
+NAME TEXT NOT NULL,     
+AGE INT NOT NULL,       
+ADDRESS CHAR(50),       
+SALARY REAL         
+);          
+CREATE TABLE audit(     
+EMP_no INT NOT NULL,        
+NAME TEXT NOT NULL      
+);      
+### solution
+> create trigger audit_log after insert on employees_test               
+for each row            
+begin               
+insert into audit values(new.id,new.name);          
+end;            
+>           
+> 创建触发器的基本语法:       
+CREATE TRIGGER trigger_name [BEFORE|AFTER] event_name ON table_name         
+FOR EACH ROW        
+BEGIN           
+   -- Trigger logic goes here ;
+END;                
+>           
+> 1.create trigger ：创建触发器           
+  2.触发器要说明是在after 还是before事务发生时触发           
+  3.要指明是insert 、delete、update操作             
+  4.on 表名               
+  5.begin和end之间写触发的动作
+> 6. new 关键字表示更新后的表的字段 ，old表示更新前的表的字段           
+## 42.删除emp_no重复的记录，只保留最小的id对应的记录。
+### solution
+## 43.将所有to_date为9999-01-01的全部更新为NULL,且 from_date更新为2001-01-01。
+### solution
+## 44.将id=5以及emp_no=10001的行数据替换成id=5以及emp_no=10005,其他数据保持不变，使用replace实现。
+### solution
+## 45.将titles_test表名修改为titles_2017
+### solution
+
+
