@@ -690,11 +690,44 @@ last_update  datetime NOT NULL);
   create index idx_lastname on actor(last_name);            
 >                   
 > 创建唯一索引:create unique index 'index_name' on table_name(column)                 
-  创建普通索引:create index 'index_name' on table_name(column)                
+  创建普通索引:create index 'index_name' on table_name(column)        
+>               
 > alter table actor add unique index uniq_idx_firstname(first_name);                    
   alter table actor add index idx_lastname(last_name);
 ## 38.针对actor表创建视图actor_name_view
+题目描述                
+针对actor表创建视图actor_name_view，只包含first_name以及last_name两列，并对这两列重新命名，first_name为first_name_v，last_name修改为last_name_v：                   
+CREATE TABLE  actor  (              
+actor_id  smallint(5)  NOT NULL PRIMARY KEY,                
+first_name  varchar(45) NOT NULL,               
+last_name  varchar(45) NOT NULL,                
+last_update datetime NOT NULL);             
 ### solution
+> create view actor_name_view as                
+  select first_name as first_name_v,last_name as last_name_v from actor;                    
+>           
+> create view actor_name_view(first_name_v,last_name_v) as              
+  select first_name,last_name from actor;               
+>               
+> 视图（View）是一种虚拟存在的表。其内容与真实的表相似，包含一系列带有名称的列和行数据。         
+但是视图并不在数据库中以存储的数据的形式存在。             
+行和列的数据来自定义视图时查询所引用的基本表，并且在具体引用视图时动态生成。          
+视图的特点如下：            
+1.视图的列可以来自不同的表，是表的抽象和在逻辑意义上建立的新关系；              
+2.视图是由基本表（实表）产生的表（虚表）；          
+3.视图的建立和删除不影响基本表；               
+4.对视图内容的更新（增删改）直接影响基本表；             
+5.当视图来自多个基本表时，不允许添加和删除数据        
+> 创建视图的语句:                     
+  CREATE                
+  [OR REPLACE]              
+  [ALGORITHM = {UNDEFINED | MERGE | TEMPTABLE}]                 
+  [DEFINER = { user | CURRENT_USER }]               
+  [SQL SECURITY { DEFINER | INVOKER }]              
+  VIEW view_name [(column_list)]                
+  AS select_statement               
+  [WITH [CASCADED | LOCAL] CHECK OPTION]                
+  如果在创建视图的时候制定了“WITH CHECK OPTION”，那么更新数据时不能插入或更新不符合视图限制条件的记录。
 ## 39.针对上面的salaries表emp_no字段创建索引idx_emp_no，查询emp_no为10005
 ### solution
 ## 40.在last_update后面新增加一列名字为create_date
