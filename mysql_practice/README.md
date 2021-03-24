@@ -784,14 +784,13 @@ CREATE TRIGGER trigger_name [BEFORE|AFTER] event_name ON table_name
 FOR EACH ROW        
 BEGIN           
    -- Trigger logic goes here ;
-END;                
->           
-> 1.create trigger ：创建触发器           
-  2.触发器要说明是在after 还是before事务发生时触发           
-  3.要指明是insert 、delete、update操作             
-  4.on 表名               
-  5.begin和end之间写触发的动作
-> 6. new 关键字表示更新后的表的字段 ，old表示更新前的表的字段           
+END;
+>1.create trigger ：创建触发器                  
+2.触发器要说明是在after 还是before事务发生时触发                    
+3.要指明是insert 、delete、update操作                  
+4.on 表名                     
+5.begin和end之间写触发的动作         
+6.new 关键字表示更新后的表的字段 ，old表示更新前的表的字段              
 ## 42.删除emp_no重复的记录，只保留最小的id对应的记录。
 ### solution
 ## 43.将所有to_date为9999-01-01的全部更新为NULL,且 from_date更新为2001-01-01。
