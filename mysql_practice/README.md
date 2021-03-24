@@ -659,8 +659,18 @@ insert into actor values ('3', 'WD', 'GUINESS', '2006-02-15 12:34:33');
 > insert ignore 来插入记录，或忽略插入与表内unique字段都相同的记录                    
   insert replace 来插入记录，或更新替代与表内unique字段都相同的记录                   
   如果某字段设置了UNIQUE，则表中该字段值不允许重复，即只能唯一。PRIMARY KEY也具有UNIQUE属性。                 
-## 36.
-## 37.
-## 38.
-## 39.
-## 40.
+## 36.创建一个actor_name表，将actor表中的所有first_name以及last_name导入改表
+题目描述            
+对于如下表actor，其对应的数据为:                 
+![sql36](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql36.png)            
+请你创建一个actor_name表，并且将actor表中的所有first_name以及last_name导入该表。actor_name表结构如下：           
+![sql36_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql36_2.png)
+### solution
+## 37.对first_name创建唯一索引uniq_idx_firstname，对last_name创建普通索引idx_lastname
+### solution
+## 38.针对actor表创建视图actor_name_view
+### solution
+## 39.针对上面的salaries表emp_no字段创建索引idx_emp_no，查询emp_no为10005
+### solution
+## 40.在last_update后面新增加一列名字为create_date
+### solution
