@@ -729,6 +729,37 @@ last_update datetime NOT NULL);
   [WITH [CASCADED | LOCAL] CHECK OPTION]                
   如果在创建视图的时候制定了“WITH CHECK OPTION”，那么更新数据时不能插入或更新不符合视图限制条件的记录。
 ## 39.针对上面的salaries表emp_no字段创建索引idx_emp_no，查询emp_no为10005
+题目描述            
+针对salaries表emp_no字段创建索引idx_emp_no，查询emp_no为10005, 使用强制索引。               
+CREATE TABLE `salaries` (           
+`emp_no` int(11) NOT NULL,          
+`salary` int(11) NOT NULL,          
+`from_date` date NOT NULL,      
+`to_date` date NOT NULL,        
+PRIMARY KEY (`emp_no`,`from_date`));        
+create index idx_emp_no on salaries(emp_no);            
 ### solution
+> select * from salaries force index(idx_emp_no) where emp_no=10005;
+>       
+> MYSQL中强制索引查询使用：FORCE INDEX(indexname);
 ## 40.在last_update后面新增加一列名字为create_date
+题目描述            
+存在actor表，包含如下列信息：           
+CREATE TABLE  actor  (          
+actor_id  smallint(5)  NOT NULL PRIMARY KEY,        
+first_name  varchar(45) NOT NULL,       
+last_name  varchar(45) NOT NULL,        
+last_update  datetime NOT NULL);        
+现在在last_update后面新增加一列名字为create_date, 类型为datetime, NOT NULL，默认值为'2020-10-01 00:00:00'        
 ### solution
+> alter table actor add column `create_date` datetime not null default '2020-10-01 00:00:00';       
+>       
+> alter table actor add `create_date` datetime default '2020-10-01 00:00:00' not null;          
+>       
+> 用ALTER TABLE ... ADD ... 语句可以向已存在的表插入新字段，并且能够与创建表时一样，在字段名和数据类型后加入NOT NULL、DEFAULT等限定。
+  其中ADD后的COLUMN可省略，NOT NULL和DEFAULT '0000-00-00 00:00:00' 可交换。
+## 41.
+## 42.
+## 43.
+## 44.
+## 45.
