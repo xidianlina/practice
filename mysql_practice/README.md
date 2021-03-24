@@ -445,6 +445,23 @@ PRIMARY KEY (`emp_no`,`from_date`));
  where de.emp_no=em.emp_no and de.emp_no=s.emp_no and de.to_date='9999-01-01' and s.to_date='9999-01-01'
  and de.emp_no not in (select emp_no from dept_manager);                     
 ## 25.获取员工其当前的薪水比其manager当前薪水还高的相关信息
+题目描述                
+有一个，部门关系表dept_emp简况如下:              
+![sql25](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql25.png)                                                                
+有一个部门经理表dept_manager简况如下:                   
+![sql25_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql25_2.png)                                                                
+有一个薪水表salaries简况如下:             
+![sql25_3](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql25_3.png)                                                                
+获取员工其当前的薪水比其manager当前薪水还高的相关信息，             
+第一列给出员工的emp_no，             
+第二列给出其manager的manager_no，                   
+第三列给出该员工当前的薪水emp_salary,                    
+第四列给该员工对应的manager当前的薪水manager_salary                
+以上例子输出如下:                   
+![sql25_4](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql25_4.png)            
+### solution
+>                                                                
+
 ## 26.汇总各个部门当前员工的title类型的分配数目
 ## 27.
 ## 28.查找描述信息中包括robot的电影对应的分类名称以及电影数目
