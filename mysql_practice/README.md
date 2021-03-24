@@ -586,10 +586,32 @@ category_id  tinyint(3)  NOT NULL, `last_update` timestamp);
 > select title,description from film where film_id in
   (select film_id from film_category where category_id in 
   (select category_id from category where name like 'Action'));
-
-
-
-
-
-
-
+## 31.获取执行计划
+题目描述                
+获取select * from employees对应的执行计划                
+### solution
+> explain select * from employees;
+## 32.将employees表的所有员工的last_name和first_name拼接起来作为Name，中间以一个空格区分
+题目描述                
+将employees表的所有员工的last_name和first_name拼接起来作为Name，中间以一个空格区分               
+(注：sqllite,字符串拼接为 || 符号，不支持concat函数，mysql支持concat函数)                
+CREATE TABLE `employees`                        
+( `emp_no` int(11) NOT NULL,                                          
+`birth_date` date NOT NULL,                     
+`first_name` varchar(14) NOT NULL,                      
+`last_name` varchar(16) NOT NULL,                       
+`gender` char(1) NOT NULL,                      
+`hire_date` date NOT NULL,                  
+PRIMARY KEY (`emp_no`));                    
+### solution
+> select concat(last_name," ",first_name) as name from employees;               
+>           
+> select concat(concat(last_name," "),first_name) as name from employees;
+## 33.创建一个actor表，包含如下列信息
+## 34.批量插入数据
+## 35.批量插入数据,如果数据已经存在，请忽略，不使用replace操作
+## 36.
+## 37.
+## 38.
+## 39.
+## 40.
