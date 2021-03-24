@@ -407,7 +407,31 @@ PRIMARY KEY (`emp_no`,`from_date`));
  where de.emp_no = s.emp_no and de.dept_no=dp.dept_no
  group by de.dept_no;
 ## 23.对所有员工的当前薪水按照salary进行按照1-N的排名
+题目描述                
+有一个薪水表salaries简况如下:             
+![sql23](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql23.jpg)                           
+对所有员工的薪水按照salary进行按照1-N的排名，相同salary并列且按照emp_no升序排列：                 
+![sql23_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql23_2.jpg)                           
+### solution
+> select s1.emp_no,s1.salary,count(distinct s2.salary)
+  from salaries s1,salaries s2
+  where s1.to_date='9999-01-01' and s2.to_date='9999-01-01' and s1.salary<= s2.salary
+  group by s1.emp_no
+  order by s1.salary desc,s1.emp_no asc;
 ## 24.获取所有非manager员工当前的薪水情况
+题目描述                    
+有一个员工表employees简况如下:                    
+![sql24](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql24.jpg)                                             
+有一个，部门员工关系表dept_emp简况如下:                    
+![sql24_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql24_2.jpg)                                             
+有一个部门经理表dept_manager简况如下:               
+![sql24_3](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql24_3.jpg)                                             
+有一个薪水表salaries简况如下:             
+![sql24_4](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql24_4.jpg)                                             
+获取所有非manager员工薪水情况，给出dept_no、emp_no以及salary，以上例子输出:             
+![sql24_5](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql24_5.jpg)                                             
+### solution
+> 
 ## 25.获取员工其当前的薪水比其manager当前薪水还高的相关信息
 ## 26.汇总各个部门当前员工的title类型的分配数目
 ## 27.
