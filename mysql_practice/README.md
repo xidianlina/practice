@@ -1237,12 +1237,71 @@ id为用户主键id，number代表积分情况，让你写一个sql查询，积�
 ![sql62_3](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql62_3.png)                        
 > 1.where条件后面是不能跟聚合函数的，因为where执行顺序大于聚合函数，如果需要用聚合函数作为过滤条件则用having            
 > 2.having通常是对分组以后的数据进行筛选，所以一般都是在使用group by或者聚合函数后使用，而where是在分组前对数据进行过滤                    
-## 63.
+## 63.刷题通过的题目排名
+题目描述                
+在牛客刷题有一个通过题目个数的(passing_number)表，id是主键，简化如下:            
+![sql63](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql63.png)            
+第1行表示id为1的用户通过了4个题目;            
+.....                   
+第6行表示id为6的用户通过了4个题目;                          
+请你根据上表，输出通过的题目的排名，通过题目个数相同的，排名相同，此时按照id升序排列，数据如下:                                      
+![sql63_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql63_2.png)            
+id为5的用户通过了5个排名第1，               
+id为1和id为6的都通过了2个，并列第2                         
 ### solution
-## 64.
+> select id, number,dense_rank() over (order by number desc) t_rank from passing_number;  
+> row_number对应唯一排序：1、2、3、4              
+  dense_rank对应相同次序可重复，但不跳过下一个次序值：1、2、2、3                
+  rank对应相同次序可重复，并且跳过下一个次序值：1、2、2、4          
+>               
+> select a.id, a.number, count(distinct b.number) as t_rank         
+  from passing_number as a              
+  inner join passing_number as b            
+  on a.number <= b.number           
+  group by a.id, a.number               
+  order by t_rank asc;                 
+## 64.找到每个人的任务
+题目描述                
+有一个person表，主键是id，如下:            
+![sql64](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql64.png)                
+有一个任务(task)表如下，主键也是id，如下:                         
+![sql64_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql64_2.png)                    
+请你找到每个人的任务情况，并且输出出来，没有任务的也要输出，而且输出结果按照person的id升序排序，输出情况如下:                      
+![sql64_3](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql64_3.png)                       
 ### solution
-## 65.
+> select person.id,person.name,task.content from person left join task on person.id=task.person_id;     
+>       
+> select person.id,person.name,task.content from task right join person on person.id=task.person_id;            
+## 65.异常的邮件概率
+题目描述            
+现在有一个需求，让你统计正常用户发送给正常用户邮件失败的概率:             
+有一个邮件(email)表，id为主键，type是枚举类型，枚举成员为(completed，no_completed)，completed代表邮件发送是成功的，no_completed代表邮件是发送失败的。简况如下:            
+![sql65](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql65.png)                
+第1行表示为id为2的用户在2020-01-11成功发送了一封邮件给了id为3的用户;                 
+...             
+第3行表示为id为1的用户在2020-01-11没有成功发送一封邮件给了id为4的用户;                
+...         
+第6行表示为id为4的用户在2020-01-12成功发送了一封邮件给了id为1的用户;             
+下面是一个用户(user)表，id为主键，is_blacklist为0代表为正常用户，is_blacklist为1代表为黑名单用户，简况如下:             
+![sql65_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql65_2.png)                
+第1行表示id为1的是正常用户;                
+第2行表示id为2的不是正常用户，是黑名单用户，如果发送大量邮件或者出现各种情况就会容易发送邮件失败的用户               
+...             
+第4行表示id为4的是正常用户             
+现在让你写一个sql查询，每一个日期里面，正常用户发送给正常用户邮件失败的概率是多少，结果保留到小数点后面3位(3位之后的四舍五入)，并且按照日期升序排序，上面例子查询结果如下:                                          
+![sql65_3](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql65_3.png)                
+结果表示:                   
+2020-01-11失败的概率为0.500，因为email的第1条数据，发送的用户id为2是黑名单用户，所以不计入统计，正常用户发正常用户总共2次，但是失败了1次，所以概率是0.500;               
+2020-01-12没有失败的情况，所以概率为0.000.                   
+(注意: sqlite 1/2得到的不是0.5，得到的是0，只有1*1.0/2才会得到0.5，sqlite四舍五入的函数为round)             
 ### solution
+> select email.date, round(             
+  sum(case email.type when'completed' then 0 else 1 end)*1.0/count(email.type),3            
+  ) as p                
+  from email            
+  join user as u1 on (email.send_id=u1.id and u1.is_blacklist=0)            
+  join user as u2 on (email.receive_id=u2.id and u2.is_blacklist=0)             
+  group by email.date order by email.date;                      
 ## 66.
 ### solution
 ## 67.
