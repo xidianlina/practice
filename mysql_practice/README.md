@@ -1542,9 +1542,49 @@ mysql里查找某一天的后一天的用法是:DATE_ADD(yyyy-mm-dd,INTERVAL 1 D
   having count(distinct g2.score)<=2                
   order by l.name asc,g1.score desc,g1.id asc;                                  
 ## 75.考试分数(四)
+题目描述            
+牛客每次考试完，都会有一个成绩表(grade)，如下:             
+![sql75](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql75.png)            
+第1行表示用户id为1的用户选择了C++岗位并且考了11001分            
+...
+第8行表示用户id为8的用户选择了B语言岗位并且考了9999分             
+请你写一个sql语句查询各个岗位分数升序排列之后的中位数位置的范围，并且按job升序排序，结果如下:                          
+![sql75_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql75_2.png)            
+解释:             
+第1行表示C++岗位的中位数位置范围为[2,2]，也就是2。因为C++岗位总共3个人，是奇数，所以中位数位置为2是正确的(即位置为2的10000是中位数)               
+第2行表示Java岗位的中位数位置范围为[1,2]。因为Java岗位总共2个人，是偶数，所以要知道中位数，需要知道2个位置的数字，而因为只有2个人，所以中位数位置为[1,2]是正确的(即需要知道位置为1的12000与位置为2的13000才能计算出中位数为12500)               
+第3行表示前端岗位的中位数位置范围为[2,2]，也就是2。因为B语言岗位总共3个人，是奇数，所以中位数位置为2是正确的(即位置为2的11000是中位数)            
+(注意: sqlite 1/2得到的不是0.5，得到的是0，只有1*1.0/2才会得到0.5，sqlite四舍五入的函数为round，sqlite不支持floor函数，支持cast(x as integer) 函数，不支持if函数，支持case when ...then ...else ..end函数)                          
 ### solution
+> select a.job, round(count(a.id)/2), round((count(a.id)+1)/2)          
+  from grade a              
+  group by a.job                
+  order by job;         
+>           
+> select job,floor((count(*)+1)/2) as `start`,              
+  floor((count(*)+1)/2)+if(count(*) % 2=1,0,1) as `end`                 
+  from grade  group by job order by job;                             
 ## 76.考试分数(五)
+题目描述                
+牛客每次考试完，都会有一个成绩表(grade)，如下:             
+![sql76](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql76.png)            
+第1行表示用户id为1的用户选择了C++岗位并且考了11001分            
+...
+第8行表示用户id为8的用户选择了B语言岗位并且考了9999分             
+请你写一个sql语句查询各个岗位分数的中位数位置上的所有grade信息，并且按id升序排序，结果如下:                         
+![sql76_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql76_2.png)            
+解释：         
+第1行表示C++岗位的中位数位置上的为用户id为2，分数为10000，在C++岗位里面排名是第2            
+第2，3行表示Java岗位的中位数位置上的为用户id为4,5，分数为12000,13000，在Java岗位里面排名是第2,1              
+第4行表示B语言岗位的中位数位置上的为用户id为7，分数为11000，在前端岗位里面排名是第2                 
+(注意: sqlite 1/2得到的不是0.5，得到的是0，只有1*1.0/2才会得到0.5，sqlite四舍五入的函数为round，sqlite不支持floor函数，支持cast(x as integer) 函数，不支持if函数，支持case when ...then ...else ..end函数，sqlite不支持自定义变量)                                   
 ### solution
+> select id,job,score,s_rank from                
+  (select *,(row_number() over(partition by job order by score desc))as s_rank,         
+  (count(score) over(partition by job))as num from grade) t         
+  where abs(t.s_rank-(t.num+1)/2)<1         
+  order by id;              
+> 无论奇偶，中位数的位置距离（个数+1）/2 小于1。
 ## 77.
 ### solution
 ## 78.
