@@ -1302,13 +1302,72 @@ id为1和id为6的都通过了2个，并列第2
   join user as u1 on (email.send_id=u1.id and u1.is_blacklist=0)            
   join user as u2 on (email.receive_id=u2.id and u2.is_blacklist=0)             
   group by email.date order by email.date;                      
-## 66.
+## 66.每个人最近的登录日期(一)
+题目描述            
+牛客每天有很多人登录，请你统计一下牛客每个用户最近登录是哪一天。            
+有一个登录(login)记录表，简况如下:           
+![sql66](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql66.png)            
+第1行表示user_id为2的用户在2020-10-12使用了客户端id为1的设备登录了牛客网             
+...             
+第4行表示user_id为3的用户在2020-10-13使用了客户端id为2的设备登录了牛客网             
+请你写出一个sql语句查询每个用户最近一天登录的日子，并且按照user_id升序排序，上面的例子查询结果如下:             
+![sql66_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql66_2.png)                         
 ### solution
-## 67.
+> select user_id,max(date) from login group by user_id order by user_id;        
+## 67.每个人最近的登录日期(二)
+题目描述                
+牛客每天有很多人登录，请你统计一下牛客每个用户最近登录是哪一天，用的是什么设备.            
+有一个登录(login)记录表，简况如下:           
+![sql67](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql67.png)                
+第1行表示user_id为2的用户在2020-10-12使用了客户端id为1的设备登录了牛客网         
+...             
+第4行表示user_id为3的用户在2020-10-13使用了客户端id为2的设备登录了牛客网             
+还有一个用户(user)表，简况如下:                                  
+![sql67_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql67_2.png)                
+还有一个客户端(client)表，简况如下:                         
+![sql67_3](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql67_3.png)            
+请你写出一个sql语句查询每个用户最近一天登录的日子，用户的名字，以及用户用的设备的名字，并且查询结果按照user的name升序排序，上面的例子查询结果如下:                         
+![sql67_4](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql67_4.png)            
+查询结果表明:                 
+fh最近的登录日期在2020-10-13，而且是使用pc登录的             
+wangchao最近的登录日期也是2020-10-13，而且是使用ios登录的                                 
 ### solution
-## 68.
+> select user.name as u_n, client.name as c_n,login.date            
+  from login            
+  inner join user on login.user_id=user.id          
+  inner join client on login.client_id=client.id            
+  where (login.user_id,login.date) in           
+  (select user_id,max(date) from login group by login.user_id )             
+  order by user.name;           
+>           
+> select u.name as u_n, c.name as c_n, l.date as d          
+  from login as l           
+  inner join user as u          
+  on l.user_id=u.id         
+  inner join client as c        
+  on l.client_id=c.id       
+  inner join (          
+      select user_id, max(date)  as date            
+      from login            
+      group by user_id          
+  ) a               
+  on l.user_id=a.user_id                
+  and l.date=a.date         
+  order by u.name asc;              
+>           
+> /*窗口函数分组求最大时间，然后用子查询筛选*/          
+  select n.user_name u_n, n.client_name c_n,n.d             
+  from(             
+  select u.name user_name, c.name client_name, l.date,              
+  (max(l.date) over(partition by l.user_id)) d          
+  from login l,user u,client c              
+  where l.user_id=u.id and c.id=l.client_id         
+  ) as n            
+  where n.date=n.d          
+  order by n.user_name;             
+## 68.每个人最近的登录日期(三)
 ### solution
-## 69.
+## 69.每个人最近的登录日期(四)
 ### solution
-## 70.
+## 70.每个人最近的登录日期(五)
 ### solution
