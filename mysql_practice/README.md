@@ -1501,9 +1501,33 @@ mysql里查找某一天的后一天的用法是:DATE_ADD(yyyy-mm-dd,INTERVAL 1 D
 ### solution
 > select job,round(avg(score),3) as score_avg from grade group by job order by score_avg desc;
 ## 73.考试分数(二)
+题目描述            
+牛客每次考试完，都会有一个成绩表(grade)，如下:                 
+![sql73](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql73.png)            
+第1行表示用户id为1的用户选择了C++岗位并且考了11001分        
+...         
+第8行表示用户id为8的用户选择了前端岗位并且考了9999分          
+请你写一个sql语句查询用户分数大于其所在工作(job)分数的平均分的所有grade的属性，并且以id的升序排序，如下:                    
+![sql73_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql73_2.png)        
+(注意: sqlite1/2得到的不是0.5，得到的是0，只有1*1.0/2才会得到0.5，sqlite四舍五入的函数为round)           
 ### solution
+> select grade.* from grade              
+  inner join                
+  (select job,round(avg(score),3) as score_avg from grade group by job) as g            
+  on grade.job=g.job where grade.score> g.score_avg;            
 ## 74.考试分数(三)
+题目描述                
+牛客每次举办企业笔试的时候，企业一般都会有不同的语言岗位，比如C++工程师，JAVA工程师，Python工程师，每个用户笔试完有不同的分数，现在有一个分数(grade)表简化如下:          
+![sql74](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql74.png)            
+第1行表示用户id为1的选择了language_id为1岗位的最后考试完的分数为12000，              
+...                 
+第7行表示用户id为7的选择了language_id为2岗位的最后考试完的分数为11000，                            
+不同的语言岗位(language)表简化如下:                            
+![sql74_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql74_2.png)                
+请你找出每个岗位分数排名前2名的用户，得到的结果先按照language的name升序排序，再按照积分降序排序，最后按照grade的id升序排序，得到结果如下:                         
+![sql74_3](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql74_3.png)            
 ### solution
+> 
 ## 75.考试分数(四)
 ### solution
 ## 76.考试分数(五)
