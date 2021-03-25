@@ -1693,9 +1693,78 @@ id为5，7，8的订单满足以上条件，输出557336，id为5的订单为第
   having count(user_id) >= 2                
   order by user_id;                 
 ## 81.课程订单分析(五)
+题目描述            
+有很多同学在牛客购买课程来学习，购买会产生订单存到数据库里。              
+有一个订单信息表(order_info)，简况如下:                
+![sql81](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql81.png)            
+第1行表示user_id为557336的用户在2025-10-10的时候使用了client_id为1的客户端下了C++课程的订单，但是状态为没有购买成功。               
+第2行表示user_id为230173543的用户在2025-10-12的时候使用了client_id为2的客户端下了Python课程的订单，状态为购买成功。             
+...             
+最后1行表示user_id为557336的用户在2025-10-26的时候使用了client_id为1的客户端下了Python课程的订单，状态为购买成功。               
+请你写出一个sql语句查询在2025-10-15以后，如果有一个用户下单2个以及2个以上状态为购买成功的C++课程或Java课程或Python课程，
+那么输出这个用户的user_id，以及满足前面条件的第一次购买成功的C++课程或Java课程或Python课程的日期first_buy_date，
+以及满足前面条件的第二次购买成功的C++课程或Java课程或Python课程的日期second_buy_date，以及购买成功的C++课程或Java课程或Python课程的次数cnt，
+并且输出结果按照user_id升序排序，以上例子查询结果如下:                                                     
+![sql81_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql81_2.png)                                               
+解析:             
+id为4，6的订单满足以上条件，输出57，id为4的订单为第一次购买成功，输出first_buy_date为2025-10-23，id为6的订单为第二次购买，输出second_buy_date为2025-10-24，总共成功购买了2次;              
+id为5，7，8的订单满足以上条件，输出557336，id为5的订单为第一次购买成功，输出first_buy_date为2025-10-23，id为7的订单为第二次购买，输出second_buy_date为2025-10-25，总共成功购买了3次;            
 ### solution
+> select user_id,min(date) as first_buy_date,second_buy_date,count(*)as cnt             
+  from              
+  (select *,count(*) over(partition by user_id)as cnt,          
+  lead(date,1,0) over(partition by user_id order by date) as second_buy_date             
+  from order_info where product_name in('Java','C++','Python')              
+  and status='completed' and date>'2025-10-15') t               
+  where t.cnt >=2 group by user_id order by user_id;       
+> lead(<expression>[,offset[, default_value]])函数，该函数作用是：获取某顺序字段当前记录的下offset条记录, 如果记录不存在则返回default_value              
 ## 82.课程订单分析(六)
+题目描述                
+有很多同学在牛客购买课程来学习，购买会产生订单存到数据库里。              
+有一个订单信息表(order_info)，简况如下:                        
+![sql82](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql82.png)                
+第1行表示user_id为557336的用户在2025-10-10的时候使用了client_id为1的客户端下了C++课程的非拼团(is_group_buy为No)订单，但是状态为没有购买成功。               
+第2行表示user_id为230173543的用户在2025-10-12的时候使用了client_id为2的客户端下了Python课程的非拼团(is_group_buy为No)订单，状态为购买成功。             
+...             
+最后1行表示user_id为557336的用户在2025-10-25的时候使用了下了C++课程的拼团(is_group_buy为Yes)订单，拼团不统计客户端，所以client_id所以为0，状态为购买成功。                
+有一个客户端表(client)，简况如下:                           
+![sql82_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql82_2.png)                
+请你写出一个sql语句查询在2025-10-15以后，同一个用户下单2个以及2个以上状态为购买成功的C++课程或Java课程或Python课程的订单id，
+是否拼团以及客户端名字信息，最后一列如果是非拼团订单，则显示对应客户端名字，如果是拼团订单，则显示NULL，并且按照order_info的id升序排序，以上例子查询结果如下:                            
+![sql82_3](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql82_3.png)            
+解析:                 
+id为4，6的订单满足以上条件，且因为4是通过IOS下单的非拼团订单，输出对应的信息，6是通过PC下单的非拼团订单，输出对应的信息以及客户端名字;               
+id为5，7的订单满足以上条件，且因为5与7都是拼团订单，输出对应的信息以及NULL;按照id升序排序             
 ### solution
+> select a.id,is_group_buy,name                 
+  from                  
+  (select *,count(*) over(partition by user_id) as count_num                
+  from order_info where product_name in ('C++','Java','Python')             
+  and status='completed' and date >'2025-10-15') a              
+  left join client b            
+  on a.client_id = b.id         
+  where a.count_num >=2             
+  order by id asc;                      
+>           
+> select o_in.id,o_in.is_group_buy,client.name              
+  from ( # 将满足条件的订单全部找出来，该查询结果相当于题 牛客的订单分析（三）               
+      select id,client_id,is_group_buy              
+      from order_info           
+      where user_id in (                
+          select user_id            
+          from order_info               
+          where product_name in ('C++','Java','Python')             
+          and status = 'completed'          
+          and datediff(date,'2025-10-15') > 0           
+          group by user_id          
+          having count(*)>= 2           
+      )             
+      and product_name in ('C++','Java','Python')           
+      and status = 'completed'          
+      and datediff(date,'2025-10-15') > 0           
+  ) o_in left join client           
+      on o_in.client_id = client.id         
+  order by o_in.id;         
 ## 83.课程订单分析(七)
 ### solution
 ## 84.实习广场投递简历分析(一)
