@@ -1527,7 +1527,20 @@ mysql里查找某一天的后一天的用法是:DATE_ADD(yyyy-mm-dd,INTERVAL 1 D
 请你找出每个岗位分数排名前2名的用户，得到的结果先按照language的name升序排序，再按照积分降序排序，最后按照grade的id升序排序，得到结果如下:                         
 ![sql74_3](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql74_3.png)            
 ### solution
-> 
+> select g.id, l.name, g.score from                 
+  (select *,dense_rank() over(partition by language_id order by score desc) r from grade) g,                
+  language l            
+  where g.language_id = l.id                
+  and g.r <= 2                  
+  order by l.name, g.score desc, g.id;              
+>               
+> select g1.id,l.name,g1.score from grade as g1                 
+  inner join grade as g2 on g1.language_id=g2.language_id               
+  inner join language as l on g1.language_id=l.id               
+  where g1.score<=g2.score              
+  group by g1.id,l.name,g1.score                
+  having count(distinct g2.score)<=2                
+  order by l.name asc,g1.score desc,g1.id asc;                                  
 ## 75.考试分数(四)
 ### solution
 ## 76.考试分数(五)
