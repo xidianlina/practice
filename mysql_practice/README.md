@@ -1042,7 +1042,9 @@ PRIMARY KEY (`emp_no`));
 >           
 > 利用 LIMIT 和 OFFSET 关键字。LIMIT 后的数字代表返回几条记录，OFFSET 后的数字代表从第几条记录开始返回（第一条记录序号为0），也可理解为跳过多少条记录后开始返回。                
 >               
-> select * from employees limit 5,5;             
+> select * from employees limit 5,5;            
+>           
+> 只利用LIMIT关键字。注意：在 LIMIT X,Y 中，Y代表返回几条记录，X代表从第几条记录开始返回（第一条记录序号为0），切勿记反。
 ## 56.
 ### solution
 ## 57.使用含有关键字exists查找未分配具体部门的员工的所有信息。
