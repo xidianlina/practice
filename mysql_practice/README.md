@@ -1473,4 +1473,63 @@ mysql里查找某一天的后一天的用法是:DATE_ADD(yyyy-mm-dd,INTERVAL 1 D
   order by b.date asc               
 ## 71.每个人最近的登录日期(六)
 ### solution
-> 
+> select name as u_n,date,              
+  sum(number) over(partition by user_id order by date) as ps_num            
+  from passing_number p             
+  left join user u              
+  on p.user_id=u.id             
+  order by date,u_n；                
+>           
+> select u.name u_n, a.date, sum(b.number) ps_num           
+  from passing_number as a              
+  inner join passing_number as b            
+  on a.user_id=b.user_id and a.date>=b.date             
+  inner join user as u              
+  on a.user_id=u.id                 
+  group by u_n, a.date              
+  order by a.date asc, u_n asc;             
+## 72.考试分数(一)
+题目描述                
+牛客每次考试完，都会有一个成绩表(grade)，如下:             
+![sql72](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql72.png)            
+第1行表示用户id为1的用户选择了C++岗位并且考了11001分                
+...         
+第8行表示用户id为8的用户选择了JS岗位并且考了9999分              
+请你写一个sql语句查询各个岗位分数的平均数，并且按照分数降序排序，结果保留小数点后面3位(3位之后四舍五入):                    
+![sql72_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql72_2.png)            
+(注意: sqlite 1/2得到的不是0.5，得到的是0，只有1*1.0/2才会得到0.5，sqlite四舍五入的函数为round)                      
+### solution
+> select job,round(avg(score),3) as score_avg from grade group by job order by score_avg desc;
+## 73.考试分数(二)
+### solution
+## 74.考试分数(三)
+### solution
+## 75.考试分数(四)
+### solution
+## 76.考试分数(五)
+### solution
+## 77.
+### solution
+## 78.
+### solution
+## 79.
+### solution
+## 80.
+### solution
+## 81.
+### solution
+## 82.
+### solution
+## 83.
+### solution
+## 84.
+### solution
+## 85.
+### solution
+## 86.
+### solution
+## 87.
+### solution
+## 88.
+### solution
+>             
