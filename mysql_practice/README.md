@@ -1196,4 +1196,61 @@ PRIMARY KEY (`emp_no`,`from_date`));
   from salaries where to_date= '9999-01-01';            
 > 把sum聚合函数作为窗口函数使用，所有聚合函数都能用做窗口函数，其语法和专用窗口函数完全相同。           
   sum(<汇总列>) over(<排序列>) as 别名；             
-> 窗口函数对一组查询行执行类似于聚合函数的操作。但是，聚合函数是将查询行聚合到单个结果行中，而窗口函数为每个查询行生成一个结果。
+> 窗口函数对一组查询行执行类似于聚合函数的操作。但是，聚合函数是将查询行聚合到单个结果行中，而窗口函数为每个查询行生成一个结果。               
+## 61.对于employees表中，给出奇数行的first_name
+题目描述            
+对于employees表中，输出first_name排名(按first_name升序排序)为奇数的first_name             
+CREATE TABLE `employees` (              
+`emp_no` int(11) NOT NULL,              
+`birth_date` date NOT NULL,             
+`first_name` varchar(14) NOT NULL,              
+`last_name` varchar(16) NOT NULL,               
+`gender` char(1) NOT NULL,          
+`hire_date` date NOT NULL,              
+PRIMARY KEY (`emp_no`));                
+如，输入为：              
+INSERT INTO employees VALUES(10001,'1953-09-02','Georgi','Facello','M','1986-06-26');           
+INSERT INTO employees VALUES(10002,'1964-06-02','Bezalel','Simmel','F','1985-11-21');           
+INSERT INTO employees VALUES(10005,'1955-01-21','Kyoichi','Maliniak','M','1989-09-12');             
+INSERT INTO employees VALUES(10006,'1953-04-20','Anneke','Preusig','F','1989-06-02');               
+输出格式:           
+![sql61](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql61.png)                
+因为Georgi按first_name排名为3，Anneke按first_name排名为1，所以会输出这2个，且输出时不需排序。                          
+### solution
+> select e1.first_name from                 
+  (select e2.first_name,(select count(*) from employees as e3 where e3.first_name<=e2.first_name) as rowid from employees as e2)                
+  as e1 where e1.rowid%2=1;    
+>           
+> select e.first_name from employees e inner join               
+  (select first_name, row_number() over(order by first_name asc) as row_num from employees)             
+  as t on e.first_name = t.first_name where t.row_num % 2 = 1;                       
+## 62.出现三次以上相同积分的情况
+题目描述            
+在牛客刷题的小伙伴们都有着牛客积分，积分(grade)表简化可以如下:         
+![sql62](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql62.png)            
+id为用户主键id，number代表积分情况，让你写一个sql查询，积分表里面出现三次以及三次以上的积分，查询结果如下:                         
+![sql62_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql62_2.png)                        
+### solution
+> select number from grade group by number having count(number)>=3;
+>           
+> where与having的用法：              
+                     筛选的基表            使用的关键词                   位置             
+  分组前筛选            原始表                 where                   group by 的前面
+  分组后筛选            分组后的结果集          having                  group by的后面
+  where——group by ——having
+## 63.
+### solution
+## 64.
+### solution
+## 65.
+### solution
+## 66.
+### solution
+## 67.
+### solution
+## 68.
+### solution
+## 69.
+### solution
+## 70.
+### solution
