@@ -904,16 +904,65 @@ CREATE_DATE datetime NOT NULL
       foreign key(emp_no) references employees_test(ID));               
 >       
 > alter table audit add foreign key(emp_no) references employees_test(id);      
-## 47.
+## 47.如何获取emp_v和employees有相同的数据？
+题目描述        
+存在如下的视图：        
+create view emp_v as select * from employees where emp_no >10005;       
+如何获取emp_v和employees有相同的数据？          
+CREATE TABLE `employees` (          
+`emp_no` int(11) NOT NULL,              
+`birth_date` date NOT NULL,         
+`first_name` varchar(14) NOT NULL,          
+`last_name` varchar(16) NOT NULL,           
+`gender` char(1) NOT NULL,          
+`hire_date` date NOT NULL,              
+PRIMARY KEY (`emp_no`));            
 ### solution
-## 48.
+> select em.* from employees as em,emp_v as ev where em.emp_no=ev.emp_no;           
+>           
+> select em.* from employees em inner join (select * from emp_v) ev on em.emp_no=ev.emp_no;         
+>           
+> select * from employees intersect select * from emp_v;        
+>       
+> 错误方法:用以下方法直接输出 *，会得到两张表中符合条件的重复记录，因此不合题意，必须在 * 前加表名作限定                
+  select * from employees, emp_v where employees.emp_no = emp_v.emp_no          
+## 48.将所有获取奖金的员工当前的薪水增加10%
+题目描述            
+请你写出更新语句，将所有获取奖金的员工当前的(salaries.to_date='9999-01-01')薪水增加10%。(emp_bonus里面的emp_no都是当前获奖的所有员工)            
+create table emp_bonus(             
+emp_no int not null,            
+btype smallint not null);           
+            
+CREATE TABLE `salaries` (           
+`emp_no` int(11) NOT NULL,              
+`salary` int(11) NOT NULL,              
+`from_date` date NOT NULL,              
+`to_date` date NOT NULL, PRIMARY KEY (`emp_no`,`from_date`));           
+如：              
+INSERT INTO emp_bonus VALUES (10001,1);                 
+INSERT INTO salaries VALUES(10001,85097,'2001-06-22','2002-06-22');             
+INSERT INTO salaries VALUES(10001,88958,'2002-06-22','9999-01-01');             
+更新后的结果salaries:                 
+![sql48](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql48.png)                    
 ### solution
-## 49.
+> update salaries set salary=salary*1.1 where emp_no in (select emp_no from emp_bonus) and to_date='9999-01-01';                
+## 50.将employees表中的所有员工的last_name和first_name通过(')连接起来。
+题目描述                
+将employees表中的所有员工的last_name和first_name通过(')连接起来。(sqlite不支持concat，请用||实现，mysql支持concat)              
+CREATE TABLE `employees` (          
+`emp_no` int(11) NOT NULL,          
+`birth_date` date NOT NULL,             
+`first_name` varchar(14) NOT NULL,              
+`last_name` varchar(16) NOT NULL,           
+`gender` char(1) NOT NULL,          
+`hire_date` date NOT NULL,              
+PRIMARY KEY (`emp_no`));                
+输出格式:           
+![sql50](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql50.png)                    
 ### solution
-## 50.
-### solution
+> select concat(last_name,"'",first_name) from employees;       
 ## 51.
-### solution
+### solution    
 ## 52.
 ### solution
 ## 53.
