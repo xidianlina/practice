@@ -1234,10 +1234,10 @@ id为用户主键id，number代表积分情况，让你写一个sql查询，积�
 > select number from grade group by number having count(number)>=3;
 >           
 > where与having的用法：              
-                     筛选的基表            使用的关键词                   位置             
-  分组前筛选            原始表                 where                   group by 的前面
-  分组后筛选            分组后的结果集          having                  group by的后面
-  where——group by ——having
+                     筛选的基表            使用的关键词                   位置                      
+  分组前筛选            原始表                 where                   group by 的前面                 
+  分组后筛选            分组后的结果集          having                  group by的后面             
+  where——group by ——having                  
 ## 63.
 ### solution
 ## 64.
