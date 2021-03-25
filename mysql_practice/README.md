@@ -881,3 +881,53 @@ insert into titles_test values ('1', '10001', 'Senior Engineer', '1986-06-26', '
 ('7', '10003', 'Senior Engineer', '1995-12-03', '9999-01-01');          
 ### solution
 > alter table titles_test rename titles_2017;       
+## 46.在audit表上创建外键约束，其emp_no对应employees_test表的主键id
+题目描述            
+在audit表上创建外键约束，其emp_no对应employees_test表的主键id。           
+CREATE TABLE employees_test(            
+ID INT PRIMARY KEY NOT NULL,            
+NAME TEXT NOT NULL,         
+AGE INT NOT NULL,           
+ADDRESS CHAR(50),               
+SALARY REAL         
+);              
+                    
+CREATE TABLE audit(         
+EMP_NO INT NOT NULL,            
+CREATE_DATE datetime NOT NULL           
+);                
+### solution
+> drop table audit;             
+  create table audit(               
+      emp_no int NOT NULL,              
+      create_date datetime NOT NULL,                
+      foreign key(emp_no) references employees_test(ID));               
+>       
+> alter table audit add foreign key(emp_no) references employees_test(id);      
+## 47.
+### solution
+## 48.
+### solution
+## 49.
+### solution
+## 50.
+### solution
+## 51.
+### solution
+## 52.
+### solution
+## 53.
+### solution
+## 54.
+### solution
+## 55.
+### solution
+## 56.
+### solution
+## 57.
+### solution
+## 58.
+### solution
+## 59.
+### solution
+## 60.
