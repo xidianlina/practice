@@ -1234,10 +1234,9 @@ id为用户主键id，number代表积分情况，让你写一个sql查询，积�
 > select number from grade group by number having count(number)>=3;
 >           
 > where与having的用法：              
-                     筛选的基表            使用的关键词                   位置                      
-  分组前筛选     \t       原始表         \t        where             \t      group by 的前面                 
-  分组后筛选            分组后的结果集          having                  group by的后面             
-  where——group by ——having                  
+![sql62_3](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql62_3.png)                        
+> 1.where条件后面是不能跟聚合函数的，因为where执行顺序大于聚合函数，如果需要用聚合函数作为过滤条件则用having            
+> 2.having通常是对分组以后的数据进行筛选，所以一般都是在使用group by或者聚合函数后使用，而where是在分组前对数据进行过滤                    
 ## 63.
 ### solution
 ## 64.
