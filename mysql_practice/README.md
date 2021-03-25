@@ -1120,6 +1120,80 @@ PRIMARY KEY (`emp_no`));
 ### solution
 > select em.* from employees as em,emp_v as ev where em.emp_no=ev.emp_no;
 ## 59.获取有奖金的员工相关信息。
+题目描述            
+获取有奖金的员工相关信息。               
+CREATE TABLE `employees` (              
+`emp_no` int(11) NOT NULL,              
+`birth_date` date NOT NULL,             
+`first_name` varchar(14) NOT NULL,              
+`last_name` varchar(16) NOT NULL,               
+`gender` char(1) NOT NULL,          
+`hire_date` date NOT NULL,              
+PRIMARY KEY (`emp_no`));                
+            
+CREATE TABLE `dept_emp` (               
+`emp_no` int(11) NOT NULL,              
+`dept_no` char(4) NOT NULL,             
+`from_date` date NOT NULL,              
+`to_date` date NOT NULL,                
+PRIMARY KEY (`emp_no`,`dept_no`));              
+                
+create table emp_bonus(             
+emp_no int not null,                
+received datetime not null,             
+btype smallint not null);               
+                
+CREATE TABLE `salaries` (               
+`emp_no` int(11) NOT NULL,          
+`salary` int(11) NOT NULL,              
+`from_date` date NOT NULL,          
+`to_date` date NOT NULL,                
+PRIMARY KEY (`emp_no`,`from_date`));                
+给出emp_no、first_name、last_name、奖金类型btype、对应的当前薪水情况salary以及奖金金额bonus。                 
+bonus类型btype为1其奖金为薪水salary的10%，btype为2其奖金为薪水的20%，其他类型均为薪水的30%。 当前薪水表示to_date='9999-01-01'           
+输出格式:
+![sql59](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql57.png)                    
 ### solution
+> select e.emp_no,e.first_name,e.last_name,b.btype,s.salary,                
+  (case b.btype             
+   when 1 then s.salary*0.1             
+   when 2 then s.salary*0.2             
+   else s.salary*0.3 end                
+  ) as bonus                
+  from employees as e inner join emp_bonus as b on e.emp_no=b.emp_no                    
+  inner join salaries as s on e.emp_no=s.emp_no and s.to_date='9999-01-01';             
+>           
+> select employees.emp_no,employees.first_name,employees.last_name,emp_bonus.btype,salaries.salary,             
+  (case when emp_bonus.btype=1 then salaries.salary*0.1             
+  when emp_bonus.btype=2 then salaries.salary*0.2               
+  else salaries.salary*0.3 end) as bonus                
+  from employees,salaries,emp_bonus             
+  where employees.emp_no=salaries.emp_no                
+  and employees.emp_no=emp_bonus.emp_no             
+  and salaries.to_date='9999-01-01';            
 ## 60.统计salary的累计和running_total
+题目描述            
+按照salary的累计和running_total，其中running_total为前N个当前( to_date = '9999-01-01')员工的salary累计和，其他以此类推。            
+CREATE TABLE `salaries` (               
+`emp_no` int(11) NOT NULL,              
+`salary` int(11) NOT NULL,          
+`from_date` date NOT NULL,              
+`to_date` date NOT NULL,                    
+PRIMARY KEY (`emp_no`,`from_date`));                
+输出格式:              
+![sql60](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql60.png)                    
 ### solution
+> select s1.emp_no, s1.salary,(select sum(s2.salary) from salaries as s2                 
+  where s2.emp_no <= s1.emp_no and s2.to_date = '9999-01-01') as running_total                  
+  from salaries as s1 where s1.to_date = '9999-01-01' order by s1.emp_no;               
+>               
+> select s2.emp_no,s2.salary,sum(s1.salary) as running_total                
+  from salaries as s1 inner join salaries as s2 on s1.emp_no <= s2.emp_no               
+  where s1.to_date = "9999-01-01" and s2.to_date = "9999-01-01" group by s2.emp_no;             
+> 把所有小于等于当前编号的表s1和当前编号表s2联立起来，然后按照当前编号分组，计算出所有小于等于当前标号的工资总数         
+>           
+> select emp_no,salary,sum(salary) over(order by emp_no) as running_total           
+  from salaries where to_date= '9999-01-01';            
+> 把sum聚合函数作为窗口函数使用，所有聚合函数都能用做窗口函数，其语法和专用窗口函数完全相同。           
+  sum(<汇总列>) over(<排序列>) as 别名；             
+> 窗口函数对一组查询行执行类似于聚合函数的操作。但是，聚合函数是将查询行聚合到单个结果行中，而窗口函数为每个查询行生成一个结果。
