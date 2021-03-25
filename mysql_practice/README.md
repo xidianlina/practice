@@ -961,22 +961,99 @@ PRIMARY KEY (`emp_no`));
 ![sql50](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql50.png)                    
 ### solution
 > select concat(last_name,"'",first_name) from employees;       
-## 51.
+## 51.查找字符串'10,A,B'
+题目描述            
+查找字符串'10,A,B' 中逗号','出现的次数cnt。               
 ### solution    
-## 52.
+> select (length("10,A,B")-length(replace("10,A,B",",","")))/length(",") as cnt;
+## 52.获取Employees中的first_name，查询按照first_name最后两个字母，按照升序进行排列
+题目描述                
+获取Employees中的first_name，查询按照first_name最后两个字母，按照升序进行排列               
+CREATE TABLE `employees` (              
+`emp_no` int(11) NOT NULL,          
+`birth_date` date NOT NULL,             
+`first_name` varchar(14) NOT NULL,              
+`last_name` varchar(16) NOT NULL,               
+`gender` char(1) NOT NULL,              
+`hire_date` date NOT NULL,                  
+PRIMARY KEY (`emp_no`));                
+输出格式：               
+![sql52](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql52.png)                    
 ### solution
-## 53.
+> select first_name from employees order by substr(first_name,length(first_name)-1);            
+>           
+> select first_name from employees order by substr(first_name,-2);          
+>               
+> substr(X,Y,Z) 或 substr(X,Y) 函数。其中X是要截取的字符串。Y是字符串的起始位置（注意第一个字符的位置为1，而不为0），             
+  取值范围是±(1~length(X))，当Y等于length(X)时，则截取最后一个字符；当Y等于负整数-n时，则从倒数第n个字符处截取。                 
+  Z是要截取字符串的长度，取值范围是正整数，若Z省略，则从Y处一直截取到字符串末尾；若Z大于剩下的字符串长度，也是截取到字符串末尾为止。                
+## 53.按照dept_no进行汇总，属于同一个部门的emp_no按照逗号进行连接，结果给出dept_no以及连接出的结果employees
+题目描述                
+按照dept_no进行汇总，属于同一个部门的emp_no按照逗号进行连接，结果给出dept_no以及连接出的结果employees               
+CREATE TABLE `dept_emp` (               
+`emp_no` int(11) NOT NULL,              
+`dept_no` char(4) NOT NULL,             
+`from_date` date NOT NULL,                  
+`to_date` date NOT NULL,                
+PRIMARY KEY (`emp_no`,`dept_no`));              
+输出格式:               
+![sql53](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql53.png)                    
 ### solution
-## 54.
+> select dept_no,group_concat(emp_no) from dept_emp group by dept_no;           
+>           
+> group_concat()函数返回X的非null值的连接后的字符串。如果给出了参数Y，将会在每个X之间用Y作为分隔符。如果省略了Y，“，”将作为默认的分隔符。每个元素连接的顺序是随机的。此函数必须与GROUP BY配合使用。
+## 54.查找排除当前最大、最小salary之后的员工的平均工资avg_salary
+题目描述                
+查找排除最大、最小salary之后的当前(to_date = '9999-01-01' )员工的平均工资avg_salary。             
+CREATE TABLE `salaries` (                   
+`emp_no` int(11) NOT NULL,                  
+`salary` int(11) NOT NULL,                  
+`from_date` date NOT NULL,              
+`to_date` date NOT NULL,                
+PRIMARY KEY (`emp_no`,`from_date`));                
+如：                  
+INSERT INTO salaries VALUES(10001,85097,'2001-06-22','2002-06-22');                 
+INSERT INTO salaries VALUES(10001,88958,'2002-06-22','9999-01-01');             
+INSERT INTO salaries VALUES(10002,72527,'2001-08-02','9999-01-01');             
+INSERT INTO salaries VALUES(10003,43699,'2000-12-01','2001-12-01');                 
+INSERT INTO salaries VALUES(10003,43311,'2001-12-01','9999-01-01');             
+INSERT INTO salaries VALUES(10004,70698,'2000-11-27','2001-11-27');                 
+INSERT INTO salaries VALUES(10004,74057,'2001-11-27','9999-01-01');             
+输出格式:                   
+![sql54](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql54.png)                    
 ### solution
-## 55.
+> select avg(salary) as avg_salary from salaries                    
+  where salary not in (select max(salary) from salaries where to_date = '9999-01-01')               
+  and salary not in (select min(salary) from salaries where to_date = '9999-01-01')             
+  and to_date = '9999-01-01';               
+## 55.分页查询employees表，每5行一页，返回第2页的数据
+题目描述                
+分页查询employees表，每5行一页，返回第2页的数据               
+CREATE TABLE `employees` (              
+`emp_no` int(11) NOT NULL,              
+`birth_date` date NOT NULL,                 
+`first_name` varchar(14) NOT NULL,                  
+`last_name` varchar(16) NOT NULL,               
+`gender` char(1) NOT NULL,              
+`hire_date` date NOT NULL,              
+PRIMARY KEY (`emp_no`));                
 ### solution
+> select * from employees limit 5 offset 5;         
+>           
+> 利用 LIMIT 和 OFFSET 关键字。LIMIT 后的数字代表返回几条记录，OFFSET 后的数字代表从第几条记录开始返回（第一条记录序号为0），也可理解为跳过多少条记录后开始返回。                
+>               
+> select * from employees limit 5,5;             
 ## 56.
 ### solution
-## 57.
+## 57.使用含有关键字exists查找未分配具体部门的员工的所有信息。
 ### solution
 ## 58.
 ### solution
-## 59.
+## 59.获取有奖金的员工相关信息。
 ### solution
-## 60.
+## 60.统计salary的累计和running_total
+
+
+
+
+
