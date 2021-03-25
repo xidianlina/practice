@@ -1045,17 +1045,81 @@ PRIMARY KEY (`emp_no`));
 > select * from employees limit 5,5;            
 >           
 > 只利用LIMIT关键字。注意：在 LIMIT X,Y 中，Y代表返回几条记录，X代表从第几条记录开始返回（第一条记录序号为0），切勿记反。
-## 56.
+## 56.获取所有员工的emp_no、部门编号dept_no以及对应的bonus类型btype和recevied
+题目描述            
+获取所有员工的emp_no、部门编号dept_no以及对应的bonus类型btype和recevied，没有分配具体的员工不显示            
+CREATE TABLE `dept_emp` (                   
+`emp_no` int(11) NOT NULL,                         
+`dept_no` char(4) NOT NULL,                 
+`from_date` date NOT NULL,                  
+`to_date` date NOT NULL,                
+PRIMARY KEY (`emp_no`,`dept_no`));              
+                
+CREATE TABLE `dept_manager` (               
+`dept_no` char(4) NOT NULL,                 
+`emp_no` int(11) NOT NULL,              
+`from_date` date NOT NULL,              
+`to_date` date NOT NULL,                
+PRIMARY KEY (`emp_no`,`dept_no`));              
+                
+CREATE TABLE `employees` (              
+`emp_no` int(11) NOT NULL,              
+`birth_date` date NOT NULL,             
+`first_name` varchar(14) NOT NULL,              
+`last_name` varchar(16) NOT NULL,               
+`gender` char(1) NOT NULL,              
+`hire_date` date NOT NULL,              
+PRIMARY KEY (`emp_no`));            
+            
+CREATE TABLE `salaries` (               
+`emp_no` int(11) NOT NULL,              
+`salary` int(11) NOT NULL,              
+`from_date` date NOT NULL,              
+`to_date` date NOT NULL,                
+PRIMARY KEY (`emp_no`,`from_date`));                
 ### solution
+> select em.emp_no, de.dept_no, eb.btype, eb.recevied               
+  from employees as em inner join dept_emp as de                
+  on em.emp_no = de.emp_no left join emp_bonus as eb                        
+  on de.emp_no = eb.emp_no              
 ## 57.使用含有关键字exists查找未分配具体部门的员工的所有信息。
+题目描述            
+使用含有关键字exists查找未分配具体部门的员工的所有信息。                 
+CREATE TABLE `employees` (              
+`emp_no` int(11) NOT NULL,              
+`birth_date` date NOT NULL,                 
+`first_name` varchar(14) NOT NULL,              
+`last_name` varchar(16) NOT NULL,               
+`gender` char(1) NOT NULL,              
+`hire_date` date NOT NULL,              
+PRIMARY KEY (`emp_no`));                
+            
+CREATE TABLE `dept_emp` (               
+`emp_no` int(11) NOT NULL,              
+`dept_no` char(4) NOT NULL,             
+`from_date` date NOT NULL,              
+`to_date` date NOT NULL,                
+PRIMARY KEY (`emp_no`,`dept_no`));              
+输出格式:                         
+![sql57](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql57.png)                    
 ### solution
-## 58.
+> select * from employees where not exists (select * from dept_emp where dept_emp.emp_no=employees.emp_no);         
+## 58.获取employees中的行数据，且这些行也存在于emp_v中
+题目描述                
+存在如下的视图：            
+create view emp_v as select * from employees where emp_no >10005;               
+CREATE TABLE `employees` (              
+`emp_no` int(11) NOT NULL,              
+`birth_date` date NOT NULL,             
+`first_name` varchar(14) NOT NULL,          
+`last_name` varchar(16) NOT NULL,           
+`gender` char(1) NOT NULL,              
+`hire_date` date NOT NULL,              
+PRIMARY KEY (`emp_no`));                
+获取employees中的行数据，且这些行也存在于emp_v中。注意不能使用intersect关键字。                 
 ### solution
+> select em.* from employees as em,emp_v as ev where em.emp_no=ev.emp_no;
 ## 59.获取有奖金的员工相关信息。
 ### solution
 ## 60.统计salary的累计和running_total
-
-
-
-
-
+### solution
