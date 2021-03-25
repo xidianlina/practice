@@ -1585,28 +1585,127 @@ mysql里查找某一天的后一天的用法是:DATE_ADD(yyyy-mm-dd,INTERVAL 1 D
   where abs(t.s_rank-(t.num+1)/2)<1         
   order by id;              
 > 无论奇偶，中位数的位置距离（个数+1）/2 小于1。
-## 77.
+## 77.课程订单分析(一)
+题目描述                
+有很多同学在牛客购买课程来学习，购买会产生订单存到数据库里。              
+有一个订单信息表(order_info)，简况如下:              
+![sql77](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql77.png)            
+第1行表示user_id为557336的用户在2025-10-10的时候使用了client_id为1的客户端下了C++课程的订单，但是状态为没有购买成功。           
+第2行表示user_id为230173543的用户在2025-10-12的时候使用了client_id为2的客户端下了Python课程的订单，状态为购买成功。             
+...             
+最后1行表示user_id为557336的用户在2025-10-24的时候使用了client_id为1的客户端下了Python课程的订单，状态为没有购买成功。             
+请你写出一个sql语句查询在2025-10-15以后状态为购买成功的C++课程或者Java课程或者Python的订单，并且按照order_info的id升序排序，以上例子查询结果如下:                            
+![sql77_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql77_2.png)            
 ### solution
-## 78.
+> select * from order_info                  
+  where datediff(`date`,'2025-10-15')>0             
+  and product_name in ('C++','Java','Python')                   
+  and status = 'completed'              
+  order by id asc;              
+>               
+> select * from order_info              
+  where date >'2025-10-15'              
+  and product_name in ('C++','Java','Python')               
+  and status = 'completed'              
+  order by id asc;              
+## 78.课程订单分析(二)
+题目描述            
+有很多同学在牛客购买课程来学习，购买会产生订单存到数据库里。                            
+有一个订单信息表(order_info)，简况如下:                            
+![sql78](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql78.png)            
+第1行表示user_id为557336的用户在2025-10-10的时候使用了client_id为1的客户端下了C++课程的订单，但是状态为没有购买成功。           
+第2行表示user_id为230173543的用户在2025-10-12的时候使用了client_id为2的客户端下了Python课程的订单，状态为购买成功。             
+...
+最后1行表示user_id为557336的用户在2025-10-25的时候使用了client_id为1的客户端下了C++课程的订单，状态为购买成功。          
+请你写出一个sql语句查询在2025-10-15以后，同一个用户下单2个以及2个以上状态为购买成功的C++课程或Java课程或Python课程的user_id，并且按照user_id升序排序，以上例子查询结果如下:                                
+![sql78_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql78_2.png)            
+解析:             
+id为4，6的订单满足以上条件，输出对应的user_id为57;            
+id为5，7的订单满足以上条件，输出对应的user_id为557336;            
+按照user_id升序排序。                                      
 ### solution
-## 79.
+> select user_id from order_info                    
+  where date >'2025-10-15'                                         
+  and product_name in ('C++','Java','Python')                
+  and status = 'completed'              
+  group by user_id having count(user_id)>=2             
+  order by user_id asc;                                      
+## 79.课程订单分析(三)
+题目描述                
+有很多同学在牛客购买课程来学习，购买会产生订单存到数据库里。              
+有一个订单信息表(order_info)，简况如下:                  
+![sql79](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql79.png)            
+第1行表示user_id为557336的用户在2025-10-10的时候使用了client_id为1的客户端下了C++课程的订单，但是状态为没有购买成功。           
+第2行表示user_id为230173543的用户在2025-10-12的时候使用了client_id为2的客户端下了Python课程的订单，状态为购买成功。             
+...
+最后1行表示user_id为557336的用户在2025-10-25的时候使用了client_id为1的客户端下了C++课程的订单，状态为购买成功。              
+请你写出一个sql语句查询在2025-10-15以后，同一个用户下单2个以及2个以上状态为购买成功的C++课程或Java课程或Python课程的订单信息，并且按照order_info的id升序排序，以上例子查询结果如下:                              
+![sql79_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql79_2.png)                
+解析:             
+id为4，6的订单满足以上条件，输出它们的对应的信息;             
+id为5，7的订单满足以上条件，输出它们的对应的信息;                 
+按照id升序排序                                
 ### solution
-## 80.
+> select * from order_info          
+  where date>'2025-10-15'           
+  and product_name in('C++','Java','Python')                
+  and status='completed'                
+  and user_id in            
+  (select user_id from order_info               
+  where date>'2025-10-15'               
+  and product_name in('C++','Java','Python')            
+  and status='completed'            
+  group by user_id              
+  having count(product_name)>=2         
+  )             
+  order by id;                      
+>           
+> select id,user_id,product_name,status,client_id,date              
+  from          
+  (select *,count(*)over(partition by user_id) as count_num             
+  from order_info               
+   where product_name in ('C++','Java','Python')                
+  and status='completed'            
+  and date >'2025-10-15'            
+  ) as r                
+  where r.count_num >=2                 
+  order by id asc;                                
+## 80.课程订单分析(四)
+题目描述                
+有很多同学在牛客购买课程来学习，购买会产生订单存到数据库里。              
+有一个订单信息表(order_info)，简况如下:              
+![sql80](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql80.png)                                
+第1行表示user_id为557336的用户在2025-10-10的时候使用了client_id为1的客户端下了C++课程的订单，但是状态为没有购买成功。               
+第2行表示user_id为230173543的用户在2025-10-12的时候使用了client_id为2的客户端下了Python课程的订单，状态为购买成功。             
+最后1行表示user_id为557336的用户在2025-10-25的时候使用了client_id为1的客户端下了Python课程的订单，状态为购买成功。                   
+请你写出一个sql语句查询在2025-10-15以后，如果有一个用户下单2个以及2个以上状态为购买成功的C++课程或Java课程或Python课程，那么输出这个用户的user_id，以及满足前面条件的第一次购买成功的C++课程或Java课程或Python课程的日期first_buy_date，以及购买成功的C++课程或Java课程或Python课程的次数cnt，并且输出结果按照user_id升序排序，以上例子查询结果如下:                            
+![sql80_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql80_2.png)                            
+解析:             
+id为4，6的订单满足以上条件，输出57，id为4的订单为第一次购买成功，输出first_buy_date为2025-10-23，总共成功购买了2次;             
+id为5，7，8的订单满足以上条件，输出557336，id为5的订单为第一次购买成功，输出first_buy_date为2025-10-23，总共成功购买了3次;               
 ### solution
-## 81.
+> select user_id,min(date) first_buy_date,count(user_id) cnt                
+  from order_info               
+  where date > '2025-10-15'             
+  and product_name in ('C++','Java','Python')               
+  and status = 'completed'              
+  group by user_id              
+  having count(user_id) >= 2                
+  order by user_id;                 
+## 81.课程订单分析(五)
 ### solution
-## 82.
+## 82.课程订单分析(六)
 ### solution
-## 83.
+## 83.课程订单分析(七)
 ### solution
-## 84.
+## 84.实习广场投递简历分析(一)
 ### solution
-## 85.
+## 85.实习广场投递简历分析(二)
 ### solution
-## 86.
+## 86.实习广场投递简历分析(三)
 ### solution
-## 87.
+## 87.最差是第几名(一)
 ### solution
-## 88.
+## 88.最差是第几名(二)
 ### solution
 >             
