@@ -1766,11 +1766,108 @@ id为5，7的订单满足以上条件，且因为5与7都是拼团订单，输�
       on o_in.client_id = client.id         
   order by o_in.id;         
 ## 83.课程订单分析(七)
+题目描述                
+有很多同学在牛客购买课程来学习，购买会产生订单存到数据库里。              
+有一个订单信息表(order_info)，简况如下:          
+![sql83](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql83.png)            
+第1行表示user_id为557336的用户在2025-10-10的时候使用了client_id为1的客户端下了C++课程的非拼团(is_group_buy为No)订单，但是状态为没有购买成功。           
+第2行表示user_id为230173543的用户在2025-10-12的时候使用了client_id为2的客户端下了Python课程的非拼团(is_group_buy为No)订单，状态为购买成功。             
+...                 
+最后1行表示user_id为557336的用户在2025-10-25的时候使用了下了C++课程的拼团(is_group_buy为Yes)订单，拼团不统计客户端，所以client_id所以为0，状态为购买成功。                
+有一个客户端表(client)，简况如下:                              
+![sql83_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql83_2.png)            
+请你写出一个sql语句查询在2025-10-15以后，同一个用户下单2个以及2个以上状态为购买成功的C++课程或Java课程或Python课程的来源信息，
+第一列是显示的是客户端名字，如果是拼团订单则显示GroupBuy，第二列显示这个客户端(或者是拼团订单)有多少订单，最后结果按照第一列(source)升序排序，
+以上例子查询结果如下:                                             
+![sql83_3](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql83_3.png)                                   
+解析:             
+id为4，6的订单满足以上条件，且因为4是通过IOS下单的非拼团订单，则记: IOS 1，6是通过PC下单的非拼团订单，则记: PC 1;               
+id为5，7的订单满足以上条件，且因为5与7都是拼团订单，则记: GroupBuy 2;                
+最后按照source升序排序。             
 ### solution
+> select                
+  if(name is null,'GroupBuy',name) as source,count(1) as cnt                
+  from              
+  (select user_id,is_group_buy,name,count(user_id) over(partition by user_id) as cnt                
+  from order_info           
+  left join client                
+  on order_info.client_id = client.id               
+  where date>'2025-10-15' and status = 'completed' and product_name in ('C++','Java','Python')              
+  ) as t             
+  where cnt >=2         
+  group by name             
+  order by source;          
+>           
+> select                    
+  (case when client_id=0 then 'GroupBuy' else (select name from client c where c.id = nt.client_id ) end)               
+  as source,count(*)            
+  from          
+  (select *, count(id) over(partition by user_id) cnt           
+  from order_info               
+  where date > '2025-10-15'         
+  and status = 'completed'          
+  and product_name in ('Java', 'Python', 'C++')         
+  ) as nt           
+  where cnt >= 2            
+  group by source               
+  order by source                         
 ## 84.实习广场投递简历分析(一)
+题目描述                
+在牛客实习广场有很多公司开放职位给同学们投递，同学投递完就会把简历信息存到数据库里。          
+现在有简历信息表(resume_info)，部分信息简况如下:
+![sql84](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql84.png)            
+第1行表示，在2025年1月2号，C++岗位收到了53封简历          
+...                 
+最后1行表示，在2026年1月4号，Java岗位收到了230封简历               
+请你写出SQL语句查询在2025年内投递简历的岗位和数量，并且按数量降序排序，以上例子查询结果如下:                          
+![sql84_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql84_2.png)           
 ### solution
+> select job,sum(num) as cnt from resume_info           
+  where date between '2025-01-01' and '2025-12-31'          
+  group by job          
+  order by cnt desc;            
+>           
+> select job,sum(num) as cnt from resume_info               
+  where  year(date) = 2025          
+  group by job              
+  order by cnt desc;                
 ## 85.实习广场投递简历分析(二)
+题目描述                                
+在牛客实习广场有很多公司开放职位给同学们投递，同学投递完就会把简历信息存到数据库里。                                     
+现在有简历信息表(resume_info)，部分信息简况如下:                          
+![sql85](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql85.png)            
+第1行表示，在2025年1月2号，C++岗位收到了53封简历                  
+...                 
+最后1行表示，在2026年2月6号，Java岗位收到了231封简历               
+请你写出SQL语句查询在2025年内投递简历的每个岗位，每一个月内收到简历的数量，并且按先按月份降序排序，再按简历数目降序排序，以上例子查询结果如下:                                  
+![sql85_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql85_2.png)                            
 ### solution
+> select job, left(date,7) mon, sum(num) cnt                
+  from resume_info              
+  where year(date)=2025             
+  group by job,mon              
+  order by mon desc,cnt desc;           
+>           
+> select job, substr(date, 1,7) mon, sum(num) as cnt                
+  from resume_info              
+  where year(date) = 2025               
+  group by job, mon             
+  order by mon desc, cnt desc;          
+>               
+> select job,                               
+         date_format(date,"%Y-%m") as mon,                        
+         sum(num) as cnt                
+  from resume_info              
+  where left(date,4)="2025"             
+  group by  job,mon             
+  order by mon desc, cnt desc;               
+>           
+> select job, date_format(date,"%Y-%m") as mon,         
+  sum(num) as cnt           
+  from resume_info          
+  where date_format(date,"%Y")="2025"           
+  group by job,mon          
+  order by mon desc, cnt desc;                    
 ## 86.实习广场投递简历分析(三)
 ### solution
 ## 87.最差是第几名(一)
