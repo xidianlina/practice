@@ -1814,7 +1814,7 @@ id为5，7的订单满足以上条件，且因为5与7都是拼团订单，则�
 ## 84.实习广场投递简历分析(一)
 题目描述                
 在牛客实习广场有很多公司开放职位给同学们投递，同学投递完就会把简历信息存到数据库里。          
-现在有简历信息表(resume_info)，部分信息简况如下:
+现在有简历信息表(resume_info)，部分信息简况如下:                 
 ![sql84](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql84.png)            
 第1行表示，在2025年1月2号，C++岗位收到了53封简历          
 ...                 
@@ -1965,5 +1965,5 @@ SQL班每个人的综合成绩用A,B,C,D,E表示，90分以上都是A，80~90分
   from class_grade          
   ) as t            
   where a>=cnt/2 and b>=cnt/2               
-  order by grade;
+  order by grade;                   
 > 当某一数的正序和逆序累计均大于整个序列的数字个数的一半即为中位数  
