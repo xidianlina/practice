@@ -1869,9 +1869,101 @@ id为5，7的订单满足以上条件，且因为5与7都是拼团订单，则�
   group by job,mon          
   order by mon desc, cnt desc;                    
 ## 86.实习广场投递简历分析(三)
+题目描述            
+在牛客实习广场有很多公司开放职位给同学们投递，同学投递完就会把简历信息存到数据库里。              
+现在有简历信息表(resume_info)，部分信息简况如下:             
+![sql86](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql86.png)            
+第1行表示，在2025年1月2号，C++岗位收到了53封简历                        
+...         
+最后1行表示，在2027年2月6号，C++岗位收到了231封简历            
+请你写出SQL语句查询在2025年投递简历的每个岗位，每一个月内收到简历的数量和，对应的2026年的同一个月同岗位，
+收到简历的数量，最后的结果先按first_year_mon月份降序，再按job降序排序显示，以上例子查询结果如下:                               
+![sql86_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql86_2.png)                
+解析:             
+第1行表示Python岗位在2025年2月收到了93份简历，在对应的2026年2月收到了846份简历              
+...             
+最后1行表示Python岗位在2025年1月收到了107份简历，在对应的2026年1月收到了470份简历                            
 ### solution
+> select a.job,              
+      date_format(d1, '%Y-%m') first_year_mon,           
+      c1 first_year_cnt,            
+      date_format(d2, '%Y-%m') second_year_mon,                 
+      c2 second_yeat_cnt            
+  from(             
+      select job, date d1, sum(num) c1          
+      from resume_info              
+      where year(date) = 2025               
+      group by month(date), job) a              
+  join(             
+      select job, date d2, sum(num) c2          
+      from resume_info          
+      where year(date) = 2026               
+      group by month(date), job) b              
+  on a.job = b.job          
+  and month(d1) = month(d2)             
+  order by first_year_mon desc, job desc;           
+>           
+> select a.job,                  
+      substr(d1,1,7) first_year_mon,                    
+      c1 first_year_cnt,                
+      substr(d2, 1,7) second_year_mon,              
+      c2 second_yeat_cnt                
+  from(             
+      select job, date d1, sum(num) c1              
+      from resume_info              
+      where year(date) = 2025               
+      group by month(date), job) a              
+  join(             
+      select job, date d2, sum(num) c2              
+      from resume_info              
+      where year(date) = 2026               
+      group by month(date), job) b              
+  on a.job = b.job          
+  and month(d1) = month(d2)                 
+  order by first_year_mon desc, job desc;                             
 ## 87.最差是第几名(一)
+题目描述                
+SQL班每个人的综合成绩用A,B,C,D,E表示，90分以上都是A，80~90分都是B，60~70分为C，50~60为D，E为50分以下                
+因为每个名次最多1个人，比如有2个A，那么必定有1个A是第1名，有1个A是第2名(综合成绩同分也会按照某一门的成绩分先后)。              
+每次SQL考试完之后，老师会将班级成绩表展示给同学看。             
+现在有班级成绩表(class_grade)如下:            
+![sql87](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql87.png)            
+第1行表示成绩为A的学生有2个             
+.......             
+最后1行表示成绩为B的学生有2个                
+请你写出一个SQL查询，如果一个学生知道了自己综合成绩以后，最差是排第几名? 结果按照grade升序排序，以上例子查询如下:                          
+![sql87_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql87_2.png)            
+解析:             
+第1行表示，学生成绩为A的知道自己最差为第2名         
+第2行表示，学生成绩为B的知道自己最差为第4名         
+第3行表示，学生成绩为C的知道自己最差为第6名         
+第4行表示，学生成绩为D的知道自己最差为第7名         
 ### solution
+> select grade, sum(number) over(order by grade) t_rank              
+  from class_grade              
+  order by grade;               
 ## 88.最差是第几名(二)
+题目描述                                
+SQL班每个人的综合成绩用A,B,C,D,E表示，90分以上都是A，80~90分都是B，60~70分为C，50~60为D，E为50分以下                           
+因为每个名次最多1个人，比如有2个A，那么必定有1个A是第1名，有1个A是第2名(综合成绩同分也会按照某一门的成绩分先后)。                        
+每次SQL考试完之后，老师会将班级成绩表展示给同学看。                          
+现在有班级成绩表(class_grade)如下:            
+![sql88](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql88.png)            
+第1行表示成绩为A的学生有2个             
+...         
+最后1行表示成绩为D的学生有2个                
+老师想知道学生们综合成绩的中位数是什么档位，请你写SQL帮忙查询一下，如果只有1个中位数，输出1个，如果有2个中位数，按grade升序输出，以上例子查询结果如下:                           
+![sql88_2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/sql88_2.png)                                    
+解析:             
+总体学生成绩排序如下:A, A, B, B, B, B, C, C, C, C, D, D，总共12个数，取中间的2个，取6，7为:B,C               
 ### solution
->             
+> select grade from             
+  (select grade,                
+  sum(number) over(order by grade) as a,                
+  sum(number) over(order by grade desc) as b,               
+  (select sum(number) from class_grade) as cnt          
+  from class_grade          
+  ) as t            
+  where a>=cnt/2 and b>=cnt/2               
+  order by grade;
+> 当某一数的正序和逆序累计均大于整个序列的数字个数的一半即为中位数  
