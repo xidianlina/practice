@@ -5,7 +5,7 @@ mysql练习
 ### 1.数据库事务
 ### 2.数据库事务特性
 ### 3.事务隔离级别
-### 4.数据库范式
+### 4.mysql数据库的基本架构
 ### 5.数据库索引的优缺点
 ### 6.数据库索引失效
 ### 7.数据库引擎
@@ -14,6 +14,7 @@ mysql练习
 ### 10.最左匹配原则
 ### 11.关系型数据库和非关系型数据库区别
 ### 12.sql中drop、delete和truncate的区别
+### 13.数据库范式
 ## 问题答案
 ### 1.数据库事务
 > 数据库事务(transaction)是访问并可能操作各种数据项的一个数据库操作序列，                
@@ -90,7 +91,9 @@ mysql练习
   视图可以理解为数据副本，每次创建视图时，将当前已持久化的数据创建副本，后续直接从副本读取，从而达到数据隔离效果。   
 > ![mysql2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/mysql2.png)        
                                                
-### 4.数据库范式
+### 4.mysql数据库的基本架构
+![mysql3](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/mysql3.png)        
+![mysql4](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/mysql4.png)        
 ### 5.数据库索引的优缺点
 ### 6.数据库索引失效
 ### 7.数据库引擎
@@ -99,6 +102,7 @@ mysql练习
 ### 10.最左匹配原则
 ### 11.关系型数据库和非关系型数据库区别
 ### 12.sql中drop、delete和truncate的区别
+### 13.数据库范式
 # 二.题目练习
 ## 1.查找最晚入职员工的所有信息
 题目描述            
