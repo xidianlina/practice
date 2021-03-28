@@ -89,8 +89,9 @@ mysql练习
   读未提交是不创建，直接返回记录上的最新值。         
   串行化隔离级别下直接用加锁的方式来避免并行访问。              
   视图可以理解为数据副本，每次创建视图时，将当前已持久化的数据创建副本，后续直接从副本读取，从而达到数据隔离效果。   
-> ![mysql2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/mysql2.png)        
-                                               
+> ![mysql2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/mysql2.png)            
+>           
+> 参考 http://blog.itpub.net/31559358/viewspace-2221403/                                   
 ### 4.mysql数据库的基本架构
 ![mysql3](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/mysql3.png)        
 ![mysql4](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/mysql4.png)        
