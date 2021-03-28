@@ -122,7 +122,7 @@ mysql练习
   (5).锁             
   MyISAM只支持表级锁，InnoDB支持行级锁和表级锁，默认是行级锁，行锁大幅度提高了多用户并发操作的性能。InnoDB比较适合于插入和更新操作比较多的情况，而MyISAM则适合用于频繁查询的情况。              
   另外，InnoDB表的行锁也不是绝对的，如果在执行一个SQL语句时，MySQL不能确定要扫描的范围，InnoDB表同样会锁全表，例如update table set num=1 where name like “%aaa%”。             
-  (5).表的具体行数                
+  (6).表的具体行数                
   MyISAM：select count(*) from table，MyISAM只要简单的读出保存好的行数。因为MyISAM内置了一个计数器，count(*)时它直接从计数器中读。                
   InnoDB：不保存表的具体行数，也就是说，执行 select count(*) from table 时，InnoDB要扫描一遍整个表来计算有多少行。              
 ### 6.关系型数据库和非关系型数据库区别
