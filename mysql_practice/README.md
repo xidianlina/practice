@@ -64,7 +64,7 @@ mysql练习
 > 提供严格的事务隔离，它要求事务序列化执行，事务只能一个接着一个地执行，但不能并发执行，如果仅仅通过“行级锁”是无法实现序列化的，
 > 必须通过其他机制保证新插入的数据不会被执行查询操作的事务访问到。序列化是最高的事务隔离级别，同时代价也是最高的，性能很低，一般很少使用，
 > 在该级别下，事务顺序执行，不仅可以避免脏读、不可重复读，还避免了幻读。  
-  ![mysql1](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/mysql1.jpg)        
+  ![mysql1](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/mysql1.png)        
 > 脏读、不可重复读和幻读，其实都是数据库读一致性问题，必须由数据库提供一定的事务隔离机制来解决。               
 > 数据库实现事务隔离的方式，基本上可分为以下两种：              
   一种是在读取数据前，对其加锁，阻止其他事务对数据进行修改。             
