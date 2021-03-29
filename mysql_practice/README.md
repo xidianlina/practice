@@ -247,7 +247,8 @@ mysql练习
   (8).如果mysql估计使用全表扫秒比使用索引快，则不适用索引。             
 >           
 > 
-> 参考 https://segmentfault.com/a/1190000021464570
+> 参考 https://segmentfault.com/a/1190000021464570                
+> https://segmentfault.com/a/1190000008131735           
 ### 10.索引的底层实现
 ### 11.最左匹配原则
 ### 12.sql中drop、delete和truncate的区别
