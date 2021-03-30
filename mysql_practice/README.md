@@ -376,6 +376,7 @@ mysql练习
   NULL>system>const>eq_ref>ref>fulltext>ref_or_null>index_merge>unique_subquery>index_subquery>range>index>ALL //最好到最差              
   备注：掌握以下10种常见的即可           
   NULL>system>const>eq_ref>ref>ref_or_null>index_merge>range>index>ALL 
+> 一般来说，得保证查询达到range级别，最好达到ref               
 >                                                  
 > (6).possible_keys显示可能应用在这张表中的索引，一个或多个，但不一定实际使用到
 >                       
