@@ -345,8 +345,13 @@ mysql练习
 > (2).select_type查询类型           
   SIMPLE:简单查询，不包含子查询或Union查询            
   PRIMARY:查询中若包含任何复杂的子部分，最外层查询则被标记为主查询          
-  SUBQUERY:在select或where中包含子查询          
-  DERIVED:在FROM列表中包含的子查询被标记为DERIVED（衍生），MySQL会递归执行这些子查询，把结果放在临时表中。MySQL5.7+ 进行优化了，增加了derived_merge（派生合并），默认开启，可加快查询效率               
+  SUBQUERY:在select或where中包含子查询。包含的子查询语句无法转换为半连接，并且为不相关子查询，查询优化器采用物化方案执行该子查询，该子查询的第一个select就会SUBQUERY。该查询由于被物化，只需要执行一次。                            
+> 子查询语句中的子查询结果集中的记录保存到临时表的过程称之为物化。存储子查询结果集的临时表称之为物化表。           
+> 因为物化表的记录都建立了索引（基于内存的物化表有哈希索引，基于磁盘的有B+树索引），因此通过 IN 语句判断某个操作数在不在子查询的结果集中变得很快，从而提升语句的性能。                 
+> 半连接跟IN语句子查询有关。                
+  SELECT ... FROM outer_tables WHERE expr IN (SELECT ... FROM inner_tables ...) AND ...             
+  outer_tables表对inner_tables半连接的意思:对于outer_tables的某条记录来说，仅关心在inner_tables表中是否存在匹配的记录，而不用关心具体有多少条记录与之匹配，最终结果只保留outer_tables表的记录。                                    
+  DERIVED:在FROM列表中包含的子查询被标记为DERIVED（衍生），MySQL会递归执行这些子查询，把结果放在临时表中。MySQL5.7+ 进行优化了，增加了derived_merge（派生合并），默认开启，可加快查询效率。对于采用物化形式执行的包含派生表的查询，该派生表的对应的子查询为DERIVED。                                
   UNION:若第二个select出现在uion之后，则被标记为UNION          
   DEPENDENT UNION:UNION 中的第二个或后面的查询语句, 取决于外面的查询         
   UNION RESULT:从UNION表获取结果的select
