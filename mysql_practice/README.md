@@ -354,7 +354,7 @@ mysql练习
   DERIVED:在FROM列表中包含的子查询被标记为DERIVED（衍生），MySQL会递归执行这些子查询，把结果放在临时表中。MySQL5.7+ 进行优化了，增加了derived_merge（派生合并），默认开启，可加快查询效率。对于采用物化形式执行的包含派生表的查询，该派生表的对应的子查询为DERIVED。                                
   UNION:若第二个select出现在uion之后，则被标记为UNION          
   DEPENDENT UNION:UNION 中的第二个或后面的查询语句, 取决于外面的查询         
-  UNION RESULT:从UNION表获取结果的select
+  UNION RESULT:从UNION表获取结果的select,MySQL选择使用临时表完成UNION查询的去重工作。               
 >                                  
 > (3).table查询的是哪个表
 >                   
