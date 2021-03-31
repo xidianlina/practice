@@ -10,3 +10,5 @@ es_practice/target/
 kafka_practice/kafka_practice.iml
 kafka_practice/.DS_Store
 kafka_practice/target/
+redis_practice/.idea/
+redis_practice/target/
