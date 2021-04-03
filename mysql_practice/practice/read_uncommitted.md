@@ -20,6 +20,19 @@ INSERT INTO `test_transaction` VALUES (2, '钢铁侠', 120, 1, '我有一身铁�
 INSERT INTO `test_transaction` VALUES (3, '绿巨人', 0, 2, '我有一身肉');
 ```
 ### 演该隔离级别脏读效果
+```sql
+mysql> select @@transaction_isolation;
++-------------------------+
+| @@transaction_isolation |
++-------------------------+
+| REPEATABLE-READ         |
++-------------------------+
+1 row in set (0.00 sec)
 
+mysql> set session transaction isolation level read uncommitted;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql>
+```
 
 
