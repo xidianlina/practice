@@ -144,5 +144,16 @@ mysql> update test_transaction set user_name='钢铁侠-rym' where id=2;
 ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction
 mysql>
 ```
-
-
+#### 在上面的过程, 在客户端2阻塞阶段, 你可以通过一个新的客户端来分析, 客户端2在锁等待的情况下的加锁情况和事务状态:
+查看表的加锁情况:select * from sys.`innodb_lock_waits`;                 
+![read_uncommitted4](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/read_uncommitted4.png)                    
+事务状态:select * from information_schema.INNODB_TRX;
+![read_uncommitted5](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/read_uncommitted5.png)                                       
+#### READ UNCOMMITTED 隔离级别下, 写操作是会加锁的, 而且是X排他锁, 直到客户端1事务完成, 锁才释放, 客户端2才能进行写操作
+> "既然该隔离级别下事务在修改数据的时候加的是x锁, 并且是事务完成后才释放, 那之前的测试客户端2在事务中修改完数据之后, 为什么事务还没完成,
+ 也就是x锁还在, 结果客户端1却能读取到客户端2修改的数据"？这完全不符合排他锁的特性啊(要知道,排他锁会阻塞除当前事务之外的其他事务的读,写操作)
+> 在READ UNCOMMITTED级别运行的事务不会发出共享锁来防止其他事务修改当前事务读取的数据, 既然不加共享锁了, 那么当前事务所读取的数据自然就可以被其他事务来修改。
+  而且当前事务要读取其他事务未提交的修改, 也不会被排他锁阻止, 因为排他锁会阻止其他事务再对其锁定的数据加读写锁,事务在该隔离级别下去读数据的话根本什么锁都不加, 这就让排他锁无法排它了, 因为它连锁都没有。                  
+  这就导致了事务可以读取未提交的修改, 称为脏读。                  
+### READ UNCOMMITTED隔离级别下, 读不会加任何锁。而写会加排他锁，并到事务结束之后释放。
+           
