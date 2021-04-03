@@ -507,6 +507,11 @@ mysql练习
 > 参考 https://segmentfault.com/a/1190000021478171
 ### 20.MVCC         
 > 
+>
+> 参考 https://segmentfault.com/a/1190000012655091            
+> https://segmentfault.com/a/1190000012659380               
+> https://segmentfault.com/a/1190000018652117                   
+> https://segmentfault.com/a/1190000021001384           
 
 # 二.题目练习
 ## 1.查找最晚入职员工的所有信息
