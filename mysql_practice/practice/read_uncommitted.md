@@ -57,3 +57,52 @@ mysql>
 #### 接下来将客户端2的事务隔离级别也设置为read uncommitted;
 ![read_uncommitted](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/read_uncommitted.png)
 
+#### 客户端1开启事务,并执行一个查询'读取数据':
+```sql
+mysql> select @@transaction_isolation;
++-------------------------+
+| @@transaction_isolation |
++-------------------------+
+| READ-UNCOMMITTED        |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql> begin;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from test_transaction where id=2;
++----+-----------+-----+--------+--------------------+
+| id | user_name | age | gender | desctiption        |
++----+-----------+-----+--------+--------------------+
+|  2 | 钢铁侠    | 120 |      1 | 我有一身铁甲       |
++----+-----------+-----+--------+--------------------+
+1 row in set (0.00 sec)
+
+mysql>
+```
+注意:客户端1此时的事务并未提交                
+#### 客户端2开启事务, 并修改客户端1查询的数据
+```sql
+mysql> select @@transaction_isolation;
++-------------------------+
+| @@transaction_isolation |
++-------------------------+
+| READ-UNCOMMITTED        |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql> update test_transaction set user_name='钢铁侠-托尼' where id=2;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql>
+```
+注意:客户端2此时的事务也并未提交               
+> 此时发现, 客户端2可以对客户端1正在读取的记录进行修改, 而根据锁相关知识, 如果说客户端1在读取记录的时候加了S锁, 
+那么客户端2是不能加X锁对该记录进行更改的, 所以可以得出结论: 要么是客户端1读取记录的时候没有加S锁, 
+要么是客户端2更改记录的时候不加任何锁(这样即使客户端1加了S锁,对它这个不加锁的事务也无可奈何), 那么究竟是哪中情况导致的?                            
+#### 切换到客户端1, 再次查询数据, 发现数据已经变成了'钢铁侠-托尼'; 然后客户端2 rollback 事务, 再到客户端1中查询,发现user_name又变成了'钢铁侠', 那之前独到'钢铁侠-托尼'就是脏数据了, 这就是一次 脏读
+![read_uncommitted2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/read_uncommitted2.png)
+
+
+
