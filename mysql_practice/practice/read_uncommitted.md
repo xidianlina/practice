@@ -104,5 +104,45 @@ mysql>
 #### 切换到客户端1, 再次查询数据, 发现数据已经变成了'钢铁侠-托尼'; 然后客户端2 rollback 事务, 再到客户端1中查询,发现user_name又变成了'钢铁侠', 那之前独到'钢铁侠-托尼'就是脏数据了, 这就是一次 脏读
 ![read_uncommitted2](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/read_uncommitted2.png)
 
+### 分析读未提交隔离级别如何加锁
+#### 重新构造测试条件
+![read_uncommitted3](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/read_uncommitted3.png)
+#### 客户端1开启事务, 然后对数据做修改
+```sql
+mysql> select @@transaction_isolation;
++-------------------------+
+| @@transaction_isolation |
++-------------------------+
+| READ-UNCOMMITTED        |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql> begin;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update test_transaction set user_name='钢铁侠-rymuscle' where id=2;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql>
+```
+注意:客户端1此时的事务并未提交
+#### 客户端2开启事务, 对相同的数据行做修改
+```sql
+mysql> select @@transaction_isolation;
++-------------------------+
+| @@transaction_isolation |
++-------------------------+
+| READ-UNCOMMITTED        |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql> begin;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update test_transaction set user_name='钢铁侠-rym' where id=2;
+ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction
+mysql>
+```
 
 
