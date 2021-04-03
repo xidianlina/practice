@@ -521,7 +521,17 @@ mysql练习
   当数据库对数据做修改时，需要把数据页从磁盘读到buffer pool中，然后在buffer pool中进行修改。
 > 这时buffer pool中的数据页就与磁盘上的数据页内容不一致，称buffer pool的数据页为脏页(dirty page)。也就是先拷贝一份数据，对拷贝的数据进行修改，修改完毕后再覆盖到原数据。              
 > 当进行数据修改时会记录redo log和undo log。redo log记录了数据操作在物理层面的修改，事务的持久性是通过redo log实现的。                    
-> undo log用于数据的撤回操作，它记录了修改的反向操作，比如，插入对应删除，修改对应修改为原来的数据，通过undo log可以实现事务回滚，并且可以根据undo log回溯到某个特定的版本的数据，实现MVCC。                         
+> undo log用于数据的撤回操作，它记录了修改的反向操作，比如，插入对应删除，修改对应修改为原来的数据，通过undo log可以实现事务回滚，并且可以根据undo log回溯到某个特定的版本的数据，实现MVCC。                       
+>               
+> innodb引擎中通过B+树作为索引的数据结构，并且主键所在的索引为ClusterIndex(聚簇索引), ClusterIndex中的叶子节点中保存了对应的数据内容。
+> 一个表只能有一个主键，所以只能有一个聚簇索引，如果表没有定义主键，则选择第一个非NULL唯一索引作为聚簇索引，如果没有非NULL唯一索引则生成一个隐藏id列作为聚簇索引。                 
+  除了Cluster Index外的索引是Secondary Index(辅助索引)。辅助索引中的叶子节点保存的是聚簇索引的叶子节点的值。              
+  InnoDB行记录中除了刚才提到的rowid外，还有trx_id和db_roll_ptr, trx_id表示最近修改的事务的id,db_roll_ptr指向undo segment中的undo log。             
+  新增一个事务时事务id会增加，trx_id能够表示事务开始的先后顺序。               
+  undo log分为Insert和Update两种，delete可以看做是一种特殊的update，即在记录上修改删除标记。                 
+  update undo log记录了数据之前的数据信息，通过这些信息可以原到之前版本的状态。            
+  当进行插入操作时，生成的Insert undo log在事务提交后即可删除，因为其他事务不需要这个undo log。                
+  进行删除修改操作时，会生成对应的undo log，并将当前数据记录中的db_roll_ptr指向新的undo log。                 
 
 > 参考 https://segmentfault.com/a/1190000012655091            
 > https://segmentfault.com/a/1190000012659380               
