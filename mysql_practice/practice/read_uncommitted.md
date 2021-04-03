@@ -20,6 +20,8 @@ INSERT INTO `test_transaction` VALUES (2, '钢铁侠', 120, 1, '我有一身铁�
 INSERT INTO `test_transaction` VALUES (3, '绿巨人', 0, 2, '我有一身肉');
 ```
 ### 演该隔离级别脏读效果
+先查看当前会话(当前客户端)事务的隔离级别: select @@transaction_isolation;                  
+可以看到: REPEATABLE READ 是InnoDB存储引擎的默认事务隔离级别                  
 ```sql
 mysql> select @@transaction_isolation;
 +-------------------------+
