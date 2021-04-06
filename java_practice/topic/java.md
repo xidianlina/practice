@@ -233,9 +233,19 @@ class B extends A
 final class A{}
 class B extends A{}//出错
 ```       
+>             
+> 在匿名类中所有变量都必须是final变量                  
+> 接口中声明的所有变量本身是final的                   
+> final和abstract这两个关键字是反相关的，final类就不可能是abstract的                                   
+> 没有在声明时初始化final变量的称为空白final变量(blank final variable)，它们必须在构造器中初始化，或者调用this()初始化，否则编译器会报错final变量(变量名)需要进行初始化             
+  按照Java代码惯例，final变量就是常量，而且通常常量名要大写             
+  对于集合对象声明为 final指的是引用不能被更改                     
+>                                 
+> final关键字的好处:              
+> final关键字提高了性能，JVM和Java应用都会缓存final变量               
+> final 变量可以安全的在多线程环境下进行共享，而不需要额外的同步开销              
 
-
-> 参考  https://segmentfault.com/a/1190000020803203
->              
+> 参考  https://segmentfault.com/a/1190000020803203               
+> https://segmentfault.com/a/1190000020815352                        
 ### 5.static关键字
 ### 6.final、finally 和 finalize          
