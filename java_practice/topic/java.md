@@ -130,4 +130,7 @@ public final class String implements java.io.Serializable, Comparable<String>, C
   不重写HashCode对于散列表的影响:              
   两个所有属性都相等的对象，它们的地址不同。没重写hashCode时，hashCode一定不相等。但是逻辑上这两个对象是相等的，并且equals也是相等的。
 > 这就会导致，HashMap里面本来有这个key，但是你告诉我没有，导致了put操作成功。逻辑上是不符合规范的，get时取出来的也可能是自己另一个的value。                       
+>                       
+> 参考 https://segmentfault.com/a/1190000024478811            
+> https://segmentfault.com/a/1190000022735238                           
 ### 4.          
