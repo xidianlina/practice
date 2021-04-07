@@ -413,7 +413,7 @@ class Father {
 > 大数值类型:            
   在Java的java.math包下，有两个类用来表示大数，它们分别是：BigInteger和BigDecimal          
   这两个类都可以对超出基本数据类型表示范围的数进行构造。另外，它们的构造方法都需要传进来一个字符串。             
-  对于BigInteger而言，可以进行add, substract, multiply, divide 等操作；对于 BigDecimal，同样可以进行上述操作，不过最好给定一个 MathContext 保留有效数字。         
+  对于BigInteger而言，可以进行add, subtract, multiply, divide 等操作；对于 BigDecimal，同样可以进行上述操作，不过最好给定一个 MathContext 保留有效数字。         
 >                         
 > 数组类型:             
   准确地讲，数组不是一种类型，而是一种数据结构。但是数组是很多其它Java类(如 String、 ArrayList )的基础。在Java里，数组是一种用来存储相同数据类型对象的数据结构。                 
@@ -423,6 +423,14 @@ class Father {
   可使用for-each遍历         
   多维数组本质上是数组的数组             
 ### 10.java中操作字符串都有哪些类？它们之间有什么区别？
+> 操作字符串的类有:String、StringBuffer、StringBuilder。                   
+  String和StringBuffer、StringBuilder的区别在于String声明的是不可变的对象，在JDK中String类被声明为一个final类，
+> 每次操作都会生成新的String对象，然后将指针指向新的String对象，而StringBuffer、StringBuilder可以在原有对象的基础上进行操作，
+> 所以在经常改变字符串内容的情况下最好不要使用String。             
+  StringBuffer和StringBuilder最大的区别在于，StringBuffer是线程安全的，而StringBuilder是非线程安全的，线程安全会带来额外的系统开销，
+> StringBuilder的性能却高于StringBuffer，所以在单线程环境下推荐使用StringBuilder，多线程环境下推荐使用StringBuffer。        
+>                       
+> String str="i"与 String str=new String("i")内存的分配方式不一样。String str="i"的方式，java虚拟机会将其分配到常量池中；而String str=new String("i")则会被分到堆内存中。                                
 ### 11.String类的常用方法都有那些？
 ### 12.抽象类必须要有抽象方法吗？普通类和抽象类有哪些区别？抽象类能使用final修饰吗？接口和抽象类有什么区别？
 ### 13.Files的常用方法都有哪些？
