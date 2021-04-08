@@ -1016,7 +1016,7 @@ public class FilesTest {
 > 按功能/数据流向来分：输入流（input）、输出流（output）。             
   按数据类型来分：字节流和字符流。                
   字节流和字符流的区别是：字节流按8位传输，以字节为单位输入输出数据，字符流按16位传输，以字符为单位输入输出数据。 
-  ![io1](http://github.com/xidianlina/practice/raw/master//java_practice/picture/io1.jpg)
+  ![io1](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/io1.jpg)
             
 ### 15.
 ### 16.
