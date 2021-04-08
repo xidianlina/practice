@@ -1013,8 +1013,14 @@ public class FilesTest {
 > 参考  https://www.cnblogs.com/devilwind/p/8623098.html          
 > https://www.cnblogs.com/xidian2014/p/10326381.html            
 ### 14.java中IO流分为几种？
-> 按功能来分：输入流（input）、输出流（output）。             
-  按类型来分：字节流和字符流。                
-  字节流和字符流的区别是：字节流按8位传输，以字节为单位输入输出数据，字符流按16位传输，以字符为单位输入输出数据。             
+> 按功能/数据流向来分：输入流（input）、输出流（output）。             
+  按数据类型来分：字节流和字符流。                
+  字节流和字符流的区别是：字节流按8位传输，以字节为单位输入输出数据，字符流按16位传输，以字符为单位输入输出数据。 
+  ![io1](http://github.com/xidianlina/practice/raw/master//java_practice/picture/io1.jpg)
+            
 ### 15.
 ### 16.
+### 17.
+### 18.
+### 19.
+### 20.
