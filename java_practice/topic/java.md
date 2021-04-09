@@ -1037,8 +1037,24 @@ public class FilesTest {
 > ![collection](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/collection.png)               
 >                                                                                                                                       
 > ![map](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/map.png)                                                                                                         
-### 16.
-### 17.
-### 18.
-### 19.
-### 20.
+### 16.Collection和Collections有什么区别？
+> java.util.Collection是一个集合接口。它提供了对集合对象进行基本操作的通用接口方法。Collection接口在Java类库中有很多具体的实现。Collection接口的意义是为各种具体的集合提供了最大化的统一操作方式。                           
+  List，Set，Queue接口都继承Collection。                            
+  直接实现该接口的类只有AbstractCollection类，该类只是一个抽象类，提供了对集合类操作的一些基本实现。List和Set的具体实现类基本上都直接或间接的继承了该类。                  
+  java.util.Collections是一个包装类。它包含有各种有关集合操作的静态方法（对集合的搜索、排序、线程安全化等），大多数方法都是用来处理线性表的。此类不能实例化，是一个工具类，服务于Java的Collection框架。              
+### 17.List、Set、Map之间的区别是什么？
+> ![list_set_map_diff](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/list_set_map_diff.png)                                                                                                         
+### 18.HashMap和Hashtable有什么区别？
+
+### 19.如何决定使用HashMap还是TreeMap？
+### 20.HashMap的实现原理？
+### 21.HashSet的实现原理？
+### 22.ArrayList和LinkedList的区别是什么？
+### 23.如何实现数组和List之间的转换？
+### 24.ArrayList和Vector的区别是什么？
+### 25.Array和ArrayList有何区别？
+### 26.在Queue中poll()和remove()有什么区别？
+### 27.哪些集合类是线程安全的？
+### 28.迭代器Iterator是什么？
+### 29.Iterator怎么使用？有什么特点？
+### 30.Iterator和ListIterator有什么区别？
