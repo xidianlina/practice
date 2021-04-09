@@ -1,6 +1,39 @@
 java基础题目
 ======
 ## 问题列表
+### 1.JDK和JRE有什么区别
+### 2.==和equals的区别是什么？
+### 3.equals与hashcode的区别和联系？
+### 4.final关键字
+### 5.static关键字
+### 6.final、finally 和 finalize
+### 7.类加载顺序
+### 8.构造器是静态方法吗？
+### 9.Java的基本数据类型
+### 10.java中操作字符串都有哪些类？它们之间有什么区别？
+### 11.String类的常用方法都有那些？
+### 12.抽象类必须要有抽象方法吗？抽象类能使用final修饰吗？普通类和抽象类有哪些区别？接口和抽象类有什么区别？
+### 13.Files的常用方法都有哪些？
+### 14.java中IO流分为几种？BIO、NIO、AIO 有什么区别?
+### 15.java常用的集合容器都有哪些？
+### 16.Collection和Collections有什么区别？
+### 17.List、Set、Map之间的区别是什么？
+### 18.HashMap和Hashtable有什么区别？
+### 19.如何决定使用HashMap还是TreeMap？
+### 20.HashMap的实现原理？
+### 21.HashSet的实现原理？
+### 22.ArrayList和LinkedList的区别是什么？
+### 23.如何实现数组和List之间的转换？
+### 24.ArrayList和Vector的区别是什么？
+### 25.Array和ArrayList有何区别？
+### 26.在Queue中poll()和remove()有什么区别？
+### 27.哪些集合类是线程安全的？
+### 28.迭代器Iterator是什么？
+### 29.Iterator怎么使用？有什么特点？
+### 30.Iterator和ListIterator有什么区别？
+### 31.java的四个基本特性？
+### 32.面向对象和面向过程的区别？能不能用面向过程实现面向对象？
+### 33.重载和重写？
 ## 问题答案
 ### 1.JDK和JRE有什么区别？
 > JDK:Java Development Kit的简称，java开发工具包，提供了java的开发环境和运行环境。                         
@@ -1066,6 +1099,7 @@ public class FilesTest {
   (6).Hashtable和HashMap内部实现方式的数组的初始大小和扩容的方式不同               
   HashTable中hash数组默认大小是11，增加的方式是old*2+1。HashMap中hash数组的默认大小是16，而且一定是2的指数。                                                                                                                     
 ### 19.如何决定使用HashMap还是TreeMap？
+> 
 ### 20.HashMap的实现原理？
 ### 21.HashSet的实现原理？
 ### 22.ArrayList和LinkedList的区别是什么？
@@ -1077,3 +1111,13 @@ public class FilesTest {
 ### 28.迭代器Iterator是什么？
 ### 29.Iterator怎么使用？有什么特点？
 ### 30.Iterator和ListIterator有什么区别？
+### 31.java的四个基本特性？
+### 32.面向对象和面向过程的区别？能不能用面向过程实现面向对象？
+### 33.重载和重写？
+### 34.
+### 35.
+### 36.
+### 37.
+### 38.
+### 39.
+### 40.
