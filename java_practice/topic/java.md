@@ -1024,7 +1024,11 @@ public class FilesTest {
 > IO 流读写数据的特点：              
   顺序读写。读写数据时，大部分情况下都是按照顺序读写，读取时从文件开头的第一个字节到最后一个字节，写出时也是也如此（RandomAccessFile 可以实现随机读写）                              
   字节数组。读写数据时本质上都是对字节数组做读取和写出操作，即使是字符流，也是在字节流基础上转化为一个个字符，所以字节数组是IO流读写数据的本质。                       
-> ![io2](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/io2.png)                                                    
+> ![io2](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/io2.png)                                                                        
+> ![io3](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/io3.png)             
+> 看到Stream就是字节流，看到Reader/Writer就是字符流。                   
+  Java IO 提供了字节流转换为字符流的转换类，称为转换流。                 
+> ![io4](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/io4.png)                                                                                                        
 >                                           
 > 参考 https://zhuanlan.zhihu.com/p/94121909                     
 > https://www.cnblogs.com/LUA123/p/11389692.html
