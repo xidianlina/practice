@@ -1034,7 +1034,8 @@ public class FilesTest {
 > https://www.cnblogs.com/LUA123/p/11389692.html                        
 > https://github.com/crisxuan/bestJavaer/blob/master/java-basic/java-io.md              
 ### 15.java常用的集合容器都有哪些？
-> ![collection](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/collection.png)                                                                                                        
+> ![collection](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/collection.png)               
+>                                                                                                                                       
 > ![map](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/map.png)                                                                                                         
 ### 16.
 ### 17.
