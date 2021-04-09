@@ -1012,12 +1012,23 @@ public class FilesTest {
 ```             
 > 参考  https://www.cnblogs.com/devilwind/p/8623098.html          
 > https://www.cnblogs.com/xidian2014/p/10326381.html            
-### 14.java中IO流分为几种？
+### 14.java中IO流分为几种？BIO、NIO、AIO 有什么区别?
 > 按功能/数据流向来分：输入流（input）、输出流（output）。             
   按数据类型来分：字节流和字符流。                
   字节流和字符流的区别是：字节流按8位传输，以字节为单位输入输出数据，字符流按16位传输，以字符为单位输入输出数据。              
   ![io1](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/io1.png)
-            
+> BIO、NIO、AIO有什么区别              
+> BIO：Block IO 同步阻塞式IO，就是平常使用的传统IO，它的特点是模式简单使用方便，并发处理能力低。           
+  NIO：New IO 同步非阻塞IO，是传统IO的升级，客户端和服务器端通过Channel（通道）通讯，实现了多路复用。              
+  AIO：Asynchronous IO 是NIO的升级，也叫NIO2，实现了异步非堵塞IO ，异步IO的操作基于事件和回调机制。
+> IO 流读写数据的特点：              
+  顺序读写。读写数据时，大部分情况下都是按照顺序读写，读取时从文件开头的第一个字节到最后一个字节，写出时也是也如此（RandomAccessFile 可以实现随机读写）                              
+  字节数组。读写数据时本质上都是对字节数组做读取和写出操作，即使是字符流，也是在字节流基础上转化为一个个字符，所以字节数组是IO流读写数据的本质。                       
+> ![io2](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/io2.png)                                                    
+>                                           
+> 参考 https://zhuanlan.zhihu.com/p/94121909                     
+> https://www.cnblogs.com/LUA123/p/11389692.html
+> https://github.com/crisxuan/bestJavaer/blob/master/java-basic/java-io.md
 ### 15.
 ### 16.
 ### 17.
