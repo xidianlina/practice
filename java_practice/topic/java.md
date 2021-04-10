@@ -1099,12 +1099,41 @@ public class FilesTest {
   (6).Hashtable和HashMap内部实现方式的数组的初始大小和扩容的方式不同               
   HashTable中hash数组默认大小是11，增加的方式是old*2+1。HashMap中hash数组的默认大小是16，而且一定是2的指数。                                                                                                                     
 ### 19.如何决定使用HashMap还是TreeMap？
-> 
+> TreeMap<K,V>的Key值是要求实现java.lang.Comparable，所以迭代的时候TreeMap默认是按照Key值升序排序的；TreeMap的实现是基于红黑树结构。适用于按自然顺序或自定义顺序遍历键（key）。                              
+  HashMap<K,V>的Key值实现散列hashCode()，分布是散列的、均匀的，不支持排序；数据结构主要是桶(数组)，链表或红黑树。适用于在Map中插入、删除和定位元素。              
+>           
+> 对于在Map中插入、删除和定位元素这类操作，HashMap是最好的选择。然而，假如需要对一个有序的key集合进行遍历，TreeMap是更好的选择。                                           
 ### 20.HashMap的实现原理？
+> (1).HashMap的数据结构              
+> HashMap基于哈希表实现，实际上是一个数组和链表的结合体。使用HashMap要求添加的键类明确定义了hashCode()和equals()(可以重写hashCode()和equals())，为了优化HashMap空间的使用，您可以调优初始容量和负载因子。                             
+  HashMap(): 构建一个空的哈希映像             
+  HashMap(Map m): 构建一个哈希映像，并且添加映像m的所有映射             
+  HashMap(int initialCapacity): 构建一个拥有特定容量的空的哈希映像               
+  HashMap(int initialCapacity, float loadFactor): 构建一个拥有特定容量和加载因子的空的哈希映像  
+> ![hashmap2](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/hashmap2.png)               
+> 当新建一个hashmap的时候，就会初始化一个数组。            
+> ![hashmap3](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/hashmap3.png)           
+> Entry就是数组中的元素，它持有一个指向下一个元素的引用，这就构成了链表。                    
+  当往hashmap中put元素时，先根据key的hash值得到这个元素在数组中的位置（即下标），然后就可以把这个元素放到对应的位置中了。
+> 如果这个元素所在的位置上已经存放有其他元素了，那么在同一个位置上的元素将以链表的形式存放，新加入的放在链头，最先加入的放在链尾。
+> 从hashmap中get元素时，首先计算key的hashcode，找到数组中对应位置的某一元素，然后通过key的equals方法在对应位置的链表中找到需要的元素。
+> 如果每个位置上的链表只有一个元素，那么hashmap的get效率将是最高的。                        
+>                   
+> (2).hash算法                    
+> 
+  
+               
+>               
+> 参考 https://www.cnblogs.com/xidian2014/p/10466611.html                 
+> 
 ### 21.HashSet的实现原理？
+> 
 ### 22.ArrayList和LinkedList的区别是什么？
+> 
 ### 23.如何实现数组和List之间的转换？
+> 
 ### 24.ArrayList和Vector的区别是什么？
+> 
 ### 25.Array和ArrayList有何区别？
 ### 26.在Queue中poll()和remove()有什么区别？
 ### 27.哪些集合类是线程安全的？
