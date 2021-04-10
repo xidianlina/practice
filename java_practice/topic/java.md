@@ -1194,15 +1194,97 @@ public class FilesTest {
   所以，一般首选用ArrayList，由于LinkedList可以实现栈、队列以及双端队列等数据结构，所以当特定需要时候，使用LinkedList。数据量小的时候，两者差不多，
 > 视具体情况去选择使用；当数据量大的时候，如果只需要在靠前的部分插入或删除数据，那也可以选用LinkedList，反之选择ArrayList反而效率更高。                      
 ### 23.如何实现数组和List之间的转换？
-> 
+> 数组转List ，使用JDK中java.util.Arrays工具类的asList方法               
+```java
+package com.java.topic;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class ArrayToList {
+    public static void main(String[] args) {
+        String[] strArray = new String[]{"aaa", "bbb", "ccc"};
+        List<String> list = Arrays.asList(strArray);
+        for (String s : list) {
+            System.out.println(s);
+        }
+    }
+}
+```
+>                           
+> List转数组，使用 List 的toArray方法。（无参toArray方法返回Object数组，传入初始化长度的数组对象，返回该对象数组）               
+```java
+package com.java.topic;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class ListToArray {
+    public static void main(String[] args) {
+        List<String> list = Arrays.asList("a", "b", "cd", "dfdd");
+        String[] strArray = list.toArray(new String[list.size()]);
+        for (String s : strArray) {
+            System.out.println(s);
+        }
+    }
+}
+```
 ### 24.ArrayList和Vector的区别是什么？
-> 
+> (1).Vector是多线程安全的，而ArrayList不是，Vector类中的方法很多有synchronized进行修饰，这样就导致了Vector在效率上无法与ArrayList相比                                
+  (2).两个都是采用的线性连续空间存储元素，但是当空间不足的时候，两个类的增加方式是不同的，ArrayList在底层数组不够用时在原来的基础上扩展0.5倍，
+> Vector如果设置了增长因子，扩容的容量是(oldCapacity+capacityIncrement)；Vector如果没有设置增长因子，扩容后的容量就是(oldCapacity+oldCapacity)，就是原来容量的二倍。                   
+> (3).Vector可以设置增长因子，而ArrayList不可以              
+>                   
+> ArrayList有三个构造方法：                 
+  public ArrayList(int initialCapacity)//构造一个具有指定初始容量的空列表。                  
+  public ArrayList()//构造一个初始容量为10的空列表。              
+  public ArrayList(Collection<? extends E> c)//构造一个包含指定 collection 的元素的列表               
+  Vector有四个构造方法：                
+  public Vector()//使用指定的初始容量和等于零的容量增量构造一个空向量。               
+  public Vector(int initialCapacity)//构造一个空向量，使其内部数据数组的大小，其标准容量增量为零。                
+  public Vector(Collection<? extends E> c)//构造一个包含指定 collection 中的元素的向量             
+  public Vector(int initialCapacity,int capacityIncrement)//使用指定的初始容量和容量增量构造一个空的向量              
+  Vector比Arraylist多一个构造方法public Vector(int initialCapacity,int capacityIncrement)，capacityIncrement就是增长因子，ArrayList中是没有的。           
+>                                  
+> 在迭代的时候对列表进行改变，应该使用CopyOnWriteArrayList。     
+>               
+> 参考 https://blog.csdn.net/tayanxunhua/article/details/10037403                       
 ### 25.Array和ArrayList有何区别？
+> (1).数据类型方面:               
+  Array数组可以包含基本类型和对象类型;ArrayList只能包含对象类型。               
+  Array数组在存放的时候一定是同种类型的元素，ArrayList存入对象时，抛弃类型信息，所有对象屏蔽为Object，编译时不检查类型，但是运行时会报错。                
+  (2).容量方面:             
+  Array容量是静态固定的。                
+  ArrayList是动态变化的。              
+  (3).支持操作:             
+  ArrayList提供更多操作，添加全部addAll()、删除全部removeAll()、返回迭代器iterator()等。                
+  Array提供的更多是依赖于Arrays提供的方法。                
+  使用建议:         
+  当集合长度固定时，使用数组；当集合的长度不固定时，使用ArrayList。但如果长度增长频繁，应考虑预设ArrayList的长度或者使用链表LinkedList代替，ArrayList每次扩容都要进行数组的拷贝。                
+  由于ArrayList不支持基本数据类型，所以保存基本数据类型时需要装箱处理，对比数组性能会下降。这种情况尽量使用数组。              
+  数组支持的操作方法很少，但内存占用少，如果只需对集合进行随机读写，选数组；如果需要进行插入和删除，使用数组的话，需要手动编写移动元素的代码，ArrayList中内置了这些操作，开发更方便。                
+  如果单纯只是想要以数组的形式保存数据，而不对数据进行增加等操作，只是方便进行查找的话，那么就选择ArrayList。                
+  如果需要对元素进行频繁的移动或删除，或者是处理的是超大量的数据，使用ArrayList就真的不是一个好的选择，因为它的效率很低，使用数组进行这样的动作也很麻烦，那么，可以考虑选择LinkedList。              
 ### 26.在Queue中poll()和remove()有什么区别？
+> Queue中remove()和poll()都是用来从队列头部删除一个元素。                         
+  在队列元素为空的情况下，remove()方法会抛出NoSuchElementException异常，poll()方法只会返回null。                   
 ### 27.哪些集合类是线程安全的？
+> Vector:就比Arraylist多了个同步化机制（线程安全）。                 
+  Stack:栈也是线程安全的，继承于Vector。             
+  Hashtable:就比Hashmap多了个线程安全。               
+  java.util.concurrent包下所有的集合类ArrayBlockingQueue、ConcurrentHashMap、ConcurrentLinkedQueue、ConcurrentLinkedDeque等。                
+  CopyOnWriteArrayList和CopyOnWriteArraySet是加了写锁的ArrayList和ArraySet，锁住的是整个对象，但读操作可以并发执行。                 
+  Collections包装的方法：                 
+  Vector和HashTable被弃用后，它们被ArrayList和HashMap代替，但它们不是线程安全的，所以Collections工具类中提供了相应的包装方法把它们包装成线程安全的集合                          
+  List<E> synArrayList = Collections.synchronizedList(new ArrayList<E>());                            
+  Set<E> synHashSet = Collections.synchronizedSet(new HashSet<E>());                                
+  Map<K,V> synHashMap = Collections.synchronizedMap(new HashMap<K,V>());                                                                   
 ### 28.迭代器Iterator是什么？
+> 
 ### 29.Iterator怎么使用？有什么特点？
+> 
 ### 30.Iterator和ListIterator有什么区别？
+> 
 ### 31.java的四个基本特性？
 ### 32.面向对象和面向过程的区别？能不能用面向过程实现面向对象？
 ### 33.重载和重写？
