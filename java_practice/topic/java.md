@@ -1161,7 +1161,7 @@ public class FilesTest {
 >                                      
 > (5).JDK1.8中对HashMap的优化                
 > [1].HashMap是数组+链表+红黑树（JDK1.8增加了红黑树部分）实现的                  
-> 当链表长度太长（TREEIFY_THRESHOLD默认超过8）时，链表就转换为红黑树，利用红黑树快速增删改查的特点提高HashMap的性能（O(logn)）。当长度小于（UNTREEIFY_THRESHOLD默认为6），就会退化成链表。
+> 当链表长度太长（TREEIFY_THRESHOLD默认超过8）时，链表就转换为红黑树，利用红黑树快速增删改查的特点提高HashMap的性能,从原来的O(n)到O(logn)。当长度小于（UNTREEIFY_THRESHOLD默认为6），就会退化成链表。
   HashMap 中关于红黑树的三个关键参数             
 > ![hashmap5](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/hashmap5.png)                   
 > [2].扩容机制              
@@ -1179,7 +1179,12 @@ public class FilesTest {
 >                                     
 > 参考 https://www.cnblogs.com/xidian2014/p/10466611.html                 
 ### 21.HashSet的实现原理？
-> 
+> HashSet中不允许有重复元素，这是因为HashSet是基于HashMap实现的，HashSet中的元素都存放在HashMap的key上面，
+> 而value中的值都是统一的一个private static final Object PRESENT = new Object();。HashSet跟HashMap一样，都是一个存放链表的数组。                
+>               
+> HashSet底层由HashMap实现               
+  HashSet的值存放于HashMap的key上              
+  HashMap的value统一为PRESENT               
 ### 22.ArrayList和LinkedList的区别是什么？
 > 
 ### 23.如何实现数组和List之间的转换？
