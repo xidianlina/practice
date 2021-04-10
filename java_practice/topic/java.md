@@ -1154,23 +1154,29 @@ public class FilesTest {
 > 所以，hashcode与equals方法对于找到对应元素是两个关键方法。                  
   Hashmap的key可以是任何类型的对象，但一定要是不可变对象。                 
   在改写equals方法的时候，需要满足以下三点：                      
-  (1) 自反性：就是说a.equals(a)必须为true。                            
-  (2) 对称性：就是说a.equals(b)=true的话，b.equals(a)也必须为true。                    
-  (3) 传递性：就是说a.equals(b)=true，并且b.equals(c)=true的话，a.equals(c)也必须为true。                         
+  自反性：就是说a.equals(a)必须为true。                            
+  对称性：就是说a.equals(b)=true的话，b.equals(a)也必须为true。                    
+  传递性：就是说a.equals(b)=true，并且b.equals(c)=true的话，a.equals(c)也必须为true。                         
   通过改写key对象的equals和hashcode方法，可以将任意的业务对象作为map的key(前提是你确实有这样的需要)。                    
 > (5).JDK1.8中对HashMap的优化                
 > [1].HashMap是数组+链表+红黑树（JDK1.8增加了红黑树部分）实现的                  
 > 当链表长度太长（TREEIFY_THRESHOLD默认超过8）时，链表就转换为红黑树，利用红黑树快速增删改查的特点提高HashMap的性能（O(logn)）。当长度小于（UNTREEIFY_THRESHOLD默认为6），就会退化成链表。
   HashMap 中关于红黑树的三个关键参数             
 > ![hashmap5](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/hashmap5.png)                   
-> [2].扩容机制                        
-
-                    
-  
-               
->               
+> [2].扩容机制              
+> 使用的是2次幂的扩展(指长度扩为原来2倍)，所以元素的位置要么是在原位置，要么是在原位置再移动2次幂的位置。                    
+> 图（a）表示扩容前的key1和key2两种key确定索引位置的示例，图（b）表示扩容后key1和key2两种key确定索引位置的示例，其中hash1是key1对应的哈希与高位运算结果。              
+> ![hashmap6](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/hashmap6.png)                                          
+> 元素在重新计算hash之后，因为n变为2倍，那么n-1的mask范围在高位多1bit(红色)，因此新的index就会发生这样的变化：            
+> ![hashmap7](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/hashmap7.png)           
+> 因此，在扩充HashMap的时候，不需要像JDK1.7的实现那样重新计算hash，只需要看看原来的hash值新增的那个bit是1还是0就好了，是0的话索引没变，
+> 是1的话索引变成“原索引+oldCap”，可以看看下图为16扩充为32的resize示意图：                    
+> ![hashmap8](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/hashmap8.png)               
+> 这个设计确实非常的巧妙，既省去了重新计算hash值的时间，而且同时，由于新增的1bit是0还是1可以认为是随机的，因此resize的过程，
+> 均匀的把之前的冲突的节点分散到新的bucket了。这一块就是JDK1.8新增的优化点。有一点注意区别，JDK1.7中rehash的时候，旧链表迁移新链表的时候，
+> 如果在新表的数组索引位置相同，则链表元素会倒置，但是从上图可以看出，JDK1.8不会倒置。                                          
+>                                     
 > 参考 https://www.cnblogs.com/xidian2014/p/10466611.html                 
-> 
 ### 21.HashSet的实现原理？
 > 
 ### 22.ArrayList和LinkedList的区别是什么？
