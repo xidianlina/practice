@@ -1157,7 +1157,8 @@ public class FilesTest {
   自反性：就是说a.equals(a)必须为true。                            
   对称性：就是说a.equals(b)=true的话，b.equals(a)也必须为true。                    
   传递性：就是说a.equals(b)=true，并且b.equals(c)=true的话，a.equals(c)也必须为true。                         
-  通过改写key对象的equals和hashcode方法，可以将任意的业务对象作为map的key(前提是你确实有这样的需要)。                    
+  通过改写key对象的equals和hashcode方法，可以将任意的业务对象作为map的key(前提是你确实有这样的需要)。 
+>                                      
 > (5).JDK1.8中对HashMap的优化                
 > [1].HashMap是数组+链表+红黑树（JDK1.8增加了红黑树部分）实现的                  
 > 当链表长度太长（TREEIFY_THRESHOLD默认超过8）时，链表就转换为红黑树，利用红黑树快速增删改查的特点提高HashMap的性能（O(logn)）。当长度小于（UNTREEIFY_THRESHOLD默认为6），就会退化成链表。
