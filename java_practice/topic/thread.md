@@ -291,6 +291,27 @@ class RunnableThread implements Runnable {
   提高响应速度。当任务到达时，任务可以不需要等到线程创建就能立即执行。                
   提高线程的可管理性。                                     
 ### 11.线程池都有哪些状态？
+> 线程池有5种状态：Running、ShutDown、Stop、Tidying、Terminated。                
+> ![thread_pool_status](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/thread_pool_status.png)                   
+> running:                  
+  线程池处在running状态时，能够接收新任务，以及对已添加的任务进行处理。                
+  线程池的初始化状态是running。换句话说，线程池被一旦被创建，就处于running状态，并且线程池中的任务数为0。               
+  shutdown:                 
+  线程池处在shutdown状态时，不接收新任务，但能处理已添加的任务。               
+  调用线程池的shutdown()接口时，线程池由running > shutdown                
+  stop:                           
+  线程池处在stop状态时，不接收新任务，不处理已添加的任务，并且会中断正在处理的任务。                
+  调用线程池的shutdownNow()接口时，线程池由running或 shutdown > stop               
+  tidying:              
+  当所有的任务已终止，ctl的任务数量为0，线程池会变为tidying状态。当线程池变为tidying状态时，会执行钩子函数terminated()。
+> terminated()在ThreadPoolExecutor类中是空的，若用户想在线程池变为tidying时，进行相应的处理；可以通过重载terminated()函数来实现。              
+  当线程池在shutdown状态下，阻塞队列为空并且线程池中执行的任务也为空时，就会由 shutdown -> tidying                    
+  当线程池在stop状态下，线程池中执行的任务为空时，就会由stop > tidying               
+  terminated                
+  线程池彻底终止，就变成terminated状态                   
+  线程池处在tidying状态时，执行完terminated()之后，就会由 tidying > terminated                                
+>                                       
+> 参考 https://segmentfault.com/a/1190000023332793                
 ### 12.线程池中submit()和execute()方法有什么区别？
 ### 13.什么是线程安全？在java程序中怎么保证多线程的运行安全？
 ### 14.多线程锁的升级原理是什么？
