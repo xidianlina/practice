@@ -12,7 +12,6 @@ public class ThreadByThreadPool {
             RunnableThread thread = new RunnableThread();
             executorService.execute(thread);
         }
-
         //关闭线程池
         executorService.shutdown();
     }

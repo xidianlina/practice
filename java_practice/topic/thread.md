@@ -273,7 +273,23 @@ class RunnableThread implements Runnable {
 > run()方法是在本线程里的，只是线程里的一个函数,而不是多线程的。 如果直接调用run(),其实就相当于是调用了一个普通函数而已，
 > 直接调用run()方法必须等待run()方法执行完毕才能执行下面的代码，所以执行路径还是只有一条，根本就没有线程的特征，所以在多线程执行时要使用start()方法而不是run()方法。              
 ### 10.创建线程池有哪几种方式？
-> 
+> 线程池：提供了一个线程队列，队列中保存着所有等待状态的线程。避免了创建与销毁额外开销，提高了响应的速度。              
+> 线程池的体系结构：             
+> java.util.concurrent.Executor : 负责线程的使用与调度的根接口                    
+  |--ExecutorService 子接口: 线程池的主要接口                  
+  |--ThreadPoolExecutor 线程池的实现类             
+  |--ScheduledExecutorService 子接口：负责线程的调度                   
+  |--ScheduledThreadPoolExecutor ：继承 ThreadPoolExecutor， 实现 ScheduledExecutorService                                        
+> ![thread_pool](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/thread_pool.png)                 
+> 创建线程池的方式主要是通过调用工具类Executors的四个静态方法:
+> ExecutorService newFixedThreadPool():创建一个固定长度的线程池，每当提交一个任务就创建一个线程，直到达到线程池的最大数量，这时线程规模将不再变化，当线程发生未预期的错误而结束时，线程池会补充一个新的线程。                  
+> ExecutorService newCachedThreadPool():缓存线程池,创建一个可缓存的线程池，如果线程池的规模超过了处理需求，将自动回收空闲线程，而当需求增加时，则可以自动添加新线程，线程池的规模不存在任何限制。                   
+> ExecutorService newSingleThreadExecutor():创建单个线程池。线程池中只有一个线程。它创建单个工作线程来执行任务，如果这个线程异常结束，会创建一个新的来替代它；它的特点是能确保依照任务在队列中的顺序来串行执行。              
+> ScheduledExecutorService newScheduledThreadPool():创建固定大小的线程，可以延迟或定时的执行任务，类似于Timer。                
+> 线程池的作用：                       
+  降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。                                
+  提高响应速度。当任务到达时，任务可以不需要等到线程创建就能立即执行。                
+  提高线程的可管理性。                                     
 ### 11.线程池都有哪些状态？
 ### 12.线程池中submit()和execute()方法有什么区别？
 ### 13.什么是线程安全？在java程序中怎么保证多线程的运行安全？
