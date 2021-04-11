@@ -11,7 +11,6 @@ public class ThreadByThreadPool {
         for (int i = 0; i < POOLNUM; ++i) {
             RunnableThread thread = new RunnableThread();
             executorService.execute(thread);
-            executorService.submit()
         }
         //关闭线程池
         executorService.shutdown();
