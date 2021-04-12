@@ -20,5 +20,8 @@ public class DaemonThreadTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        StringBuffer sb=new StringBuffer();
+        sb.append("Afda");
     }
 }
