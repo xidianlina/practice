@@ -482,7 +482,8 @@ public class Test extends Thread{
 > synchronized有三种应用方式：                  
 > 作用于实例方法，当前实例加锁，进入同步代码前要获得当前实例的锁；                                
   作用于静态方法，当前类加锁，进去同步代码前要获得当前类对象的锁；                                
-  作用于代码块，对括号里配置的对象加锁。    
+  作用于代码块，对括号里配置的对象加锁。 
+> ![synchronized](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/synchronized.png)                    
 >                   
 > 参考 https://github.com/farmerjohngit/myblog/issues/12                          
 ### 18.volatile关键字？
