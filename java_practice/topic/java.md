@@ -39,7 +39,7 @@ java基础题目
 ### 36.session和cookie有什么区别？
 ### 37.throw和throws的区别？
 ### 38.常见的异常类有哪些？
-### 39.
+### 39.Object类的方法？
 ### 40.
 ### 41.
 
@@ -1358,9 +1358,94 @@ public class ListToArray {
 >                   
 > https://github.com/xidianlina/java_practice/blob/master/%E5%8F%8D%E5%B0%84.md
 ### 32.动态代理是什么？有哪些应用？
+> 代理模式是一种设计模式，提供了对目标对象额外的访问方式，即通过代理对象访问目标对象，这样可以在不修改原目标对象的前提下，提供额外的功能操作，扩展目标对象的功能。          
+  简言之，代理模式就是设置一个中间代理来控制访问原目标对象，以达到增强原对象的功能和简化访问方式。                  
+> 静态代理:                 
+  静态代理需要代理对象和目标对象实现一样的接口。               
+  优点：可以在不修改目标对象的前提下扩展目标对象的功能。               
+  缺点：               
+  冗余。由于代理对象要实现与目标对象一致的接口，会产生过多的代理类。             
+  不易维护。一旦接口增加方法，目标对象与代理对象都要进行修改。                
+> 举例保存用户功能的静态代理实现
+> 接口类:IUserDao                      
+```java
+package com.java.topic;
+
+//接口类IUserDao
+public interface IUserDao {
+    public void save();
+}
+```
+> 目标对象:UserDao
+```java
+package com.java.topic;
+
+//目标对象UserDao
+public class UserDao implements IUserDao {
+    @Override
+    public void save() {
+        System.out.println("保存数据");
+    }
+}
+```
+> 静态代理对象:UserDapProxy需要实现IUserDao接口
+```java
+package com.java.topic;
+
+//静态代理对象：UserDapProxy 需要实现IUserDao接口
+public class UserDaoProxy implements IUserDao {
+    private IUserDao target;
+
+    public UserDaoProxy(IUserDao target) {
+        this.target = target;
+    }
+
+    @Override
+    public void save() {
+        System.out.println("开启事务");//扩展了额外功能
+        target.save();
+        System.out.println("提交事务");
+    }
+}
+```
+> 测试类
+```java
+package com.java.topic;
+
+public class StaticUserProxy {
+    public static void main(String[] args) {
+        //目标对象
+        IUserDao target = new UserDao();
+        //代理对象
+        UserDaoProxy proxy = new UserDaoProxy(target);
+        proxy.save();
+    }
+}
+/*
+ * 输出结果:
+ * 开启事务
+ * 保存数据
+ * 提交事务
+ */
+```
+
+>                   
+> 参考 https://segmentfault.com/a/1190000011291179                    
+> https://www.cnblogs.com/xidian2014/p/10282666.html
 ### 33.什么是java 序列化？什么情况下需要序列化？
 ### 34.如何实现对象克隆？
 ### 35.深拷贝和浅拷贝区别是什么？
 ### 36.session和cookie有什么区别？
 ### 37.throw和throws的区别？
 ### 38.常见的异常类有哪些？
+### 39.Object类的方法？
+
+
+
+
+
+
+
+
+
+
