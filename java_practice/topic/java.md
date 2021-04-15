@@ -1762,7 +1762,8 @@ public class ObjectSerializeAndDeserializeTest {
 ### 38.常见的异常类有哪些？
 > 
 ### 39.Object类的方法？
-> 
+> ![object](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/object.png)               
+ 
 
 
 
