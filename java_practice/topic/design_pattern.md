@@ -65,7 +65,7 @@
   11.访问者模式                                                               
 ## 一.简单工厂模式
 > 专门定义一个类（工厂类）来负责创建其他类的实例。可以根据创建方法的参数来返回不同类的实例，被创建的实例通常都具有共同的父类。            
-> ![simple_factory](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/simple_factory.png)           
+> ![simple_factory_pattern](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/simple_factory_pattern.png)           
 抽象产品类代码：            
 ```java
 package com.java.topic.design_pattern;
