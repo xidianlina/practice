@@ -1,16 +1,16 @@
 package com.java.topic.design_pattern;
 
 public class SimpleFactory {
-    public Product GetProduct(ProductType productType) throws Exception {
-        switch (productType) {
-            case A:
-                return new ProductA();
-            case B:
-                return new ProductB();
-            case C:
-                return new ProductC();
+    public Shape GetShape(ShapeType shapeType) throws Exception {
+        switch (shapeType) {
+            case CIRCLE:
+                return new Circle();
+            case TRIANGLE:
+                return new Triangle();
+            case RECTANGLE:
+                return new Rectangle();
             default:
-                throw new Exception("ProductType Exception");
+                throw new Exception("ShapeType Exception");
         }
     }
 }

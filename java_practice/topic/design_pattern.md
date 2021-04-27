@@ -70,18 +70,18 @@
 ```java
 package com.java.topic.design_pattern;
 
-public interface Product {
-    public void ICar();
+public interface Shape {
+    public void sayHello();
 }
 ``` 
 > 具体产品类代码： 
 ```java
 package com.java.topic.design_pattern;
 
-public class ProductA implements Product {
+public class Circle implements Shape {
     @Override
-    public void ICar() {
-        System.out.println("ProductA");
+    public void sayHello() {
+        System.out.println("I am circle");
     }
 }
 ```       
@@ -89,10 +89,10 @@ public class ProductA implements Product {
 ```java
 package com.java.topic.design_pattern;
 
-public class ProductB implements Product {
+public class Triangle implements Shape {
     @Override
-    public void ICar() {
-        System.out.println("ProductB");
+    public void sayHello() {
+        System.out.println("I am triangle");
     }
 }
 ```  
@@ -100,10 +100,10 @@ public class ProductB implements Product {
 ```java
 package com.java.topic.design_pattern;
 
-public class ProductC implements Product {
+public class Rectangle implements Shape {
     @Override
-    public void ICar() {
-        System.out.println("ProductC");
+    public void sayHello() {
+        System.out.println("I am rectangle");
     }
 }
 ```     
@@ -111,8 +111,8 @@ public class ProductC implements Product {
 ```java
 package com.java.topic.design_pattern;
 
-public enum ProductType {
-    A, B, C
+public enum ShapeType {
+    CIRCLE, TRIANGLE, RECTANGLE
 }
 ```     
 > 简单工厂核心代码： 
@@ -120,16 +120,16 @@ public enum ProductType {
 package com.java.topic.design_pattern;
 
 public class SimpleFactory {
-    public Product GetProduct(ProductType productType) throws Exception {
-        switch (productType) {
-            case A:
-                return new ProductA();
-            case B:
-                return new ProductB();
-            case C:
-                return new ProductC();
+    public Shape GetShape(ShapeType shapeType) throws Exception {
+        switch (shapeType) {
+            case CIRCLE:
+                return new Circle();
+            case TRIANGLE:
+                return new Triangle();
+            case RECTANGLE:
+                return new Rectangle();
             default:
-                throw new Exception("ProductType Exception");
+                throw new Exception("ShapeType Exception");
         }
     }
 }
@@ -140,15 +140,15 @@ package com.java.topic.design_pattern;
 
 public class SimpleFactoryClient {
     public static void main(String[] args) {
-        Product product;
+        Shape shape;
         try {
             SimpleFactory factory = new SimpleFactory();
-            product = factory.GetProduct(ProductType.A);
-            product.ICar();
-            product = factory.GetProduct(ProductType.B);
-            product.ICar();
-            product = factory.GetProduct(ProductType.C);
-            product.ICar();
+            shape = factory.GetShape(ShapeType.CIRCLE);
+            shape.sayHello();
+            shape = factory.GetShape(ShapeType.TRIANGLE);
+            shape.sayHello();
+            shape = factory.GetShape(ShapeType.RECTANGLE);
+            shape.sayHello();
         } catch (Exception e) {
             e.printStackTrace();
         }
