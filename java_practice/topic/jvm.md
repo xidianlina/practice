@@ -2,6 +2,18 @@ java虚拟机JVM
 ======
 ## 问题列表
 ### 1.Java虚拟机运行时数据区域
+### 2.对象是如何创建、如何布局以及如何访问的？
+### 3.判断对象是否已死
+### 4.对象的引用
+### 5.回收方法区
+### 6.垃圾回收算法
+### 7.垃圾回收器
+### 8.内存分配与回收策略
+### 9.Java 内存模型
+### 10.先行发生原则
+### 11.类加载机制
+### 12.类加载器
+### 13.双亲委派模型
 ## 问题答案
 ### 1.Java虚拟机运行时数据区域
 > ![java_run_data_area](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/java_run_data_area.png)                                               
