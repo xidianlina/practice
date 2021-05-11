@@ -1255,7 +1255,11 @@ public class FilesTest {
   HashSet的值存放于HashMap的key上              
   HashMap的value统一为PRESENT                   
 ### 21.HashMap和ConcurrentHashMap的区别？ConcurrentHashMap的实现原理？
->              
+> HashMap和ConcurrentHashMap的区别      
+  (1).HashMap不是线程安全的；ConcurrentHashMap是线程安全的和在并发环境下不需要加额外的同步          
+  (2).ConcurrentHashMap有很好的扩展性，在多线程环境下性能方面比做了同步的HashMap要好，但是在单线程环境下，HashMap会比ConcurrentHashMap好一点     
+>                     
+> 
 ### 22.ArrayList和LinkedList的区别是什么？
 > (1).从数据结构上看，ArrayList是实现了基于动态数组的结构，而LinkedList则是基于实现链表的数据结构。              
   (2).对于随机访问get和set，ArrayList要优于LinkedList，因为LinkedList要移动指针。               
