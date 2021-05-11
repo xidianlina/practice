@@ -11,6 +11,9 @@
 ### 8.如何实现跨域？
 ### 9.什么是RESTful架构?
 ### 10.Http和https的区别
+### 11.session和cookie有什么区别？
+### 12.session和cookie工作原理？
+### 13.如果客户端禁止cookie能实现session还能用吗？
 
 ## 问题答案
 ### 1.HTTP资源请求方式有几种？
