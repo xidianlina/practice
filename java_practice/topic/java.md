@@ -1937,7 +1937,15 @@ public class ObjectSerializeAndDeserializeTest {
   FileNotFoundException                           找不到指定文件的异常                        
 ### 41.Object类的方法？
 > ![object](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/object.png)               
- 
+### 42.
+### 43.
+### 44.
+### 45.
+### 46.
+### 47.
+### 48.
+### 49.
+### 50.
 
 
 
