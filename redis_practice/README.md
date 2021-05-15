@@ -210,7 +210,7 @@ redis知识
  (4).从服务器收到快照文件后丢弃所有旧数据，载入收到的快照；                
  (5).主服务器快照发送完毕后开始向从服务器发送缓冲区中的写命令；              
  (6).从服务器完成对快照的载入，开始接收命令请求，并执行来自主服务器缓冲区的写命令；                
-> ![redis](http://github.com/xidianlina/practice/raw/master//redis_practice/picture/redis.jpg)              
+> ![redis](http://github.com/xidianlina/practice/raw/master//redis_practice/picture/redis.png)              
 >完成上面几个步骤后就完成了从服务器数据初始化的所有操作，从服务器此时可以接收来自用户的读请求。                
 >               
 >增量同步                                  
@@ -381,7 +381,7 @@ redis知识
 >内存淘汰机制                             
  Redis在使用内存达到某个阈值时（通过maxmemory配置)，就会触发内存淘汰机制，选取一些key来删除。                        
 ># maxmemory <bytes> 配置内存阈值                             
- # maxmemory-policy allkeys-lru                                         
+># maxmemory-policy allkeys-lru                                         
 >内存淘汰策略:                    
  noeviction：当内存不足以容纳新写入数据时，新写入操作会报错。默认策略                    
  allkeys-lru：当内存不足以容纳新写入数据时，在键空间中，移除最近最少使用的key。                             
