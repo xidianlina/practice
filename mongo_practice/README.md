@@ -19,16 +19,14 @@ mongoDb
 >                   
 > ![mongo](http://github.com/xidianlina/practice/raw/master//mongo_practice/picture/mongo.png)              
 >                   
->创建数据库:         
+## 1.创建数据库:         
 >use DATABASE_NAME                      
  如果数据库不存在，则创建数据库，否则切换到指定数据库             
- 刚创建的数据库并不在数据库的列表中， 要显示它，需要向数据库插入一些数据           
->           
->删除数据库:              
- db.dropDatabase()                                        
->删除当前数据库                                                
->                   
->创建集合:                                   
+ 刚创建的数据库并不在数据库的列表中， 要显示它，需要向数据库插入一些数据                     
+## 2.删除数据库:              
+>db.dropDatabase()                                        
+>删除当前数据库                                                                  
+## 3.创建集合:                                   
 >db.createCollection(name, options)                                    
  参数说明:              
  name:要创建的集合名称                      
@@ -38,13 +36,11 @@ mongoDb
  size为固定集合指定一个最大值，即字节数。如果capped为true，也需要指定该字段。                  
  max数值(可选)指定固定集合中包含文档的最大数量。             
  在MongoDB中，不需要创建集合。当插入一些文档时，MongoDB会自动创建集合。                             
->查看已有集合使用show collections或show tables命令                 
->                                                 
->删除集合:                                                                    
-  db.collection.drop()                            
->                           
->插入文档:              
- 文档的数据结构和JSON基本一样。              
+>查看已有集合使用show collections或show tables命令                                                                  
+## 4.删除集合:                                                                    
+>db.collection.drop()                                                      
+##5.插入文档:              
+>文档的数据结构和JSON基本一样。              
  所有存储在集合中的数据都是BSON格式。                   
  BSON是一种类似JSON的二进制形式的存储格式，是Binary JSON的简称。                  
 >                       
@@ -71,10 +67,9 @@ mongoDb
  参数说明：                  
  document：要写入的文档。                   
  writeConcern：写入策略，默认为 1，即要求确认写操作，0 是不要求。                       
- ordered：指定是否按顺序写入，默认 true，按顺序写入。                                           
->                       
->更新文档:              
- MongoDB使用update()和save()方法来更新集合中的文档。                   
+ ordered：指定是否按顺序写入，默认 true，按顺序写入。                                                                 
+## 6.更新文档:              
+>MongoDB使用update()和save()方法来更新集合中的文档。                   
  update()方法用于更新已存在的文档。语法格式如下：                   
  db.collection.update(              
     <query>,                
@@ -103,8 +98,8 @@ mongoDb
  document : 文档数据。                   
  writeConcern :可选，抛出异常的级别。                          
 >                               
->查询文档:              
- MongoDB查询文档使用find()方法。             
+## 7.查询文档:              
+>MongoDB查询文档使用find()方法。             
  find()方法以非结构化的方式来显示所有文档。                                             
  MongoDB查询数据的语法格式如下：                    
  db.collection.find(query, projection)                                  
@@ -127,10 +122,9 @@ mongoDb
           {key1: value1}, {key2:value2}             
        ]                
     }               
- ).pretty()                         
->                       
->删除文档:                  
- remove()函数是用来移除集合中的数据。                 
+ ).pretty()                                               
+## 8.删除文档:                  
+>remove()函数是用来移除集合中的数据。                 
  在执行remove()函数前先执行find()命令来判断执行的条件是否正确，这是一个比较好的习惯。          
  remove()方法的基本语法格式如下所示：             
  db.collection.remove(              
@@ -145,36 +139,33 @@ mongoDb
  justOne:（可选）如果设为true或1，则只删除一个文档，如果不设置该参数，或使用默认值false，则删除所有匹配条件的文档。                 
  writeConcern:（可选）抛出异常的级别。              
 >                   
->条件操作符:                                 
+## 9.条件操作符:                                 
 >$gt  greater than  >                   
  $gte  gt equal  >=                     
  $lt  less than  <                      
  $lte  lt equal  <=                     
  $ne  not equal  !=                     
  $eq    equal  = 
->$type操作符是基于BSON类型来检索集合中匹配的数据类型，并返回结果。           
->                   
->分页查询:                  
+>$type操作符是基于BSON类型来检索集合中匹配的数据类型，并返回结果。                             
+## 10.分页查询:                  
 >limit()方法接受一个数字参数，该参数指定从MongoDB中读取的记录条数。                   
 >skip()方法接受一个数字参数作为跳过的记录条数。                     
 >db.COLLECTION_NAME.find().limit(NUMBER).skip(NUMBER)               
 >                   
->排序:                
- 在MongoDB中使用sort()方法对数据进行排序，sort()方法可以通过参数指定排序的字段，并使用1和-1来指定排序的方式，其中1为升序排列，而-1是用于降序排列。                  
->                   
->索引:                        
- 索引通常能够极大的提高查询的效率，如果没有索引，MongoDB在读取数据时必须扫描集合中的每个文件并选取那些符合查询条件的记录。这种扫描全集合的查询效率是非常低的。             
+## 11.排序:                
+>在MongoDB中使用sort()方法对数据进行排序，sort()方法可以通过参数指定排序的字段，并使用1和-1来指定排序的方式，其中1为升序排列，而-1是用于降序排列。                                   
+## 12.索引:                        
+>索引通常能够极大的提高查询的效率，如果没有索引，MongoDB在读取数据时必须扫描集合中的每个文件并选取那些符合查询条件的记录。这种扫描全集合的查询效率是非常低的。             
  索引是特殊的数据结构，索引存储在一个易于遍历读取的数据集合中，索引是对数据库表中一列或多列的值进行排序的一种结构。                  
  MongoDB使用createIndex()方法来创建索引。             
  createIndex()方法基本语法格式如下所示：                 
  db.collection.createIndex(keys, options)                   
- 语法中Key值为要创建的索引字段，1为指定按升序创建索引，-1为指定按降序创建索引。                         
->                              
->聚合:                    
- MongoDB中聚合(aggregate)主要用于处理数据(诸如统计平均值，求和等)，并返回计算后的数据结果。有点类似SQL语句中的count(*)。                    
+ 语法中Key值为要创建的索引字段，1为指定按升序创建索引，-1为指定按降序创建索引。                                                      
+## 12.聚合:                    
+>MongoDB中聚合(aggregate)主要用于处理数据(诸如统计平均值，求和等)，并返回计算后的数据结果。有点类似SQL语句中的count(*)。                    
  aggregate()方法的基本语法格式如下所示：              
  db.COLLECTION_NAME.aggregate(AGGREGATE_OPERATION)                  
->                       
+>                                          
 >MongoDB的聚合管道将MongoDB文档在一个管道处理完毕后将结果传递给下一个管道处理。管道操作是可以重复的。              
  聚合框架中常用的几个操作：                  
  $project：修改输入文档的结构。可以用来重命名、增加或删除域，也可以用于创建计算结果以及嵌套文档。               
@@ -185,8 +176,7 @@ mongoDb
  $group：将集合中的文档分组，可用于统计结果。                          
  $sort：将输入文档排序后输出。                      
  $geoNear：输出接近某一地理位置的有序文档。                      
->                               
->
+##
            
                     
              
