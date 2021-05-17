@@ -323,6 +323,35 @@ mongoDb
 >![mongo4](http://github.com/xidianlina/practice/raw/master//mongo_practice/picture/mongo4.png)                                     
          
 # 问题列表
+## 1.什么是MongoDB？
+## 2.MongoDB的优势有哪些？
+## 3.MongoDB 支持哪些数据类型?
+## 4.什么是集合Collection、文档Document,以及与关系型数据库术语类比?
+## 5.MySQL和mongodb的区别?
+## 6.mongodb和redis区别以及选择原因?
+## 7.更新操作会立刻fsync到磁盘?
+## 8.索引类型有哪些？
+## 9.MongoDB在A:{B,C}上建立索引，查询A:{B,C}和A:{C,B}都会使用索引吗？
+## 10.什么是聚合
+## 11.monogodb中的分片sharding
+## 12.数据在什么时候才会扩展到多个分片(Shard)里?
+## 13.更新一个正在被迁移的块（Chunk）上的文档时会发生什么？
+## 14.如果块移动操作(moveChunk)失败了，需要手动清除部分转移的文档吗?可以把movechunk目录里的旧文件删除吗?
+## 15.如果一个分片（Shard）停止或很慢的时候，发起一个查询会怎样？
+## 16.MongoDB副本集实现高可用的原理
+## 17.什么是master或primary？什么是Slave或Secondary？什么是Arbiter？
+## 18.复制集节点类型有哪些？
+## 19.启用备份故障恢复需要多久?
+## 20.raft选举过程，投票规则？
+## 21.在哪些场景使用MongoDB?
+## 22.应该启动一个集群分片(sharded)还是一个非集群分片的mongodb环境?
+## 23.MongoDB中的命名空间是什么意思?
+## 24.为什么要在MongoDB中使用分析器
+## 25.MongoDB支持存储过程吗？如果支持的话，怎么用？
+## 26.如何理解MongoDB中的GridFS机制，MongoDB为何使用GridFS来存储文件？
+## 27.为什么MongoDB的数据文件很大？
+## 28.MongoDB允许添加空值null吗?
+
 # 问题答案
 ## 1.什么是MongoDB？
 >MongoDB是一个文档数据库，提供好的性能，领先的非关系型数据库。采用BSON存储文档数据。                    
@@ -358,7 +387,7 @@ mongoDb
 ## 7.更新操作会立刻fsync到磁盘?
 >不会,磁盘写操作默认是延迟执行的.写操作可能在两三秒(默认在60秒内)后到达磁盘，通过 syncPeriodSecs 启动参数，可以进行配置。            
 >例如,如果一秒内数据库收到一千个对一个对象递增的操作,仅刷新磁盘一次。            
-## 索引类型有哪些？
+## 8.索引类型有哪些？
 >单字段索引(Single Field Indexes)                
  复合索引(Compound Indexes)             
  多键索引(Multikey Indexes)             
