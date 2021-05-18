@@ -10,8 +10,8 @@
 ### 7.sleep()和wait()有什么区别？
 ### 8.notify()和notifyAll()有什么区别？
 ### 9.线程的run()和start()有什么区别？
-### 10.创建线程池有哪几种方式？
-### 11.线程池都有哪些状态？
+### 10.创建线程池有哪几种方式？线程池都有哪些状态？
+### 11.如何设计一个线程池？
 ### 12.线程池中submit()和execute()方法有什么区别？
 ### 13.什么是线程安全？在java程序中怎么保证多线程的运行安全？
 ### 14.多线程锁的升级原理是什么？
@@ -260,14 +260,14 @@ class RunnableThread implements Runnable {
 >                                             
 > 参考 https://segmentfault.com/a/1190000023573024                                
 ### 7.sleep()和wait()有什么区别？
-> 方法是线程类（Thread）的静态方法,wait()是Object类的方法;                
+> sleep()方法是线程类（Thread）的静态方法,wait()是Object类的方法;                
 > sleep()是static静态的方法，不能改变对象的锁，当一个synchronized块中调用了sleep()方法，线程虽然进入休眠，但是对象的锁没有被释放，其他线程依然无法访问这个对象,
 > 当一个线程执行到wait方法时，它就进入到一个和该对象相关的等待池，同时释放对象的机锁，使得其他线程能够访问;               
 > sleep()需要等到休眠时间结束后线程进入就绪状态，wait()需要通过notify，notifyAll方法来唤醒等待的线程;                                 
 > wait()的作用是让当前线程由“运行状态”进入“等待(阻塞)状态”，而sleep()的作用是让当前线程由“运行状态”进入到“休眠(阻塞)状态”。
 ### 8.notify()和notifyAll()有什么区别？
 > 当有线程调用了对象的notifyAll()方法（唤醒所有 wait 线程）或 notify()方法（只随机唤醒一个 wait 线程），被唤醒的的线程便会进入该对象的锁池中，锁池中的线程会去竞争该对象锁。                                     
-  调用了notify()后只要一个线程会由等待池进入锁池，而notifyAll会将该对象等待池内的所有线程移动到锁池中，等待锁竞争。                         
+  调用了notify()后只有一个线程会由等待池进入锁池，而notifyAll会将该对象等待池内的所有线程移动到锁池中，等待锁竞争。                         
 ### 9.线程的run()和start()有什么区别？
 > 每个线程都是通过某个特定Thread对象所对应的方法run()来完成其操作的，方法run()称为线程体。通过调用Thread类的start()方法来启动一个线程。                 
 > start()方法来启动一个线程，真正实现了多线程运行。这时无需等待run方法体代码执行完毕，可以直接继续执行下面的代码，这时此线程是处于就绪状态， 并没有运行。
@@ -275,8 +275,8 @@ class RunnableThread implements Runnable {
 >                       
 > run()方法是在本线程里的，只是线程里的一个函数,而不是多线程的。 如果直接调用run(),其实就相当于是调用了一个普通函数而已，
 > 直接调用run()方法必须等待run()方法执行完毕才能执行下面的代码，所以执行路径还是只有一条，根本就没有线程的特征，所以在多线程执行时要使用start()方法而不是run()方法。              
-### 10.创建线程池有哪几种方式？
-> 线程池：提供了一个线程队列，队列中保存着所有等待状态的线程。避免了创建与销毁额外开销，提高了响应的速度。              
+### 10.创建线程池有哪几种方式？线程池都有哪些状态？
+> 线程池：提供了一个线程队列，队列中保存着所有等待状态的线程。避免了创建与销毁线程额外开销，提高了响应的速度。              
 > 线程池的体系结构：             
 > java.util.concurrent.Executor : 负责线程的使用与调度的根接口                    
   |--ExecutorService 子接口: 线程池的主要接口                  
@@ -293,7 +293,7 @@ class RunnableThread implements Runnable {
   降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。                                
   提高响应速度。当任务到达时，任务可以不需要等到线程创建就能立即执行。                
   提高线程的可管理性。                                     
-### 11.线程池都有哪些状态？
+>                                           
 > 线程池有5种状态：Running、ShutDown、Stop、Tidying、Terminated。                
 > ![thread_pool_status](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/thread_pool_status.png)                   
 > running:                  
@@ -315,6 +315,23 @@ class RunnableThread implements Runnable {
   线程池处在tidying状态时，执行完terminated()之后，就会由 tidying > terminated                                
 >                                       
 > 参考 https://segmentfault.com/a/1190000023332793                
+### 11.如何设计一个线程池？
+>一个线程池主要有四个基本组成部分:              
+ 线程管理器(ThreadPool):用于创建并管理线程池，包括创建线程池，销毁现场池，添加心任务;                      
+ 工作线程(PoolWorker):线程池中的线程，在没有任务时处于等待状态，可以循环的执行任务;                   
+ 任务接口(Task):每个任务必须实现的接口，以供工作线程调度任务的执行，它主要规定了任务的接口，任务执行完后的收尾工作，任务的执行状态等;                         
+ 任务队列(TaskQueue):用于存放没有处理的线程，提供一种缓冲机制;                          
+>                           
+>一个线程池主要包含的方法:              
+ private ThreadPool():创建线程池             
+ public static ThreadPool getThreadPool():获得一个默认线程个数的线程池                
+ public void execute(Runnable task):执行任务，其实只是把任务加入任务队列，什么时候执行由线程池管理器决定          
+ public void execute(Runnable[] task):批量执行任务，其实只是把任务加入任务队列，什么时候执行由线程池管理器决定              
+ public void destroy():销毁线程池，该方法保证在所有任务都完成的情况下才销毁所有线程，否则等待任务完成才销毁               
+ public int getWorkThreadNumber():返回工作线程的个数                 
+ public int getFinishedTaskNumber():返回已完成任务的个数，这里的已完成是指只出了任务队列的任务个数，可能该任务并没有实际执行完成              
+ public void addThread():在保证线程池中所有线程正在执行，并且要执行线程的个数大于某个值时，增加线程池中的线程个数               
+ public void reduceThread():在保证线程池中有很大一部分线程处于空闲状态，并且空闲状态的线程个数大于某个值时，减少线程池中线程的个数                  
 ### 12.线程池中submit()和execute()方法有什么区别？
 > public interface Executor {                   
       void execute(Runnable command);               
@@ -952,5 +969,13 @@ class MyThreadJoin extends Thread {
   乐观锁:                  
   总是假设最好的情况，每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，可以使用版本号机制和CAS算法实现。
 > 乐观锁适用于多读的应用类型，这样可以提高吞吐量，像数据库提供的类似于write_condition机制，其实都是提供的乐观锁。在Java中java.util.concurrent.atomic包下面的原子变量类就是使用了乐观锁的一种实现方式CAS实现的。                   
-> ![lock3](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/lock3.png)                                            
+> ![lock3](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/lock3.png)                
+### 25.线程同步与阻塞的关系？同步一定阻塞吗？阻塞一定同步吗？
+>线程同步和阻塞没有任何关系。                 
+ 同步和异步关注的事消息通信机制。                   
+ 同步就是发出一个调用时，在没有得到结果之前，该调用不返回。但是一旦调用返回就得到了返回值了。调用者主动等待这个调用的结果。                      
+ 异步则是调用发出之后，没有得到调用结果直接返回了，当一个异步过程调用发出后，调用者不会立刻得到结果，而是在调用发出后，被调用者通过状态、通知等来通知调用者，或者通过回调函数处理这个调用。                          
+ 阻塞和非阻塞关注的是程序在等待调用结果(消息、返回值)时的状态。                   
+ 阻塞调用是指调用结果返回之前，当前线程会被挂起。调用线程只有在得到结果之后才会返回。                 
+ 非阻塞调用是指在不能立刻得到结果之前，该调用不会阻塞当前线程。                                           
                      
