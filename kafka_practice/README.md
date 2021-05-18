@@ -249,6 +249,10 @@ https://blog.csdn.net/tangdong3415/article/details/53432166
 ### (17).Kafka与传统消息系统之间有三个关键区别
 ### (18).什么是ISR机制？
 ### (19).kafka的ack机制
+### (20).kafka可以脱离zookeeper单独使用吗？为什么？
+### (21).kafka有几种数据保留的策略？          
+### (22).什么情况会导致kafka运行变慢？          
+### (23).使用kafka集群需要注意什么？
 
 ## 2.题目答案
 ### (1).kafka是什么？主要应用场景有哪些？
@@ -457,6 +461,20 @@ https://blog.csdn.net/tangdong3415/article/details/53432166
   0:生产者不会等待broker的ack，这个延迟最低但是存储的保证最弱当server挂掉的时候就会丢数据
   1:服务端会等待ack值leader副本确认接收到消息后发送ack,但是如果leader挂掉后他不确保是否复制完成新leader,也会导致数据丢失
   -1:在1的基础上服务端会等所有的follower的副本收到数据后才会收到leader发出的ack，这样数据不会丢失
+### (20).kafka可以脱离zookeeper单独使用吗？为什么？
+>kafka不能脱离zookeeper单独使用，因为kafka使用zookeeper管理和协调kafka的节点服务器。
+### (21).kafka有几种数据保留的策略？
+>kafka有两种数据保存策略：按照过期时间保留和按照存储的消息大小保留。               
+>           
+>kafka同时设置了7天和10G清除数据，到第五天的时候消息达到了10G，这个时候kafka将如何处理？                          
+>kafka 会执行数据清除工作，时间和大小不论那个满足条件，都会清空数据。          
+### (22).什么情况会导致kafka运行变慢？
+>cpu性能瓶颈        
+ 磁盘读写瓶颈     
+ 网络瓶颈           
+### (23).使用kafka集群需要注意什么？
+>集群的数量不是越多越好，最好不要超过7个，因为节点越多，消息复制需要的时间就越长，整个群组的吞吐量就越低。              
+ 集群数量最好是单数，因为超过一半故障集群就不能用了，设置为单数容错率更高。                      
 
 ## 常见面试题目
 https://github.com/Snailclimb/JavaGuide/blob/master/docs/system-design/distributed-system/message-queue/Kafka%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93.md         
