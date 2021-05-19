@@ -1,7 +1,5 @@
 package com.java.topic;
 
-import java.util.Hashtable;
-
 public class AbstractTest {
     private String name;
 
