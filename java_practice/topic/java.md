@@ -1350,9 +1350,9 @@ public class ListToArray {
   public ArrayList()//构造一个初始容量为10的空列表。              
   public ArrayList(Collection<? extends E> c)//构造一个包含指定 collection 的元素的列表               
   Vector有四个构造方法：                
-  public Vector()//使用指定的初始容量和等于零的容量增量构造一个空向量。               
-  public Vector(int initialCapacity)//构造一个空向量，使其内部数据数组的大小，其标准容量增量为零。                
-  public Vector(Collection<? extends E> c)//构造一个包含指定 collection 中的元素的向量             
+  public Vector()//构造一个空向量，使其内部数据数组的大小，其标准容量增量为零。                               
+  public Vector(int initialCapacity) //使用指定的初始容量和等于零的容量增量构造一个空向量。                                  
+  public Vector(Collection<? extends E> c)//构造一个包含指定 collection 中的元素的向量                     
   public Vector(int initialCapacity,int capacityIncrement)//使用指定的初始容量和容量增量构造一个空的向量              
   Vector比Arraylist多一个构造方法public Vector(int initialCapacity,int capacityIncrement)，capacityIncrement就是增长因子，ArrayList中是没有的。           
 >                                  
@@ -1930,7 +1930,7 @@ public class ObjectSerializeAndDeserializeTest {
  对于面向对象来说，关心的是汽车这类对象，两个事件只是这类对象所具有的行为，而且对于这两个行为的顺序没有强制的要求。                  
 ### 41.重写和重载的区别？如何确定调用哪个函数？
 >方法的重载和重写都是实现多态的方式，区别在于重载实现的是编译时的多态性，而重写实现的是运行时的多态性。                
- 重写(Override)发生在子类和负累之间。子类继承父类，子类需要重写实现父类中已有方法的方法体，被重写的方法的方法声明(方法名、参数列表、返回类型)必须一致。              
+ 重写(Override)发生在子类和父类之间。子类继承父类，子类需要重写实现父类中已有方法的方法体，被重写的方法的方法声明(方法名、参数列表、返回类型)必须一致。              
  子类方法的访问修饰权限一定要大于被重写方法的访问修饰符（public>protected>default>private)。重写方法一定不能抛出新的检查异常或者比被重写方法申明更加宽泛的检查型异常。            
  重载(Overload)发生在一个类中，同名的方法如果有不同的参数列表（参数类型不同、参数个数不同甚至是参数顺序不同）则视为重载。
 >同时，重载对返回类型没有要求，可以相同也可以不同，但不能通过返回类型是否相同来判断重载。               
