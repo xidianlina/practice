@@ -1416,7 +1416,7 @@ public class ListToArray {
 > https://segmentfault.com/a/1190000038751180               
 ### 29.迭代器Iterator是什么？Iterator怎么使用？有什么特点？
 > 迭代器是一种设计模式，它是一个对象，它可以遍历并选择序列中的对象，而开发人员不需要了解该序列的底层结构。迭代器通常被称为“轻量级”对象，因为创建它的代价小。                
-  Iterator提供了遍历操作集合元素的统一接口，Collection接口实现了Iterable接口，每个集合都通过实现Iterable接口中的iterator()方法返回Iterator接口的实例，然后对集合的元素进行迭代操作。                   
+  Iterator提供了遍历操作集合元素的统一接口，Collection接口继承了Iterable接口，每个集合都通过实现Iterable接口中的iterator()方法返回Iterator接口的实例，然后对集合的元素进行迭代操作。                   
   迭代器可以在迭代过程中删除底层集合的元素，但是不可以直接调用集合的remove(Object obj)删除，可以通过迭代器的remove()方法删除。                   
 >                        
 > Java中的Iterator功能比较简单，并且只能单向移动：                    
