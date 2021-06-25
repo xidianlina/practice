@@ -377,7 +377,8 @@ https://blog.csdn.net/tangdong3415/article/details/53432166
   但是，为了保证整个Kafka服务的高可用性，需要确保replication.factor > min.insync.replicas 。为什么呢？设想一下假如两者相等的话，只要是有一个副本挂掉，整个分区就无法正常工作了。这明显违反高可用性！一般推荐设置成 replication.factor = min.insync.replicas + 1。         
   设置unclean.leader.election.enable = false          
   Kafka 0.11.0.0版本开始 unclean.leader.election.enable 参数的默认值由原来的true 改为false      
-  发送的消息会被发送到leader副本，然后follower副本才能从leader副本中拉取消息进行同步。多个follower副本之间的消息同步情况不一样，当配置了unclean.leader.election.enable = false的话，当leader副本发生故障时就不会从follower 副本中和leader同步程度达不到要求的副本中选择出leader，这样降低了消息丢失的可能性。
+  发送的消息会被发送到leader副本，然后follower副本才能从leader副本中拉取消息进行同步。多个follower副本之间的消息同步情况不一样，
+>当配置了unclean.leader.election.enable = false的话，当leader副本发生故障时就不会从follower 副本中和leader同步程度达不到要求的副本中选择出leader，这样降低了消息丢失的可能性。                            
   总结：               
   a.不要使用 producer.send(msg)，而要使用 producer.send(msg, callback)。              
   b.设置 acks = all。                  
@@ -426,12 +427,12 @@ https://blog.csdn.net/tangdong3415/article/details/53432166
   b.最少一次: 消息不会被漏发送，最少被传输一次，但也有可能被重复传输;
   c.精确的一次（Exactly once）: 不会漏传输也不会重复传输,每个消息都传输被一次而且仅仅被传输一次，这是大家所期望的.
 ### (16).Kafka判断一个节点是否还活着有那两个条件？
-> a.节点必须可以维护和 ZooKeeper 的连接，Zookeeper通过心跳机制检查每个节点的连接
+> a.节点必须可以维护和 ZooKeeper 的连接，Zookeeper通过心跳机制检查每个节点的连接                    
   b.如果节点是个follower,他必须能及时的同步leader的写操作，延时不能太久
 ### (17).Kafka与传统消息系统之间有三个关键区别
-> a.Kafka 持久化日志，这些日志可以被重复读取和无限期保留
-  b.Kafka 是一个分布式系统：它以集群的方式运行，可以灵活伸缩，在内部通过复制数据提升容错能力和高可用性
-  c.Kafka 支持实时的流式处理
+> a.Kafka 持久化日志，这些日志可以被重复读取和无限期保留               
+  b.Kafka 是一个分布式系统：它以集群的方式运行，可以灵活伸缩，在内部通过复制数据提升容错能力和高可用性                
+  c.Kafka 支持实时的流式处理                     
 ### (18).什么是ISR机制？
 > 每个topic的分区可以设置若干个副本（Leader、Follower），其中Follower同步Leader的数据形成副本。为了保证生产者发送的数据，能可靠的发送到指定的topic，topic的每个分区收到生产者发送的数据后，都需要向生产者发送应答 ack（acknowledgement），如果生产者收到ack，就会进行下一轮的发送，否则重新发送数据。        
   在Kafka中必须要所有Follower都完成同步时才会发送ack，这样的好处是当重新选举Leader时，只需要有n+1个副本即可容忍n台节点故障，但缺点也很明显就是延迟很高，因为必须等待所有follower都完成同步才行。      
@@ -458,10 +459,10 @@ https://blog.csdn.net/tangdong3415/article/details/53432166
   倘若该副本后面慢慢地追上了Leader的进度，那么它是能够重新被加回ISR的。这也表明，ISR是一个动态调整的集合，而非静态不变的             
   在版本0.90以前还有一个参数，根据follower和leader之间相差的数据量来控制是否在ISR集合内，大于配置的阈值则踢出ISR集合。但是这个有一个很明显的问题，那就是如果流量增加了，可能就是使得正常同步的副本被剔除ISR了               
 ### (19).kafka的ack机制 
-> request.required.acks有三个值 0 1 -1
-  0:生产者不会等待broker的ack，这个延迟最低但是存储的保证最弱当server挂掉的时候就会丢数据
-  1:服务端会等待ack值leader副本确认接收到消息后发送ack,但是如果leader挂掉后他不确保是否复制完成新leader,也会导致数据丢失
-  -1:在1的基础上服务端会等所有的follower的副本收到数据后才会收到leader发出的ack，这样数据不会丢失
+> request.required.acks有三个值 0 1 -1                      
+  0:生产者不会等待broker的ack，这个延迟最低但是存储的保证最弱,当server挂掉的时候就会丢数据         
+  1:服务端会等待ack值leader副本确认接收到消息后发送ack,但是如果leader挂掉后他不确保是否复制完成新leader,也会导致数据丢失                 
+  -1:在1的基础上服务端会等所有的follower的副本收到数据后才会收到leader发出的ack，这样数据不会丢失                
 ### (20).kafka可以脱离zookeeper单独使用吗？为什么？
 >kafka不能脱离zookeeper单独使用，因为kafka使用zookeeper管理和协调kafka的节点服务器。
 ### (21).kafka有几种数据保留的策略？
