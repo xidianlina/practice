@@ -323,7 +323,7 @@ https://blog.csdn.net/tangdong3415/article/details/53432166
   在Kafka中，规定了每个消息分区只能被同组的一个消费者进行消费，因此，需要在Zookeeper上记录消息分区与Consumer之间的关系，每个消费者一旦确定了对一个消息分区的消费权力，需要将其ConsumerID写入到 Zookeeper对应消息分区的临时节点上，例如：/consumers/[group_id]/owners/[topic]/[broker_id-partition_id]
   其中，[broker_id-partition_id]就是一个消息分区的标识，节点内容就是该消息分区上消费者的ConsumerID。      
   消息消费进度Offset记录:       
-  在消费者对指定消息分区进行消息消费的过程中，需要定时地将分区消息的消费进度Offset记录到Zookeeper上，以便在该消费者进行重启或者其他消费者重新接管该消息分区的消息消费后，能够从之前的进度开始继续进行消息消费。Offset在Zookeeper中由一个专门节点进行记录，其节点路径为:/consumers/[group_id]/offsets/[topic]/[broker_id-partition_id],节点内容就是Offset的值。
+  在消费者对指定消息分区进行消息消费的过程中，需要定时地将分区消息的消费进度Offset记录到Zookeeper上，以便在该消费者进行重启或者其他消费者重新接管该消息分区的消息消费后，能够从之前的进度开始继续进行消息消费。Offset在Zookeeper中由一个专门节点进行记录，其节点路径为:/consumers/[group_id]/offsets/[topic]/[broker_id-partition_id],节点内容就是Offset的值。                          
   消费者服务器在初始化启动时加入消费者分组的步骤如下:      
   注册到消费者分组。每个消费者服务器启动时，都会到Zookeeper的指定节点下创建一个属于自己的消费者节点，例如/consumers/[group_id]/ids/[consumer_id]，完成节点创建后，消费者就会将自己订阅的Topic信息写入该临时节点。
   对消费者分组中的消费者的变化注册监听。每个消费者都需要关注所属消费者分组中其他消费者服务器的变化情况，即对/consumers/[group_id]/ids节点注册子节点变化的Watcher监听，一旦发现消费者新增或减少，就触发消费者的负载均衡。
@@ -331,7 +331,8 @@ https://blog.csdn.net/tangdong3415/article/details/53432166
   为了让同一个Topic下不同分区的消息尽量均衡地被多个消费者消费而进行消费者与消息分区分配的过程，通常，对于一个消费者分组，如果组内的消费者服务器发生变更或Broker服务器发生变更，会发出消费者负载均衡。       
   以下是kafka在zookeep中的详细存储结构图：        
   ![kafka_zk](http://github.com/xidianlina/practice/raw/master//kafka_practice/picture/kafka_zk.jpg)   
-  补充:早期版本的kafka用zk做meta信息存储，consumer的消费状态，group的管理以及offse t的值。考虑到zk本身的一些因素以及整个架构较大概率存在单点问题，新版本中逐渐弱化了zookeeper的作用。新的consumer使用了kafka内部的group coordination协议，也减少了对zookeeper的依赖。
+  补充:早期版本的kafka用zk做meta信息存储，consumer的消费状态，group的管理以及offse t的值。考虑到zk本身的一些因素以及整个架构较大概率存在单点问题，新版本中逐渐弱化了zookeeper的作用。
+>新的consumer使用了kafka内部的group coordination协议，也减少了对zookeeper的依赖。                       
   Ⅴ.消费者负载均衡          
   Kafka中的消费者需要进行负载均衡来实现多个消费者合理地从对应的Broker服务器上接收消息，每个消费者分组包含若干消费者，每条消息都只会发送给分组中的一个消费者，不同的消费者分组消费自己特定的Topic下面的消息，互不干扰。        
 ### (7).Kafka如何保证消息的消费顺序？
