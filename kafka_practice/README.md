@@ -347,7 +347,7 @@ https://blog.csdn.net/tangdong3415/article/details/53432166
   1个Topic只对应一个Partition。        
   （推荐）发送消息的时候指定key/Partition。       
 ### (8).Kafka如何保证消息不丢失?
-> Ⅰ.生产者丢失消息的情况        
+> [1].生产者丢失消息的情况        
   生产者(Producer)调用send方法发送消息之后，消息可能因为网络问题并没有发送过去。        
   所以，不能默认在调用send方法发送消息之后消息消息发送成功了。为了确定消息是发送成功，要判断消息发送的结果。但是要注意的是Kafka生产者(Producer)使用send方法发送消息实际上是异步的操作，可以通过 get()方法获取调用结果，但是这样也让它变为了同步操作，示例代码如下：       
   SendResult<String, Object> sendResult = kafkaTemplate.send(topic, o).get();       
@@ -360,11 +360,11 @@ https://blog.csdn.net/tangdong3415/article/details/53432166
                   ex -> logger.error("生产者发送消失败，原因：{}", ex.getMessage()));       
   如果消息发送失败的话，检查失败的原因之后重新发送即可！       
   另外推荐为Producer的retries（重试次数）设置一个比较合理的值，一般是3 ，但是为了保证消息不丢失的话一般会设置比较大一点。设置完成之后，当出现网络问题之后能够自动重试消息发送，避免消息丢失。另外，建议还要设置重试间隔，因为间隔太小的话重试的效果就不明显了，网络波动一次你3次一下子就重试完了。            
-  Ⅱ.消费者丢失消息的情况          
+  [2].消费者丢失消息的情况          
   消息在被追加到Partition(分区)的时候都会分配一个特定的偏移量（offset）。偏移量（offset)表示Consumer当前消费到的Partition(分区)的所在的位置。Kafka通过偏移量（offset）可以保证消息在分区内的顺序性。      
   当消费者拉取到了分区的某个消息之后，消费者会自动提交了offset。自动提交的话会有一个问题，试想一下，当消费者刚拿到这个消息准备进行真正消费的时候，突然挂掉了，消息实际上并没有被消费，但是offset却被自动提交了。
   解决办法也比较粗暴，手动关闭闭自动提交offset，每次在真正消费完消息之后之后再自己手动提交offset。但是，这样会带来消息被重新消费的问题。比如刚刚消费完消息之后，还没提交offset，结果自己挂掉了，那么这个消息理论上就会被消费两次。              
-  Ⅲ.Kafka弄丢了消息      
+  [3].Kafka弄丢了消息      
   Kafka为分区（Partition）引入了多副本（Replica）机制。分区（Partition）中的多个副本之间会有一个叫做leader，其他副本称为follower。发送的消息会被发送到leader副本，然后follower副本才能从leader 副本中拉取消息进行同步。生产者和消费者只与leader副本交互。其他副本只是leader副本的拷贝，它们的存在只是为了保证消息存储的安全性。     
   试想一种情况：假如leader副本所在的broker突然挂掉，那么就要从follower副本重新选出一个leader ，但是leader的数据还有一些没有被follower副本的同步的话，就会造成消息丢失。       
   设置acks = all          
@@ -378,15 +378,15 @@ https://blog.csdn.net/tangdong3415/article/details/53432166
   设置unclean.leader.election.enable = false          
   Kafka 0.11.0.0版本开始 unclean.leader.election.enable 参数的默认值由原来的true 改为false      
   发送的消息会被发送到leader副本，然后follower副本才能从leader副本中拉取消息进行同步。多个follower副本之间的消息同步情况不一样，当配置了unclean.leader.election.enable = false的话，当leader副本发生故障时就不会从follower 副本中和leader同步程度达不到要求的副本中选择出leader，这样降低了消息丢失的可能性。
-  总结：
-  a.不要使用 producer.send(msg)，而要使用 producer.send(msg, callback)。
-  b.设置 acks = all。
-  c.设置 retries 为一个较大的值。
-  d.设置 unclean.leader.election.enable = false。
-  e.设置 replication.factor >= 3。
-  g.设置 min.insync.replicas > 1。
-  h.确保 replication.factor > min.insync.replicas。
-  i.确保消息消费完成再提交。                            
+  总结：               
+  a.不要使用 producer.send(msg)，而要使用 producer.send(msg, callback)。              
+  b.设置 acks = all。                  
+  c.设置 retries 为一个较大的值。                 
+  d.设置 unclean.leader.election.enable = false。              
+  e.设置 replication.factor >= 3。             
+  g.设置 min.insync.replicas > 1。                 
+  h.确保 replication.factor > min.insync.replicas。                        
+  i.确保消息消费完成再提交。                                                        
 ### (9).Kafka如何保证消息不重复消费？
 > RabbitMQ、RocketMQ、Kafka都有可能出现重复消费的问题，导致重复消费的原因可能出现在生产者，也可能出现在MQ或消费者。这里说的重复消费问题是指同一个数据被执行了两次，不单单指MQ中一条消息被消费了两次，也可能是MQ 中存在两条一模一样的消费。        
   生产者：生产者可能会重复推送一条数据到MQ中，为什么会出现这种情况呢？也许是一个Controller接口被重复调用了2次，没有做接口幂等性导致的；也可能是推送消息到MQ时响应比较慢，生产者的重试机制导致再次推送了一次消息。       
