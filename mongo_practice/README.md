@@ -203,24 +203,7 @@ https://docs.mongodb.com/manual/reference/method/db.collection.countDocuments/
  insert(): 若插入的数据主键已经存在，则会抛 org.springframework.dao.DuplicateKeyException 异常，提示主键重复，不保存当前数据。                    
  3.2 版本之后新增了 db.collection.insertOne() 和 db.collection.insertMany()。                        
  db.collection.insertOne() 用于向集合插入一个新文档，语法格式如下：                 
- db.collection.insertOne(                           
-    <document>,                         
-    {                       
-       writeConcern: <document>                 
-    }                           
- )                      
- db.collection.insertMany() 用于向集合插入一个多个文档，语法格式如下：                   
- db.collection.insertMany(                  
-    [ <document 1> , <document 2>, ... ],               
-    {               
-       writeConcern: <document>,                    
-       ordered: <boolean>               
-    }                   
- )                  
- 参数说明：                  
- document：要写入的文档。                   
- writeConcern：写入策略，默认为 1，即要求确认写操作，0 是不要求。                       
- ordered：指定是否按顺序写入，默认 true，按顺序写入。                                                                 
+>![mongo_insert](http://github.com/xidianlina/practice/raw/master//mongo_practice/picture/mongo_insert.png)                         
 ## 6.更新文档:              
 >MongoDB使用update()和save()方法来更新集合中的文档。                   
  update()方法用于更新已存在的文档。语法格式如下：                   
