@@ -1,5 +1,158 @@
 mongoDb
 ======
+        
+# 问题列表
+## 1.什么是MongoDB？
+## 2.MongoDB的优势有哪些？
+## 3.MongoDB 支持哪些数据类型?
+## 4.什么是集合Collection、文档Document,以及与关系型数据库术语类比?
+## 5.MySQL和mongodb的区别?
+## 6.mongodb和redis区别以及选择原因?
+## 7.更新操作会立刻fsync到磁盘?
+## 8.索引类型有哪些？
+## 9.MongoDB在A:{B,C}上建立索引，查询A:{B,C}和A:{C,B}都会使用索引吗？
+## 10.什么是聚合
+## 11.monogodb中的分片sharding
+## 12.数据在什么时候才会扩展到多个分片(Shard)里?
+## 13.更新一个正在被迁移的块（Chunk）上的文档时会发生什么？
+## 14.如果块移动操作(moveChunk)失败了，需要手动清除部分转移的文档吗?可以把movechunk目录里的旧文件删除吗?
+## 15.如果一个分片（Shard）停止或很慢的时候，发起一个查询会怎样？
+## 16.MongoDB副本集实现高可用的原理
+## 17.什么是master或primary？什么是Slave或Secondary？什么是Arbiter？
+## 18.复制集节点类型有哪些？
+## 19.启用备份故障恢复需要多久?
+## 20.raft选举过程，投票规则？
+## 21.在哪些场景使用MongoDB?
+## 22.应该启动一个集群分片(sharded)还是一个非集群分片的mongodb环境?
+## 23.MongoDB中的命名空间是什么意思?
+## 24.为什么要在MongoDB中使用分析器
+## 25.MongoDB支持存储过程吗？如果支持的话，怎么用？
+## 26.如何理解MongoDB中的GridFS机制，MongoDB为何使用GridFS来存储文件？
+## 27.为什么MongoDB的数据文件很大？
+## 28.MongoDB允许添加空值null吗?
+
+# 问题答案
+## 1.什么是MongoDB？
+>MongoDB是一个文档数据库，提供好的性能，领先的非关系型数据库。采用BSON存储文档数据。                    
+ BSON是一种类json的一种二进制形式的存储格式，简称Binary JSON。相对于json多了date类型和二进制数组。                 
+## 2.MongoDB的优势有哪些？
+>a.面向集合(Collection)和文档(document)的存储，以JSON格式的文档保存数据                                   
+ b.高性能，支持Document中嵌入Document减少了数据库系统上的I/O操作以及具有完整的索引支持，支持快速查询                   
+ c.高效的传统存储方式：支持二进制数据及大型对象                   
+ d.高可用性，数据复制集，MongoDB 数据库支持服务器之间的数据复制来提供自动故障转移（automatic failover）                  
+ e.高可扩展性，分片(sharding)将数据分布在多个数据中心,MongoDB支持基于分片键创建数据区域                      
+ f.丰富的查询功能, 聚合管道(Aggregation Pipeline)、全文搜索(Text Search)以及地理空间查询(Geospatial Queries)                    
+ g.支持多个存储引擎,WiredTiger存储引、In-Memory存储引擎                                             
+## 3.MongoDB 支持哪些数据类型?
+>![mongo5](http://github.com/xidianlina/practice/raw/master//mongo_practice/picture/mongo5.png)                                                
+## 4.什么是集合Collection、文档Document,以及与关系型数据库术语类比?
+>集合Collection位于单独的一个数据库MongoDB文档Document集合，它类似关系型数据库（RDBMS）中的表Table。
+>一个集合Collection内的多个文档Document可以有多个不同的字段。通常情况下，集合Collection中的文档Document有着相同含义。                   
+ 文档Document由key-value构成。文档Document是动态模式,这说明同一集合里的文档不需要有相同的字段和结构。类似于关系型数据库中table中的每一条记录。                 
+ 与关系型数据库术语类比        
+>![mongo6](http://github.com/xidianlina/practice/raw/master//mongo_practice/picture/mongo6.png)                                                                                              
+## 5.MySQL和mongodb的区别?
+>![mongo7](http://github.com/xidianlina/practice/raw/master//mongo_practice/picture/mongo7.png)                                                                                           
+## 6.mongodb和redis区别以及选择原因?
+>![mongo8](http://github.com/xidianlina/practice/raw/master//mongo_practice/picture/mongo8.png)         
+>为什么用MOngoDB？           
+>架构简单                   
+ 没有复杂的连接                
+ 深度查询能力,MongoDB支持动态查询               
+ 容易调试                   
+ 容易扩展           
+ 不需要转化/映射应用对象到数据库对象                  
+ 使用内部内存作为存储工作区,以便更快的存取数据                                                                                                                               
+## 7.更新操作会立刻fsync到磁盘?
+>不会,磁盘写操作默认是延迟执行的.写操作可能在两三秒(默认在60秒内)后到达磁盘，通过 syncPeriodSecs 启动参数，可以进行配置。            
+>例如,如果一秒内数据库收到一千个对一个对象递增的操作,仅刷新磁盘一次。            
+## 8.索引类型有哪些？
+>单字段索引(Single Field Indexes)                
+ 复合索引(Compound Indexes)             
+ 多键索引(Multikey Indexes)             
+ 全文索引(text Indexes)             
+ Hash 索引(Hash Indexes)              
+ 通配符索引(Wildcard Index)              
+ 2dsphere索引(2dsphere Indexes)                                 
+## 9.MongoDB在A:{B,C}上建立索引，查询A:{B,C}和A:{C,B}都会使用索引吗？
+>由于MongoDB索引使用B-tree树原理，只会在A:{B,C}上使用索引             
+## 10.什么是聚合
+>聚合操作能够处理数据记录并返回计算结果。聚合操作能将多个文档中的值组合起来，对成组数据执行各种操作，返回单一的结果。
+>它相当于SQL中的count(*)组合group by。对于MongoDB中的聚合操作，应该使用aggregate()方法。  
+> 参考 https://juejin.cn/post/6844903903000002574                   
+## 11.monogodb中的分片sharding
+>分片sharding是将数据水平切分到不同的物理节点。当应用数据越来越大的时候，数据量也会越来越大。当数据量增长时，
+>单台机器有可能无法存储数据或可接受的读取写入吞吐量。利用分片技术可以添加更多的机器来应对数据量增加以及读写操作的要求。 
+## 12.数据在什么时候才会扩展到多个分片(Shard)里?
+>MongoDB 分片是基于区域(range)的。所以一个集合(collection)中的所有的对象都被存放到一个块(chunk)中,默认块的大小是 64Mb。
+>当数据容量超过64 Mb，才有可能实施一个迁移，只有当存在不止一个块的时候，才会有多个分片获取数据的选项。      
+## 13.更新一个正在被迁移的块（Chunk）上的文档时会发生什么？
+>更新操作会立即发生在旧的块（Chunk）上，然后更改才会在所有权转移前复制到新的分片上。
+## 14.如果块移动操作(moveChunk)失败了，需要手动清除部分转移的文档吗?可以把movechunk目录里的旧文件删除吗?
+>不需要，移动操作是一致(consistent)并且是确定性的(deterministic)。                             
+>一次失败后，移动操作会不断重试。当完成后，数据只会出现在新的分片里(shard)           
+>               
+>movechunk目录里的旧文件是在分片(shard)进行均衡操作(balancing)的时候产生的临时文件。一旦这些操作已经完成,相关的临时文件也应该被删除掉。
+>但目前清理工作是需要手动的,所以请小心地考虑再释放这些文件的空间。           
+## 15.如果一个分片（Shard）停止或很慢的时候，发起一个查询会怎样？
+>如果一个分片停止了，除非查询设置了 “Partial” 选项，否则查询会返回一个错误。如果一个分片响应很慢，MongoDB 会等待它的响应。
+## 16.MongoDB副本集实现高可用的原理
+>MongoDB 使用了其复制(Replica Set)方案，实现自动容错机制为高可用提供了基础。目前，MongoDB 支持两种复制模式：               
+ Master/Slave ，主从复制，角色包括 Master 和 Slave 。                   
+ Replica Set ，复制集复制，角色包括 Primary 和 Secondary 以及 Arbiter 。(生产环境必选)                                    
+## 17.什么是master或primary？什么是Slave或Secondary？什么是Arbiter？
+>副本集只能有一个主节点能够确认写入操作来接收所有写操作，并记录其操作日志中的数据集的所有更改(记录在oplog中)。
+>在集群中，当主节点（master）失效，Secondary节点会变为master。                  
+>复制主节点的oplog并将oplog记录的操作应用于其数据集，如果主节点宕机了，将从符合条件的从节点选举选出新的主节点。           
+>仲裁节点不维护数据集。仲裁节点的目的是通过响应其他副本集节点的心跳和选举请求来维护副本集中的仲裁。                                             
+## 18.复制集节点类型有哪些？
+>优先级0型(Priority 0)节点                
+ 隐藏型(Hidden)节点              
+ 延迟型(Delayed)节点             
+ 投票型(Vote)节点以及不可投票节点                                               
+## 19.启用备份故障恢复需要多久?
+>从备份数据库声明主数据库宕机到选出一个备份数据库作为新的主数据库将花费10到30秒时间。这期间在主数据库上的操作将会失败，
+>包括写入和强一致性读取(strong consistent read)操作。即使在这段时间里还能在第二数据库上执行最终一致性查询(eventually consistent query)(在slaveok模式下)。                 
+## 20.raft选举过程，投票规则？
+>选举过程：              
+ 当系统启动好之后，初始选举后系统由1个Leader和若干个Follower角色组成。然后突然由于某个异常原因，Leader服务出现了异常，导致Follower角色检测
+>到和Leader的上次RPC更新时间超过给定阈值时间时。此时Follower会认为Leader服务已出现异常，然后它将会发起一次新的Leader选举行为，同时将自身的
+>状态从Follower切换为Candidate身份。随后请求其它Follower投票选择自己。                            
+ 投票规则：                      
+>当一个候选人获得了同一个任期号内的大多数选票，就成为领导人。                       
+ 每个节点最多在一个任期内投出一张选票。并且按照先来先服务的原则。                     
+ 一旦候选人赢得选举，立刻成为领导，并发送心跳维持权威，同时阻止新领导人的诞生。        
+## 21.在哪些场景使用MongoDB?
+>规则：                
+>如果业务中存在大量复杂的事务逻辑操作，则不要用MongoDB数据库；                                            
+>在处理非结构化/半结构化的大数据使用MongoDB，操作的数据类型为动态时也使用MongoDB，                       
+>比如：内容管理系统，切面数据、日志记录                    
+ 移动端Apps：O2O送快递骑手、快递商家的信息（包含位置信息）               
+ 数据管理，监控数据  
+## 22.应该启动一个集群分片(sharded)还是一个非集群分片的mongodb环境?
+>数据量大用集群分片,数据量小用非集群
+>为开发便捷起见,建议以非集群分片(unsharded)方式开始一个mongodb环境,除非一台服务器不足以存放你的初始数据集。
+>从非集群分片升级到集群分片(sharding)是无缝的,所以在数据集还不是很大的时候没必要考虑集群分片(sharding)。
+## 23.MongoDB中的命名空间是什么意思?
+>mongodb存储bson对象在集合(collection)中，数据库名字和集合名字以句点连结起来叫做名字空间(namespace)。                           
+## 24.为什么要在MongoDB中使用分析器
+>mongodb中包括了一个可以显示数据库中每个操作性能特点的数据库分析器.通过这个分析器可以找到比预期慢的查询(或写操作),利用这一信息,可以确定是否需要添加索引或者修改索引。                            
+## 25.MongoDB支持存储过程吗？如果支持的话，怎么用？
+>MongoDB支持存储过程，它是javascript写的，保存在db.system.js表中。                              
+## 26.如何理解MongoDB中的GridFS机制，MongoDB为何使用GridFS来存储文件？
+>GridFS是一种将大型文件存储在MongoDB中的文件规范。使用GridFS可以将大文件分隔成多个小文档存放，这样能够有效的保存大文档，而且解决了BSON对象有限制的问题。                              
+## 27.为什么MongoDB的数据文件很大？
+>MongoDB采用的预分配空间的方式来防止文件碎片。                           
+## 28.MongoDB允许添加空值null吗? 
+>对于对象成员而言,允许添加空值null。然而用户不能够添加空值(null)到数据库集合(collection)，因为空值不是对象。但是用户能够添加空对象{}。
+
+参考文档:       
+https://docs.mongoing.com/      
+https://docs.mongoing.com/mongodb-crud-operations       
+https://www.jinmuinfo.com/community/MongoDB/docs/04-crud/01-insert-documents/01-insert-methods.html     
+https://docs.mongodb.com/manual/reference/method/db.collection.countDocuments/     
+
+>                       
 >MongoDB是由C++语言编写的，是一个基于分布式文件存储的开源数据库系统。                
  在高负载的情况下，添加更多的节点，可以保证服务器性能。                
  MongoDB旨在为WEB应用提供可扩展的高性能数据存储解决方案。              
@@ -39,7 +192,7 @@ mongoDb
 >查看已有集合使用show collections或show tables命令                                                                  
 ## 4.删除集合:                                                                    
 >db.collection.drop()                                                      
-##5.插入文档:              
+## 5.插入文档:              
 >文档的数据结构和JSON基本一样。              
  所有存储在集合中的数据都是BSON格式。                   
  BSON是一种类似JSON的二进制形式的存储格式，是Binary JSON的简称。                  
@@ -321,154 +474,4 @@ mongoDb
  sort:和limit结合的sort排序参数（也是在发往map函数前给文档排序），可以优化分组机制              
  limit:发往map函数的文档数量的上限（要是没有limit，单独使用sort的用处不大）         
 >![mongo4](http://github.com/xidianlina/practice/raw/master//mongo_practice/picture/mongo4.png)                                     
-         
-# 问题列表
-## 1.什么是MongoDB？
-## 2.MongoDB的优势有哪些？
-## 3.MongoDB 支持哪些数据类型?
-## 4.什么是集合Collection、文档Document,以及与关系型数据库术语类比?
-## 5.MySQL和mongodb的区别?
-## 6.mongodb和redis区别以及选择原因?
-## 7.更新操作会立刻fsync到磁盘?
-## 8.索引类型有哪些？
-## 9.MongoDB在A:{B,C}上建立索引，查询A:{B,C}和A:{C,B}都会使用索引吗？
-## 10.什么是聚合
-## 11.monogodb中的分片sharding
-## 12.数据在什么时候才会扩展到多个分片(Shard)里?
-## 13.更新一个正在被迁移的块（Chunk）上的文档时会发生什么？
-## 14.如果块移动操作(moveChunk)失败了，需要手动清除部分转移的文档吗?可以把movechunk目录里的旧文件删除吗?
-## 15.如果一个分片（Shard）停止或很慢的时候，发起一个查询会怎样？
-## 16.MongoDB副本集实现高可用的原理
-## 17.什么是master或primary？什么是Slave或Secondary？什么是Arbiter？
-## 18.复制集节点类型有哪些？
-## 19.启用备份故障恢复需要多久?
-## 20.raft选举过程，投票规则？
-## 21.在哪些场景使用MongoDB?
-## 22.应该启动一个集群分片(sharded)还是一个非集群分片的mongodb环境?
-## 23.MongoDB中的命名空间是什么意思?
-## 24.为什么要在MongoDB中使用分析器
-## 25.MongoDB支持存储过程吗？如果支持的话，怎么用？
-## 26.如何理解MongoDB中的GridFS机制，MongoDB为何使用GridFS来存储文件？
-## 27.为什么MongoDB的数据文件很大？
-## 28.MongoDB允许添加空值null吗?
-
-# 问题答案
-## 1.什么是MongoDB？
->MongoDB是一个文档数据库，提供好的性能，领先的非关系型数据库。采用BSON存储文档数据。                    
- BSON是一种类json的一种二进制形式的存储格式，简称Binary JSON。相对于json多了date类型和二进制数组。                 
-## 2.MongoDB的优势有哪些？
->a.面向集合(Collection)和文档(document)的存储，以JSON格式的文档保存数据                                   
- b.高性能，支持Document中嵌入Document减少了数据库系统上的I/O操作以及具有完整的索引支持，支持快速查询                   
- c.高效的传统存储方式：支持二进制数据及大型对象                   
- d.高可用性，数据复制集，MongoDB 数据库支持服务器之间的数据复制来提供自动故障转移（automatic failover）                  
- e.高可扩展性，分片(sharding)将数据分布在多个数据中心,MongoDB支持基于分片键创建数据区域                      
- f.丰富的查询功能, 聚合管道(Aggregation Pipeline)、全文搜索(Text Search)以及地理空间查询(Geospatial Queries)                    
- g.支持多个存储引擎,WiredTiger存储引、In-Memory存储引擎                                             
-## 3.MongoDB 支持哪些数据类型?
->![mongo5](http://github.com/xidianlina/practice/raw/master//mongo_practice/picture/mongo5.png)                                                
-## 4.什么是集合Collection、文档Document,以及与关系型数据库术语类比?
->集合Collection位于单独的一个数据库MongoDB文档Document集合，它类似关系型数据库（RDBMS）中的表Table。
->一个集合Collection内的多个文档Document可以有多个不同的字段。通常情况下，集合Collection中的文档Document有着相同含义。                   
- 文档Document由key-value构成。文档Document是动态模式,这说明同一集合里的文档不需要有相同的字段和结构。类似于关系型数据库中table中的每一条记录。                 
- 与关系型数据库术语类比        
->![mongo6](http://github.com/xidianlina/practice/raw/master//mongo_practice/picture/mongo6.png)                                                                                              
-## 5.MySQL和mongodb的区别?
->![mongo7](http://github.com/xidianlina/practice/raw/master//mongo_practice/picture/mongo7.png)                                                                                           
-## 6.mongodb和redis区别以及选择原因?
->![mongo8](http://github.com/xidianlina/practice/raw/master//mongo_practice/picture/mongo8.png)         
->为什么用MOngoDB？           
->架构简单                   
- 没有复杂的连接                
- 深度查询能力,MongoDB支持动态查询               
- 容易调试                   
- 容易扩展           
- 不需要转化/映射应用对象到数据库对象                  
- 使用内部内存作为存储工作区,以便更快的存取数据                                                                                                                               
-## 7.更新操作会立刻fsync到磁盘?
->不会,磁盘写操作默认是延迟执行的.写操作可能在两三秒(默认在60秒内)后到达磁盘，通过 syncPeriodSecs 启动参数，可以进行配置。            
->例如,如果一秒内数据库收到一千个对一个对象递增的操作,仅刷新磁盘一次。            
-## 8.索引类型有哪些？
->单字段索引(Single Field Indexes)                
- 复合索引(Compound Indexes)             
- 多键索引(Multikey Indexes)             
- 全文索引(text Indexes)             
- Hash 索引(Hash Indexes)              
- 通配符索引(Wildcard Index)              
- 2dsphere索引(2dsphere Indexes)                                 
-## 9.MongoDB在A:{B,C}上建立索引，查询A:{B,C}和A:{C,B}都会使用索引吗？
->由于MongoDB索引使用B-tree树原理，只会在A:{B,C}上使用索引             
-## 10.什么是聚合
->聚合操作能够处理数据记录并返回计算结果。聚合操作能将多个文档中的值组合起来，对成组数据执行各种操作，返回单一的结果。
->它相当于SQL中的count(*)组合group by。对于MongoDB中的聚合操作，应该使用aggregate()方法。  
-> 参考 https://juejin.cn/post/6844903903000002574                   
-## 11.monogodb中的分片sharding
->分片sharding是将数据水平切分到不同的物理节点。当应用数据越来越大的时候，数据量也会越来越大。当数据量增长时，
->单台机器有可能无法存储数据或可接受的读取写入吞吐量。利用分片技术可以添加更多的机器来应对数据量增加以及读写操作的要求。 
-## 12.数据在什么时候才会扩展到多个分片(Shard)里?
->MongoDB 分片是基于区域(range)的。所以一个集合(collection)中的所有的对象都被存放到一个块(chunk)中,默认块的大小是 64Mb。
->当数据容量超过64 Mb，才有可能实施一个迁移，只有当存在不止一个块的时候，才会有多个分片获取数据的选项。      
-## 13.更新一个正在被迁移的块（Chunk）上的文档时会发生什么？
->更新操作会立即发生在旧的块（Chunk）上，然后更改才会在所有权转移前复制到新的分片上。
-## 14.如果块移动操作(moveChunk)失败了，需要手动清除部分转移的文档吗?可以把movechunk目录里的旧文件删除吗?
->不需要，移动操作是一致(consistent)并且是确定性的(deterministic)。                             
->一次失败后，移动操作会不断重试。当完成后，数据只会出现在新的分片里(shard)           
->               
->movechunk目录里的旧文件是在分片(shard)进行均衡操作(balancing)的时候产生的临时文件。一旦这些操作已经完成,相关的临时文件也应该被删除掉。
->但目前清理工作是需要手动的,所以请小心地考虑再释放这些文件的空间。           
-## 15.如果一个分片（Shard）停止或很慢的时候，发起一个查询会怎样？
->如果一个分片停止了，除非查询设置了 “Partial” 选项，否则查询会返回一个错误。如果一个分片响应很慢，MongoDB 会等待它的响应。
-## 16.MongoDB副本集实现高可用的原理
->MongoDB 使用了其复制(Replica Set)方案，实现自动容错机制为高可用提供了基础。目前，MongoDB 支持两种复制模式：               
- Master/Slave ，主从复制，角色包括 Master 和 Slave 。                   
- Replica Set ，复制集复制，角色包括 Primary 和 Secondary 以及 Arbiter 。(生产环境必选)                                    
-## 17.什么是master或primary？什么是Slave或Secondary？什么是Arbiter？
->副本集只能有一个主节点能够确认写入操作来接收所有写操作，并记录其操作日志中的数据集的所有更改(记录在oplog中)。
->在集群中，当主节点（master）失效，Secondary节点会变为master。                  
->复制主节点的oplog并将oplog记录的操作应用于其数据集，如果主节点宕机了，将从符合条件的从节点选举选出新的主节点。           
->仲裁节点不维护数据集。仲裁节点的目的是通过响应其他副本集节点的心跳和选举请求来维护副本集中的仲裁。                                             
-## 18.复制集节点类型有哪些？
->优先级0型(Priority 0)节点                
- 隐藏型(Hidden)节点              
- 延迟型(Delayed)节点             
- 投票型(Vote)节点以及不可投票节点                                               
-## 19.启用备份故障恢复需要多久?
->从备份数据库声明主数据库宕机到选出一个备份数据库作为新的主数据库将花费10到30秒时间。这期间在主数据库上的操作将会失败，
->包括写入和强一致性读取(strong consistent read)操作。即使在这段时间里还能在第二数据库上执行最终一致性查询(eventually consistent query)(在slaveok模式下)。                 
-## 20.raft选举过程，投票规则？
->选举过程：              
- 当系统启动好之后，初始选举后系统由1个Leader和若干个Follower角色组成。然后突然由于某个异常原因，Leader服务出现了异常，导致Follower角色检测
->到和Leader的上次RPC更新时间超过给定阈值时间时。此时Follower会认为Leader服务已出现异常，然后它将会发起一次新的Leader选举行为，同时将自身的
->状态从Follower切换为Candidate身份。随后请求其它Follower投票选择自己。                            
- 投票规则：                      
->当一个候选人获得了同一个任期号内的大多数选票，就成为领导人。                       
- 每个节点最多在一个任期内投出一张选票。并且按照先来先服务的原则。                     
- 一旦候选人赢得选举，立刻成为领导，并发送心跳维持权威，同时阻止新领导人的诞生。        
-## 21.在哪些场景使用MongoDB?
->规则：                
->如果业务中存在大量复杂的事务逻辑操作，则不要用MongoDB数据库；                                            
->在处理非结构化/半结构化的大数据使用MongoDB，操作的数据类型为动态时也使用MongoDB，                       
->比如：内容管理系统，切面数据、日志记录                    
- 移动端Apps：O2O送快递骑手、快递商家的信息（包含位置信息）               
- 数据管理，监控数据  
-## 22.应该启动一个集群分片(sharded)还是一个非集群分片的mongodb环境?
->数据量大用集群分片,数据量小用非集群
->为开发便捷起见,建议以非集群分片(unsharded)方式开始一个mongodb环境,除非一台服务器不足以存放你的初始数据集。
->从非集群分片升级到集群分片(sharding)是无缝的,所以在数据集还不是很大的时候没必要考虑集群分片(sharding)。
-## 23.MongoDB中的命名空间是什么意思?
->mongodb存储bson对象在集合(collection)中，数据库名字和集合名字以句点连结起来叫做名字空间(namespace)。                           
-## 24.为什么要在MongoDB中使用分析器
->mongodb中包括了一个可以显示数据库中每个操作性能特点的数据库分析器.通过这个分析器可以找到比预期慢的查询(或写操作),利用这一信息,可以确定是否需要添加索引或者修改索引。                            
-## 25.MongoDB支持存储过程吗？如果支持的话，怎么用？
->MongoDB支持存储过程，它是javascript写的，保存在db.system.js表中。                              
-## 26.如何理解MongoDB中的GridFS机制，MongoDB为何使用GridFS来存储文件？
->GridFS是一种将大型文件存储在MongoDB中的文件规范。使用GridFS可以将大文件分隔成多个小文档存放，这样能够有效的保存大文档，而且解决了BSON对象有限制的问题。                              
-## 27.为什么MongoDB的数据文件很大？
->MongoDB采用的预分配空间的方式来防止文件碎片。                           
-## 28.MongoDB允许添加空值null吗? 
->对于对象成员而言,允许添加空值null。然而用户不能够添加空值(null)到数据库集合(collection)，因为空值不是对象。但是用户能够添加空对象{}。
-
-参考文档:       
-https://docs.mongoing.com/      
-https://docs.mongoing.com/mongodb-crud-operations       
-https://www.jinmuinfo.com/community/MongoDB/docs/04-crud/01-insert-documents/01-insert-methods.html     
-https://docs.mongodb.com/manual/reference/method/db.collection.countDocuments/      
+  
