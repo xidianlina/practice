@@ -207,32 +207,10 @@ https://docs.mongodb.com/manual/reference/method/db.collection.countDocuments/
 ## 6.更新文档:              
 >MongoDB使用update()和save()方法来更新集合中的文档。                   
  update()方法用于更新已存在的文档。语法格式如下：                   
- db.collection.update(              
-    <query>,                
-    <update>,                   
-    {               
-      upsert: <boolean>,                
-      multi: <boolean>,                 
-      writeConcern: <document>                  
-    }                   
- )              
- 参数说明：                  
- query : update的查询条件，类似sql update查询内where后面的。                   
- update : update的对象和一些更新的操作符（如$,$inc,$set...）等，也可以理解为sql update查询内set后面的                                
- upsert : 可选，这个参数的意思是，如果不存在update的记录，是否插入objNew,true为插入，默认是false，不插入。                                  
- multi : 可选，mongodb 默认是false,只更新找到的第一条记录，如果这个参数为true,就把按条件查出来多条记录全部更新。                        
- writeConcern :可选，抛出异常的级别。                  
+>![mongo_update](http://github.com/xidianlina/practice/raw/master//mongo_practice/picture/mongo_update.png)                                          
 >                               
 >save()方法通过传入的文档来替换已有文档，_id 主键存在就更新，不存在就插入。语法格式如下：              
- db.collection.save(                
-    <document>,             
-    {                   
-      writeConcern: <document>              
-    }               
- )                  
- 参数说明：                  
- document : 文档数据。                   
- writeConcern :可选，抛出异常的级别。                          
+>![mongo_save](http://github.com/xidianlina/practice/raw/master//mongo_practice/picture/mongo_save.png)                                                  
 >                               
 ## 7.查询文档:              
 >MongoDB查询文档使用find()方法。             
@@ -263,17 +241,7 @@ https://docs.mongodb.com/manual/reference/method/db.collection.countDocuments/
 >remove()函数是用来移除集合中的数据。                 
  在执行remove()函数前先执行find()命令来判断执行的条件是否正确，这是一个比较好的习惯。          
  remove()方法的基本语法格式如下所示：             
- db.collection.remove(              
-    <query>,            
-    {           
-      justOne: <boolean>,           
-      writeConcern: <document>          
-    }           
- )              
- 参数说明：              
- query:（可选）删除的文档的条件。            
- justOne:（可选）如果设为true或1，则只删除一个文档，如果不设置该参数，或使用默认值false，则删除所有匹配条件的文档。                 
- writeConcern:（可选）抛出异常的级别。              
+>![mongo_remove](http://github.com/xidianlina/practice/raw/master//mongo_practice/picture/mongo_remove.png)                                                         
 >                   
 ## 9.条件操作符:                                 
 >$gt  greater than  >                   
@@ -281,7 +249,7 @@ https://docs.mongodb.com/manual/reference/method/db.collection.countDocuments/
  $lt  less than  <                      
  $lte  lt equal  <=                     
  $ne  not equal  !=                     
- $eq    equal  = 
+ $eq    equal  =                                    
 >$type操作符是基于BSON类型来检索集合中匹配的数据类型，并返回结果。                             
 ## 10.分页查询:                  
 >limit()方法接受一个数字参数，该参数指定从MongoDB中读取的记录条数。                   
