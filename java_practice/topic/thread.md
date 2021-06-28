@@ -10,20 +10,20 @@
 ### 7.sleep()和wait()有什么区别？
 ### 8.notify()和notifyAll()有什么区别？
 ### 9.线程的run()和start()有什么区别？
-### 10.创建线程池有哪几种方式？线程池都有哪些状态？
-### 11.如何设计一个线程池？
-### 12.线程池中submit()和execute()方法有什么区别？
-### 13.什么是线程安全？在java程序中怎么保证多线程的运行安全？
-### 14.多线程锁的升级原理是什么？
+### 10.java多线程中join()方法？
+### 11.创建线程池有哪几种方式？线程池都有哪些状态？
+### 12.如何设计一个线程池？
+### 13.线程池中submit()和execute()方法有什么区别？
+### 14.什么是线程安全？在java程序中怎么保证多线程的运行安全？
 ### 15.什么是死锁？怎么防止死锁？
 ### 16.ThreadLocal是什么？有哪些使用场景？
 ### 17.synchronized底层实现原理？
-### 18.volatile关键字？
-### 19.synchronized和volatile的区别是什么？
-### 20.synchronized和Lock有什么区别？
-### 21.synchronized和ReentrantLock区别是什么？
-### 22.atomic的原理？
-### 23.java多线程中join()方法？
+### 18.多线程锁的升级原理是什么？
+### 19.volatile关键字？
+### 20.synchronized和volatile的区别是什么？
+### 21.synchronized和Lock有什么区别？
+### 22.synchronized和ReentrantLock区别是什么？
+### 23.atomic的原理？
 ### 24.乐观锁和悲观锁？
 ### 25.线程同步与阻塞的关系？同步一定阻塞吗？阻塞一定同步吗？
 
@@ -291,7 +291,46 @@ class RunnableThread implements Runnable {
 >                       
 > run()方法是在本线程里的，只是线程里的一个函数,而不是多线程的。 如果直接调用run(),其实就相当于是调用了一个普通函数而已，
 > 直接调用run()方法必须等待run()方法执行完毕才能执行下面的代码，所以执行路径还是只有一条，根本就没有线程的特征，所以在多线程执行时要使用start()方法而不是run()方法。              
-### 10.创建线程池有哪几种方式？线程池都有哪些状态？
+> t.join()方法只会使主线程(或者说调用t.join()的线程)进入等待池并等待t线程执行完毕后才会被唤醒。并不影响同一时刻处在运行状态的其他线程。                  
+### 10.java多线程中join()方法？
+```java
+package com.java.topic.thread;
+
+public class JoinTest {
+    public static void main(String[] args) {
+        MyThreadJoin t1 = new MyThreadJoin("A");
+        MyThreadJoin t2 = new MyThreadJoin("B");
+        t1.start();
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        t2.start();
+        System.out.println("main");
+    }
+}
+
+class MyThreadJoin extends Thread {
+    private String name;
+
+    public MyThreadJoin(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void run() {
+        for (int i = 1; i <= 5; ++i) {
+            System.out.println(name + "-" + i);
+        }
+    }
+}
+```
+> join()方法的底层是利用wait()方法实现的。join方法是一个同步方法，当主线程调用t1.join()方法时，主线程先获得了t1对象的锁，随后进入方法，
+> 调用了t1对象的wait()方法，使主线程进入了t1对象的等待池，此时，A线程则还在执行，并且随后的t2.start()还没被执行，因此，B线程也还没开始。
+> 等到A线程执行完毕之后，主线程继续执行，走到了t2.start()，B线程才会开始执行。
+
+### 11.创建线程池有哪几种方式？线程池都有哪些状态？
 > 线程池：提供了一个线程队列，队列中保存着所有等待状态的线程。避免了创建与销毁线程额外开销，提高了响应的速度。              
 > 线程池的体系结构：             
 > java.util.concurrent.Executor : 负责线程的使用与调度的根接口                    
@@ -331,7 +370,7 @@ class RunnableThread implements Runnable {
   线程池处在tidying状态时，执行完terminated()之后，就会由 tidying > terminated                                
 >                                       
 > 参考 https://segmentfault.com/a/1190000023332793                
-### 11.如何设计一个线程池？
+### 12.如何设计一个线程池？
 >一个线程池主要有四个基本组成部分:              
  线程管理器(ThreadPool):用于创建并管理线程池，包括创建线程池，销毁现场池，添加心任务;                      
  工作线程(PoolWorker):线程池中的线程，在没有任务时处于等待状态，可以循环的执行任务;                   
@@ -348,7 +387,7 @@ class RunnableThread implements Runnable {
  public int getFinishedTaskNumber():返回已完成任务的个数，这里的已完成是指只出了任务队列的任务个数，可能该任务并没有实际执行完成              
  public void addThread():在保证线程池中所有线程正在执行，并且要执行线程的个数大于某个值时，增加线程池中的线程个数               
  public void reduceThread():在保证线程池中有很大一部分线程处于空闲状态，并且空闲状态的线程个数大于某个值时，减少线程池中线程的个数                  
-### 12.线程池中submit()和execute()方法有什么区别？
+### 13.线程池中submit()和execute()方法有什么区别？
 > public interface Executor {                   
       void execute(Runnable command);               
   }                     
@@ -357,7 +396,7 @@ class RunnableThread implements Runnable {
 > submit()和 execute()接收的参数不一样           
 > submit有返回值，而execute没有                 
 > submit方便Exception处理。execute直接抛出异常之后线程就死掉了，submit保存异常线程没有死掉，因此execute的线程池可能会出现没有意义的情况，因为线程没有得到重用。而submit不会出现这种情况。                                                   
-### 13.什么是线程安全？在java程序中怎么保证多线程的运行安全？
+### 14.什么是线程安全？在java程序中怎么保证多线程的运行安全？
 > 如果一段代码所在的进程中有多个线程在同时运行，而这些线程可能会同时运行这段代码。如果每次运行结果和单线程运行的结果是一样的，而且其他的变量的值也和预期的是一样的，就是线程安全的。                 
 >               
 > 线程安全在三个方面体现：                  
@@ -372,7 +411,7 @@ class RunnableThread implements Runnable {
 > 另一个线程必须等待当前线程执行完这个代码块以后才能执行该代码块。                          
 > (3).多线程并发情况下，线程共享的变量改为方法局部级变量；            
 > (4).使用线程局部变量ThreadLocal。                                                                                                                                  
-### 14.什么是死锁？怎么防止死锁？
+### 15.什么是死锁？怎么防止死锁？
 > 死锁:是指两个或两个以上的进程在执行过程中，因争夺资源而造成的一种互相等待的现象，若无外力作用，它们都将无法推进下去。                       
   发生死锁的原因一般是两个对象的锁相互等待造成的。                 
 >                                                  
@@ -419,7 +458,7 @@ class RunnableThread implements Runnable {
 >                                     
 > (4).死锁解除：与死锁检测相配套的一种措施。当检测到系统中已发生死锁，需将进程从死锁状态中解脱出来。                                  
 > 常用方法：撤销或挂起一些进程，以便回收一些资源，再将这些资源分配给已处于阻塞状态的进程。                                                                                      
-### 15.ThreadLocal是什么？有哪些使用场景？
+### 16.ThreadLocal是什么？有哪些使用场景？
 > ThreadLocal线程局部变量，当多线程需要多次使用同一个对象，并且需要该对象具有相同初始化值的时候最适合使用ThreadLocal。                              
 > ThreadLocal在每个线程中对该对象会创建一个副本，即每个线程内部都会有一个该对象，且在线程内部任何地方都可以使用，线程之间互不影响，不存在线程安全问题。
 > 但是由于在每个线程中都创建了对象副本，对资源的消耗比较大，比如内存的占用会比不使用ThreadLocal要大。           
@@ -434,7 +473,7 @@ class RunnableThread implements Runnable {
 > 参考 https://www.cnblogs.com/dolphin0520/p/3920407.html                 
 > https://www.cnblogs.com/dreamroute/p/5034726.html             
 > https://www.cnblogs.com/xidian2014/p/10322239.html                                               
-### 16.synchronized底层实现原理？
+### 17.synchronized底层实现原理？
 > [1].synchronized作用                    
   原子性：synchronized保证语句块内操作是原子的                  
   可见性：synchronized保证可见性（通过“在执行unlock之前，必须先把此变量同步回主内存”实现）                
@@ -462,7 +501,7 @@ class RunnableThread implements Runnable {
 > ![synchronized](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/synchronized.png)                    
 >                   
 > 参考 https://github.com/farmerjohngit/myblog/issues/12        
-### 17.多线程锁的升级原理是什么？
+### 18.多线程锁的升级原理是什么？
 >synchronized是通过对象内部的一个叫做监视器锁（monitor）来实现的，监视器锁本质又是依赖于底层的操作系统的Mutex Lock（互斥锁）来实现的。
 >而操作系统实现线程之间的切换需要从用户态转换到核心态，这个成本非常高，状态之间的转换需要相对比较长的时间，这就是为什么Synchronized效率低的原因。
 >因此，这种依赖于操作系统Mutex Lock所实现的锁我们称之为“重量级锁”。                                
@@ -551,7 +590,7 @@ public class Test extends Thread{
   如果虚拟机检测到有这样一串零碎的操作都对同一个对象加锁，将会把加锁同步的范围扩展（粗化）到整个操作序列的外部。                                                                          
 >                           
 > 参考 https://www.cnblogs.com/jxxblogs/p/11890563.html                     
-### 18.volatile关键字？
+### 19.volatile关键字？
 > JMM定义了原子性，可见性，有序性。            
 > JMM定义了原子性，可见性，有序性。
 > 原子性:在Java中，对基本数据类型的变量的读取和赋值操作是原子性操作，即这些操作是不可被中断的，要么执行，要么不执行。                        
@@ -580,13 +619,13 @@ public class Test extends Thread{
 > (2).该变量没有包含在具有其他变量的不变式中                    
 >                       
 > 参考 https://www.cnblogs.com/dolphin0520/p/3920373.html
-### 19.synchronized和volatile的区别是什么？
+### 20.synchronized和volatile的区别是什么？
 > (1).volatile本质是在告诉jvm当前变量在寄存器（工作内存）中的值是不确定的，需要从主存中读取;synchronized则是锁定当前变量，只有当前线程可以访问该变量，其他线程被阻塞住。                 
   (2).volatile仅能使用在变量级别；synchronized则可以使用在变量、方法、和类级别的。                            
   (3).volatile仅能实现变量的修改可见性，不能保证原子性；而synchronized则可以保证变量的修改可见性和原子性。                       
   (4).volatile不会造成线程的阻塞；synchronized可能会造成线程的阻塞。                                 
   (5).volatile标记的变量不会被编译器优化；synchronized标记的变量可以被编译器优化。                           
-### 20.synchronized和Lock有什么区别？
+### 21.synchronized和Lock有什么区别？
 > (1).原始构成不同:synchronized是关键字，属于JVM层面，底层是通过monitor对象来完成(其实wait/notify等方法也依赖于monitor对象,只有在同步块或者方法中才能调用wait/notify等方法)。                   
   lock是具体类(java.util.concurrent.locks.lock),是api层面的锁,是一个接口。                 
   (2).synchronized不需要用户去手动释放锁，当synchronized代码执行完后系统会自动让线程释放对锁的占用。               
@@ -714,7 +753,7 @@ class ShareResource {
 }
 ```                  
 > 参考 https://zhuanlan.zhihu.com/p/279315342                        
-### 21.synchronized和ReentrantLock区别是什么？
+### 22.synchronized和ReentrantLock区别是什么？
 > (1).synchronized是和if、else、for、while一样的关键字，ReentrantLock是类，这是二者的本质区别。                 
 > (2).锁机制不一样:ReentrantLock底层调用的是Unsafe的park方法加锁，synchronized操作的应该是对象头中mark word。                
 > (3).ReentrantLock是类，提供了比synchronized更多更灵活的特性，可以被继承、可以有方法、可以有各种各样的类变量，
@@ -727,7 +766,7 @@ class ShareResource {
   synchronized 控制等待和唤醒需要结合加锁对象的 wait() 和 notify()、notifyAll()；ReentrantLock 控制等待和唤醒需要结合 Condition 的 await() 和 signal()、signalAll() 方法                   
   synchronized 是 JVM 层面实现的；ReentrantLock 是 JDK 代码层面实现                   
   synchronized 在加锁代码块执行完或者出现异常，自动释放锁；ReentrantLock 不会自动释放锁，需要在 finally{} 代码块显示释放                         
-### 22.atomic的原理？
+### 23.atomic的原理？
 > Atomic包中的类基本的特性就是在多线程环境下，当有多个线程同时对单个（包括基本类型及引用类型）变量进行操作时，具有排他性，
 > 即当多个线程同时对该变量的值进行更新时，仅有一个线程能成功，而未成功的线程可以向自旋锁一样，继续尝试，一直等到执行成功。              
   Atomic系列的类中的核心方法都会调用unsafe类中的几个本地方法，通过CAS操作来封装实现的。      
@@ -969,45 +1008,7 @@ public class AtomicIntegerFieldUpdaterTest {
   由于CAS操作会通过对象实例中的偏移量直接进行赋值，因此，它不支持static字段（Unsafe.objectFieldOffset()不支持静态变量）。             
 > ![atomic](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/atomic.png)                                
 >                                         
-> 参考 https://segmentfault.com/a/1190000021155407                                      
-### 23.java多线程中join()方法？
-> t.join()方法只会使主线程(或者说调用t.join()的线程)进入等待池并等待t线程执行完毕后才会被唤醒。并不影响同一时刻处在运行状态的其他线程。                  
-```java
-package com.java.topic.thread;
-
-public class JoinTest {
-    public static void main(String[] args) {
-        MyThreadJoin t1 = new MyThreadJoin("A");
-        MyThreadJoin t2 = new MyThreadJoin("B");
-        t1.start();
-        try {
-            t1.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        t2.start();
-        System.out.println("main");
-    }
-}
-
-class MyThreadJoin extends Thread {
-    private String name;
-
-    public MyThreadJoin(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public void run() {
-        for (int i = 1; i <= 5; ++i) {
-            System.out.println(name + "-" + i);
-        }
-    }
-}
-```
-> join()方法的底层是利用wait()方法实现的。join方法是一个同步方法，当主线程调用t1.join()方法时，主线程先获得了t1对象的锁，随后进入方法，
-> 调用了t1对象的wait()方法，使主线程进入了t1对象的等待池，此时，A线程则还在执行，并且随后的t2.start()还没被执行，因此，B线程也还没开始。
-> 等到A线程执行完毕之后，主线程继续执行，走到了t2.start()，B线程才会开始执行。 
+> 参考 https://segmentfault.com/a/1190000021155407                                       
 ### 24.乐观锁和悲观锁？
 > 悲观锁:                  
   总是假设最坏的情况，每次去拿数据的时候都认为别人会修改，所以每次在拿数据的时候都会上锁，这样别人想拿这个数据就会阻塞直到它拿到锁（共享资源每次只给一个线程使用，其它线程阻塞，用完后再把资源转让给其它线程）。
