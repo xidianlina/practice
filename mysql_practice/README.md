@@ -25,6 +25,7 @@ mysql练习
 ### 21.explain 
 ### 22.order by排序优化 
 ### 23.sql中drop、delete和truncate的区别   
+### 24.insert into   
                 
             
 ## 问题答案
@@ -581,6 +582,9 @@ mysql练习
   但truncate table比delete速度快，且使用的系统和事务日志资源少。delete语句每次删除一行，并在事务日志中为所删除的每行记录一项。truncate table通过释放存储表数据所用的数据页来删除数据，并且只在事务日志中记录页的释放。                 
   truncate table删除表中的所有行，但表结构及其列、约束、索引等保持不变。新行标识所用的计数值重置为该列的种子。如果想保留标识计数值，请改用delete。如果要删除表定义及其数据，请使用drop table语句。                
   对于由foreign key约束引用的表，不能使用truncate table，而应使用不带where子句的delete语句。由于truncate table不记录在日志中，所以它不能激活触发器。                            
+### 24.insert into 
+> ![insert_into](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/insert_into.png)        
+
 
 # 二.题目练习
 ## 1.查找最晚入职员工的所有信息
