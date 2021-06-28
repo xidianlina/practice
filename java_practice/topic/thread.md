@@ -12,7 +12,7 @@
 ### 9.线程的run()和start()有什么区别？
 ### 10.java多线程中join()方法？
 ### 11.创建线程池有哪几种方式？线程池都有哪些状态？
-### 12.如何设计一个线程池？
+### 12.如何设计一个线程池？线程池参数详解？线程池的工作原理？
 ### 13.线程池中submit()和execute()方法有什么区别？
 ### 14.什么是线程安全？在java程序中怎么保证多线程的运行安全？
 ### 15.什么是死锁？怎么防止死锁？
@@ -344,10 +344,12 @@ class MyThreadJoin extends Thread {
 > ExecutorService newCachedThreadPool():缓存线程池,创建一个可缓存的线程池，如果线程池的规模超过了处理需求，将自动回收空闲线程，而当需求增加时，则可以自动添加新线程，线程池的规模不存在任何限制。                   
 > ExecutorService newSingleThreadExecutor():创建单个线程池。线程池中只有一个线程。它创建单个工作线程来执行任务，如果这个线程异常结束，会创建一个新的来替代它；它的特点是能确保依照任务在队列中的顺序来串行执行。              
 > ScheduledExecutorService newScheduledThreadPool():创建固定大小的线程，可以延迟或定时的执行任务，类似于Timer。                
+>                       
 > 线程池的作用：                       
-  降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。                                
-  提高响应速度。当任务到达时，任务可以不需要等到线程创建就能立即执行。                
-  提高线程的可管理性。                                     
+  a.降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。                                
+  b.提高响应速度。当任务到达时，任务可以不需要等到线程创建就能立即执行。          
+> c.提高线程的可管理性,方便线程并发数的管控。因为线程若是无限制的创建，可能会导致内存占用过多而产生OOM，并且会造成cpu过度切换。                     
+  d.提供更强大的功能，延时定时线程池。                                                                        
 >                                           
 > 线程池有5种状态：Running、ShutDown、Stop、Tidying、Terminated。                
 > ![thread_pool_status](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/thread_pool_status.png)                   
@@ -370,7 +372,7 @@ class MyThreadJoin extends Thread {
   线程池处在tidying状态时，执行完terminated()之后，就会由 tidying > terminated                                
 >                                       
 > 参考 https://segmentfault.com/a/1190000023332793                
-### 12.如何设计一个线程池？
+### 12.如何设计一个线程池？线程池参数详解？线程池的工作原理？
 >一个线程池主要有四个基本组成部分:              
  线程管理器(ThreadPool):用于创建并管理线程池，包括创建线程池，销毁现场池，添加心任务;                      
  工作线程(PoolWorker):线程池中的线程，在没有任务时处于等待状态，可以循环的执行任务;                   
@@ -386,7 +388,61 @@ class MyThreadJoin extends Thread {
  public int getWorkThreadNumber():返回工作线程的个数                 
  public int getFinishedTaskNumber():返回已完成任务的个数，这里的已完成是指只出了任务队列的任务个数，可能该任务并没有实际执行完成              
  public void addThread():在保证线程池中所有线程正在执行，并且要执行线程的个数大于某个值时，增加线程池中的线程个数               
- public void reduceThread():在保证线程池中有很大一部分线程处于空闲状态，并且空闲状态的线程个数大于某个值时，减少线程池中线程的个数                  
+ public void reduceThread():在保证线程池中有很大一部分线程处于空闲状态，并且空闲状态的线程个数大于某个值时，减少线程池中线程的个数                         
+>                                               
+>ThreadPoolExecutor是JDK中的线程池实现，这个类实现了一个线程池需要的各个方法，它提供了任务提交、线程管理、监控等方法。                          
+ ThreadPoolExecutor类的构造方法源码如下:                                  
+> ![thread_pool_constructor](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/thread_pool_constructor.png)                            
+>其他创建线程池的方法最终都会导向这个构造方法，共有7个参数：corePoolSize、maximumPoolSize、keepAliveTime、unit、workQueue、threadFactory、handler。这些参数都通过volatile修饰：                                                         
+> ![thread_pool_param](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/thread_pool_param.png)                 
+> [1].corePoolSize：核心线程数                                
+  线程池维护的最小线程数量，核心线程创建后不会被回收（注意：设置allowCoreThreadTimeout=true后，空闲的核心线程超过存活时间也会被回收）。                  
+  大于核心线程数的线程，在空闲时间超过keepAliveTime后会被回收。                     
+  线程池刚创建时，里面没有一个线程，当调用 execute() 方法添加一个任务时，如果正在运行的线程数量小于corePoolSize，则马上创建新线程并运行这个任务。                       
+  [2].maximumPoolSize：最大线程数             
+  线程池允许创建的最大线程数量。                   
+  当添加一个任务时，核心线程数已满，线程池还没达到最大线程数，并且没有空闲线程，工作队列已满的情况下，创建一个新线程，
+>然后从工作队列的头部取出一个任务交由新线程来处理，而将刚提交的任务放入工作队列尾部。                     
+  [3].keepAliveTime：空闲线程存活时间                
+  当一个可被回收的线程的空闲时间大于keepAliveTime，就会被回收。             
+  可被回收的线程：              
+  a.设置allowCoreThreadTimeout=true的核心线程。         
+  b.大于核心线程数的线程（非核心线程）。              
+  [4].unit：时间单位             
+  keepAliveTime的时间单位:                   
+  TimeUnit.NANOSECONDS              
+  TimeUnit.MICROSECONDS             
+  TimeUnit.MILLISECONDS // 毫秒               
+  TimeUnit.SECONDS              
+  TimeUnit.MINUTES                  
+  TimeUnit.HOURS                    
+  TimeUnit.DAYS                 
+  [5].workQueue：工作队列                    
+  新任务被提交后，会先添加到工作队列，任务调度时再从队列中取出任务。工作队列实现了BlockingQueue接口。                  
+  JDK默认的工作队列有五种:                    
+  a.ArrayBlockingQueue 数组型阻塞队列：数组结构，初始化时传入大小，有界，FIFO，使用一个重入锁，默认使用非公平锁，入队和出队共用一个锁，互斥。            
+  b.LinkedBlockingQueue 链表型阻塞队列：链表结构，默认初始化大小为Integer.MAX_VALUE，有界（近似无解），FIFO，使用两个重入锁分别控制元素的入队和出队，用Condition进行线程间的唤醒和等待。                 
+  c.SynchronousQueue 同步队列：容量为0，添加任务必须等待取出任务，这个队列相当于通道，不存储元素。                
+  e.PriorityBlockingQueue 优先阻塞队列：无界，默认采用元素自然顺序升序排列。                 
+  f.DelayQueue 延时队列：无界，元素有过期时间，过期的元素才能被取出。                  
+  [6].threadFactory：线程工厂                
+  创建线程的工厂，可以设定线程名、线程编号等。                
+  使用默认的即可               
+  [7].handler：拒绝策略                  
+  当线程池线程数已满，并且工作队列达到限制，新提交的任务使用拒绝策略处理。可以自定义拒绝策略，拒绝策略需要实现RejectedExecutionHandler接口。                     
+  JDK默认的拒绝策略有四种：                    
+  a.AbortPolicy：丢弃任务并抛出RejectedExecutionException异常。                    
+  b.DiscardPolicy：丢弃任务，但是不抛出异常。可能导致无法发现系统的异常状态。                         
+  c.DiscardOldestPolicy：丢弃队列最前面的任务，然后重新提交被拒绝的任务。                        
+  d.CallerRunsPolicy：由调用线程处理该任务。调用任务的run()方法绕过线程池直接执行。                              
+>                               
+>线程池的工作原理                   
+>a.当线程数小于核心线程数时，创建线程(注意，执行这一步骤需要获取全局锁)                                               
+ b.当线程数大于等于核心线程数，且任务队列未满时，将任务放入任务队列                                       
+ c.当线程数大于等于核心线程数，且任务队列已满,若线程数小于最大线程数，创建线程(注意，执行这一步骤需要获取全局锁)                 
+ d.若线程数等于最大线程数，任务将被拒绝，并执行线程饱和策略，如：RejectedExecutionHandler.rejectedExecution()方法                            
+> ![thread_pool_yuanli](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/thread_pool_yuanli.png)                 
+>                                                                                         
 ### 13.线程池中submit()和execute()方法有什么区别？
 > public interface Executor {                   
       void execute(Runnable command);               
