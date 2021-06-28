@@ -540,7 +540,7 @@ class MyThreadJoin extends Thread {
 > synchronized有三种应用方式：                  
 > 作用于实例方法，当前实例加锁，进入同步代码前要获得当前实例的锁；                                
   作用于静态方法，当前类加锁，进去同步代码前要获得当前类对象的锁；                                
-  作用于代码块，对括号里配置的对象加锁。 
+  作用于代码块，对括号里配置的对象加锁。                                   
 > [3].实现原理                  
 > synchronized是JVM实现的一种互斥同步访问方式，底层是基于每个对象的监视器(monitor)来实现的。                 
   被synchronized修饰的代码，被编译器编译后在前后加上了一组字节指令。在代码开始前加入了monitorenter，在代码后面加入了monitorexit。                 
