@@ -25,7 +25,8 @@ mysql练习
 ### 21.explain 
 ### 22.order by排序优化 
 ### 23.sql中drop、delete和truncate的区别   
-### 24.insert into   
+### 24.insert into
+### 25.varchar与char的区别   
                 
             
 ## 问题答案
@@ -483,7 +484,7 @@ mysql练习
   DEPENDENT UNION:UNION 中的第二个或后面的查询语句, 取决于外面的查询         
   UNION RESULT:从UNION表获取结果的select,MySQL选择使用临时表完成UNION查询的去重工作。               
 >                                  
-> (3).table查询的是哪个表。这个值可能是表名、表的别名或者一个为查询产生临时表的标识符，如派生表、子查询或集合。这个值可能是表名、表的别名或者一个为查询产生临时表的标识符，如派生表、子查询或集合。                 
+> (3).table查询的是哪个表。这个值可能是表名、表的别名或者一个为查询产生临时表的标识符，如派生表、子查询或集合。                                        
 >                   
 > (4).partitions匹配的分区
 >                              
@@ -605,7 +606,14 @@ mysql练习
   对于由foreign key约束引用的表，不能使用truncate table，而应使用不带where子句的delete语句。由于truncate table不记录在日志中，所以它不能激活触发器。                            
 ### 24.insert into 
 > ![insert_into](http://github.com/xidianlina/practice/raw/master//mysql_practice/picture/insert_into.png)        
-
+### 25.varchar与char的区别
+>(1).存储的容量不同                    
+char最多能存放255个字符,和编码无关                       
+varchar最多能存放65532个字符。varchar的最大有效长度由最大行大小和使用的字符集确定。整体最大长度是65532字节。              
+(2).定长和变长               
+char表示定长，长度固定。char如果插入的长度小于定义长度时，则用空格填充。因为char长度固定，char的存取速度比varchar要快得多，
+>方便程序的存储与查找,但是char也为此付出的是空间的代价，因为其长度固定，所以会占据多余的空间，可谓是以空间换取时间效率。                         
+varchar表示变长，长度可变。；varchar小于定义长度时，还是按实际长度存储，插入多长就存多长。varchar是以时间换空间，存取速度要比char要慢得多。                      
 
 # 二.题目练习
 ## 1.查找最晚入职员工的所有信息
