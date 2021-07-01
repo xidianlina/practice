@@ -380,7 +380,23 @@ public class JMM {
 > 因此所有的加载请求都应该传送到启动类加载其中，只有当父类加载器反馈自己无法完成这个请求的时候（在它的加载路径下没有找到所需加载的Class），
 > 子类加载器才会尝试自己去加载。                   
 > 采用双亲委派的一个好处是比如加载位于rt.jar包中的类java.lang.Object，不管是哪个加载器加载这个类，最终都是委托给顶层的启动类加载器进行加载，
-> 这样就保证了使用不同的类加载器最终得到的都是同样一个Object对象。         
+> 这样就保证了使用不同的类加载器最终得到的都是同样一个Object对象。           
+>       
+>双亲委派机制目的：为了防止内存中存在多份同样的字节码（安全）                     
+>       
+>类加载规则：如果一个类由类加载器A加载，那么这个类的依赖类也是由相同的类加载器加载。                         
+>               
+>如何打破双亲委派机制：自定义ClassLoader，重写loadClass方法（只要不依次往上交给父加载器进行加载，就算是打破双亲委派机制）                             
+>                       
+>打破双亲委派机制案例：Tomcat                  
+ 为了Web应用程序类之间隔离，为每个应用程序创建WebAppClassLoader类加载器                  
+ 为了Web应用程序类之间共享，把ShareClassLoader作为WebAppClassLoader的父类加载器，如果WebAppClassLoader加载器找不到，则尝试用ShareClassLoader进行加载                       
+ 为了Tomcat本身与Web应用程序类隔离，用CatalinaClassLoader类加载器进行隔离，CatalinaClassLoader加载Tomcat本身的类                         
+ 为了Tomcat与Web应用程序类共享，用CommonClassLoader作为CatalinaClassLoader和ShareClassLoader的父类加载器                         
+ ShareClassLoader、CatalinaClassLoader、CommonClassLoader的目录可以在Tomcat的catalina.properties进行配置
+> ![classloader3](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/classloader3.png)                                                                           
+>                       
+>线程上下文加载器：由于类加载的规则，很可能导致父加载器加载时依赖子加载器的类，导致无法加载成功（BootStrap ClassLoader无法加载第三方库的类），所以存在「线程上下文加载器」来进行加载。                                    
 ### 18.jvm调优的工具？
 >JDK自带了很多监控工具，都位于JDK的bin目录下，其中最常用的是jconsole和jvisualvm这两款视图监控工具。         
  jconsole用于对JVM中的内存、线程和类等进行监控；              
