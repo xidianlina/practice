@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Suite" parallel="false">
+    <listeners>
+        <listener class-name="com.testng.demo.CustomITestListener"/>
+    </listeners>
+    <test name="Test">
+        <classes>
+            <class name="com.testng.demo.NewTest"/>
+        </classes>
+    </test> <!-- Test -->
+</suite> <!-- Suite -->

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.testng.demo</groupId>
+    <artifactId>testng_learn</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <!-- 参考文档
+            https://blog.csdn.net/df0128/article/details/83243822
+            https://blog.csdn.net/Magic_Chen2012/article/details/86742981
+            https://blog.csdn.net/hujyhfwfh2/article/details/84842885
+            https://www.cnblogs.com/superbaby11/p/6400686.html
+            https://www.cnblogs.com/zhangfei/p/4514697.html
+            https://blog.csdn.net/Magic_Chen2012/article/details/86767553
+            https://www.cnblogs.com/linxinmeng/p/12597941.html
+     -->
+
+    <dependencies>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.10</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.10</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.relevantcodes</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>2.41.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vimalselvam</groupId>
+            <artifactId>testng-extentsreport</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>3.0.6</version>
+        </dependency>
+    </dependencies>
+</project>

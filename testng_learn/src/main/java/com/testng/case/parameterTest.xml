@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Suite" parallel="false">
+    <test name="Test">
+        <parameter name="param1" value="1011111"/>
+        <parameter name="param2" value="10"/>
+        <classes>
+            <class name="com.testng.demo.ParameterTest"/>
+        </classes>
+    </test> <!-- Test -->
+</suite> <!-- Suite -->

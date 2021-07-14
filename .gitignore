@@ -1,3 +1,8 @@
+java_practice/java_practice.iml
+testng_learn/target/
+testng_learn/.idea/
+testng_learn/test-output/
+testng_learn/testng_learn.iml
 es_practice/.idea/
 kafka_practice/.idea/
 mongo_practice/.idea/

@@ -7,6 +7,8 @@ linux
 ### 3.grep
 ### 4.awk
 ### 5.sed
+### 6.sort
+### 7.uniq
 
 ## 问题答案
 ### 1.wc
@@ -58,4 +60,6 @@ linux
 ### 3.grep
 >
 ### 4.awk
-### 5.sed                
+### 5.sed
+### 6.sort
+### 7.uniq              
