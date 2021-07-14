@@ -2,10 +2,8 @@ package com.testng.demo;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-@Listeners(ExtentTestNGIReporterListener.class)
 public class ExtentReporterTest {
     @DataProvider
     public Object[][] dataProvider() {
