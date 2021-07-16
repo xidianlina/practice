@@ -4,14 +4,23 @@ java基础题目
 ### 1.JDK和JRE有什么区别
 > https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/JDK%E5%92%8CJRE%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB.md
 ### 2.==和equals的区别是什么？
+> https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/%3D%3D%E5%92%8Cequals%E7%9A%84%E5%8C%BA%E5%88%AB.md
 ### 3.equals与hashcode的区别和联系？
+> https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/equals%E4%B8%8Ehashcode%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E8%81%94%E7%B3%BB.md
 ### 4.final关键字
+> https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/final.md
 ### 5.static关键字
+> https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/static.md
 ### 6.final、finally 和 finalize
+> https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/final%E3%80%81finally%20%E5%92%8C%20finalize.md
 ### 7.类加载顺序
+> https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8F.md
 ### 8.构造器是静态方法吗？
+> https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/%E6%9E%84%E9%80%A0%E5%99%A8%E6%98%AF%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95.md
 ### 9.Java的基本数据类型
+> https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/Java%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.md
 ### 10.java中操作字符串都有哪些类？它们之间有什么区别？  String、StringBuffer、StringBuilder
+> https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/String%E3%80%81StringBuffer%E3%80%81StringBuilder.md
 ### 11.String类的常用方法都有那些？
 ### 12.抽象类必须要有抽象方法吗？抽象类能使用final修饰吗？普通类和抽象类有哪些区别？接口和抽象类有什么区别？
 ### 13.Files的常用方法都有哪些？
