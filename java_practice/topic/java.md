@@ -2,6 +2,7 @@ java基础题目
 ======
 ## 问题列表
 ### 1.JDK和JRE有什么区别
+> https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/JDK%E5%92%8CJRE%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB.md
 ### 2.==和equals的区别是什么？
 ### 3.equals与hashcode的区别和联系？
 ### 4.final关键字
