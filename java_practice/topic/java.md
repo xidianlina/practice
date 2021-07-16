@@ -49,7 +49,8 @@ java基础题目
 ### 45.整数a = 5和new Integer(5)有什么区别？
 ### 46.Integer类和int的区别
 ### 47.java和go的区别
-### 48.
+### 48.aop
+### 49.ioc
 
 ## 问题答案
 ### 1.JDK和JRE有什么区别？
@@ -71,7 +72,8 @@ java基础题目
 ### 3.equals与hashcode的区别和联系？  
 > hashcode是为了算法快速定位数据而存在的，而equals是为了对比真实值而存在的。              
   两个对象的hashcode值相等时，两个对象的equals不一定相等，两个对象的equals值相等时，两个对象的hashcode一定相等。             
-  equals和hashCode同时存在的意义:equals保证比较对象是否是绝对相等的(保证可靠);hashCode保证在最快的时间内判断两个对象是否相等，可能有误差值(保证性能)。                             
+  equals和hashCode同时存在的意义:hashCode保证在最快的时间内判断两个对象是否相等，可能有误差值，但是能够保证性能；
+>equals保证比较对象是否是绝对相等的，保证值比较的可靠性。                                             
 >               
 > hashCode()的作用:                                
   public native int hashCode();                 
@@ -80,28 +82,28 @@ java基础题目
   当向哈希表(如HashSet、HashMap等)中添加对象object时，首先调用hashCode()方法计算object的哈希码，
 > 通过哈希码可以直接定位object在哈希表中的位置(一般是哈希码对哈希表大小取余)。如果该位置没有对象，可以直接将object插入该位置；
 > 如果该位置有对象(可能有多个，通过链表实现)，则调用equals()方法比较这些对象与object是否相等，如果相等，则不需要保存object；如果不相等，则将该对象加入到链表中。                    
->               
-> 实现equals()方法应该遵守的约定:          
-  (1).自反性:x.equals(x)必须返回true。              
-  (2).对称性:x.equals(y)与y.equals(x)的返回值必须相等。              
-  (3).传递性:x.equals(y)为true，y.equals(z)也为true，那么x.equals(z)必须为true。              
-  (4).一致性:如果对象x和y在equals()中使用的信息都没有改变，那么x.equals(y)值始终不变。               
-  (5).非null:x不是null，y为null，则x.equals(y)必须为false。                
->                   
+>                       
 > 每个覆盖了equals方法的类中，必须覆盖hashCode。如果不这么做，就违背了hashCode的通用约定。
 > 进而导致该类无法结合所有与散列的集合(HashMap、HashSet、HashTable、ConcurrentHashMap)一起正常运作。                 
   不重写HashCode对于散列表的影响:              
   两个所有属性都相等的对象，它们的地址不同。没重写hashCode时，hashCode一定不相等。但是逻辑上这两个对象是相等的，并且equals也是相等的。
 > 这就会导致，HashMap里面本来有这个key，但是你告诉我没有，导致了put操作成功。逻辑上是不符合规范的，get时取出来的也可能是自己另一个的value。                       
->                       
+>         
+> 实现equals()方法应该遵守的约定:          
+   (1).自反性:x.equals(x)必须返回true。              
+   (2).对称性:x.equals(y)与y.equals(x)的返回值必须相等。              
+   (3).传递性:x.equals(y)为true，y.equals(z)也为true，那么x.equals(z)必须为true。              
+   (4).一致性:如果对象x和y在equals()中使用的信息都没有改变，那么x.equals(y)值始终不变。               
+   (5).非null:x不是null，y为null，则x.equals(y)必须为false。                
+>                               
 > 参考 https://segmentfault.com/a/1190000024478811            
-> https://segmentfault.com/a/1190000022735238                           
+> https://segmentfault.com/a/1190000022735238                             
 ### 4.final关键字
 > final关键字可以修饰的对象有三个:一是修饰变量、二是修饰方法、三是修饰类            
   (1).final关键字修饰变量              
   1).final修饰成员变量                
   final关键字在修饰基本数据类型时必须对变量赋予初始值，因此,final关键字也经常和static关键字一起用来声明常量值，final正好限制了必须赋值、static声明了静态变量。              
-  fianl最常见的用法时用来修饰成员变量,成员变量分为静态变量与普通变量.             
+  fianl最常见的用法是用来修饰成员变量,成员变量分为静态变量与普通变量.             
   对于final修饰的变量,不是不能被赋值,是其值不能被改变,可以理解成只能赋一次值.可以在定义时赋值,也可以在定义后在另外赋值,但无论何种方式只能被赋值一次.           
   修饰静态变量            
   修饰静态变量时,可以选择以下两种方式赋值:         
@@ -209,7 +211,7 @@ class B extends A{}//出错
 > final 变量可以安全的在多线程环境下进行共享，而不需要额外的同步开销              
 
 > 参考  https://segmentfault.com/a/1190000020803203               
-> https://segmentfault.com/a/1190000020815352                        
+> https://segmentfault.com/a/1190000020815352                          
 ### 5.static关键字
 > static可以修饰变量、方法、代码块、类。            
   (1).static修饰变量                
@@ -220,10 +222,12 @@ class B extends A{}//出错
   定义在方法参数中的变量被称为形式参数                
   (2).static修饰方法            
   被static修饰的方法被称为静态方法。随着类的加载而加载,可以通过"类.静态方法"的方式进行调用。                
-  static方法就是没有this/super的方法，在static内部不能调用非静态方法，反过来是可以的。而且可以在没有创建任何对象的前提下，仅仅通过类本身来调用static方法，这实际上是static方法的主要用途。             
+  static方法就是没有this/super的方法，在static内部不能调用非静态方法，反过来是可以的。而且可以在没有创建任何对象的前提下，
+>仅仅通过类本身来调用static方法，这实际上是static方法的主要用途。             
   静态的方法内不能使用this/super这两个需要基于当前对象的关键字(编译不通过)。               
   (3).static修饰代码块               
-  代码块分为两种，一种是使用{}代码块；一种是static{}静态代码块。static修饰的代码块被称为静态代码块。静态代码块可以置于类中的任何地方，类中可以有多个static块，在类初次被加载的时候，会按照static代码块的顺序来执行，每个static修饰的代码块只能执行一次。          
+  代码块分为两种，一种是使用{}代码块；一种是static{}静态代码块。static修饰的代码块被称为静态代码块。静态代码块可以置于类中的任何地方，
+>类中可以有多个static块，在类初次被加载的时候，会按照static代码块的顺序来执行，每个static修饰的代码块只能执行一次。          
   (4).static用作静态内部类                 
   内部类的使用场景比较少，但是内部类还有具有一些比较有用的。             
   内部类的分类:普通内部类、局部内部类、静态内部类、匿名内部类                
@@ -1908,9 +1912,9 @@ public class ObjectSerializeAndDeserializeTest {
  (5).继承                 
  go语言的继承通过匿名组合完成:基类以Struct的方式定义，子类只需要把基类作为成员放在子类的定义中，支持多继承。             
  java语言的继承需要先定义基类,子类继承基类需要extends关键字显示声明，不支持多继承。                        
-### 48.
+### 48.aop
 >
-### 49.
+### 49.ioc
 ### 50.
 
 
