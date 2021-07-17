@@ -43,8 +43,8 @@ java基础题目
 ### 30.Iterator和ListIterator有什么区别？
 ### 31.什么是反射？
 ### 32.动态代理是什么？有哪些应用？
-### 33.什么是java序列化？什么情况下需要序列化？
-### 34.如何实现对象克隆？
+### 33.如何实现对象克隆？
+### 34.什么是java序列化？什么情况下需要序列化？
 ### 35.深拷贝和浅拷贝区别是什么？                      
 ### 36.throw和throws的区别？                  
 ### 37.常见的异常类有哪些？                      
@@ -60,7 +60,9 @@ java基础题目
 ### 47.java和go的区别
 ### 48.aop
 ### 49.ioc
-
+### 50.New和init的区别
+### 51.init和clinit区别
+### 52.泛型
 ## 问题答案
 ### 1.JDK和JRE有什么区别？
 > JDK:Java Development Kit的简称，java开发工具包，提供了java的开发环境和运行环境。                         
@@ -1115,27 +1117,46 @@ public class FilesTest {
 >           
 > 对于在Map中插入、删除和定位元素这类操作，HashMap是最好的选择。然而，假如需要对一个有序的key集合进行遍历，TreeMap是更好的选择。                                           
 ### 20.HashMap的实现原理？HashSet的实现原理？
+> HashMap(): 构建一个空的哈希映像
+  HashMap(Map m): 构建一个哈希映像，并且添加映像m的所有映射
+  HashMap(int initialCapacity): 构建一个拥有特定容量的空的哈希映像
+  HashMap(int initialCapacity, float loadFactor): 构建一个拥有特定容量和加载因子的空的哈希映像
+> 为了优化HashMap空间的使用，您可以调优初始容量和负载因子。
+> ![hashmap2](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/hashmap2.png)
+> 当新建一个hashmap的时候，就会初始化一个数组。
+> ![hashmap3](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/hashmap3.png)
+> Entry就是数组中的元素，它持有一个指向下一个元素的引用，这就构成了链表。
+>
 > (1).HashMap的数据结构              
-> HashMap基于哈希表实现，实际上是一个数组和链表的结合体。使用HashMap要求添加的键类明确定义了hashCode()和equals()(可以重写hashCode()和equals())，为了优化HashMap空间的使用，您可以调优初始容量和负载因子。                             
-  HashMap(): 构建一个空的哈希映像             
-  HashMap(Map m): 构建一个哈希映像，并且添加映像m的所有映射             
-  HashMap(int initialCapacity): 构建一个拥有特定容量的空的哈希映像               
-  HashMap(int initialCapacity, float loadFactor): 构建一个拥有特定容量和加载因子的空的哈希映像  
-> ![hashmap2](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/hashmap2.png)               
-> 当新建一个hashmap的时候，就会初始化一个数组。            
-> ![hashmap3](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/hashmap3.png)           
-> Entry就是数组中的元素，它持有一个指向下一个元素的引用，这就构成了链表。                    
-  当往hashmap中put元素时，先根据key的hash值得到这个元素在数组中的位置（即下标），然后就可以把这个元素放到对应的位置中了。
+> HashMap基于哈希表实现，jdk1.7之前是一个数组和链表的结合体。
+> JDK1.8中对HashMap进行了优化。jdk1.8之后是数组、链表、红黑树的结合体。
+> 当链表长度太长（TREEIFY_THRESHOLD默认超过8）时，链表就转换为红黑树，利用红黑树快速增删改查的特点提高HashMap的性能,从原来的O(n)到O(logn)。当长度小于（UNTREEIFY_THRESHOLD默认为6），就会退化成链表。
+  HashMap 中关于红黑树的三个关键参数
+> ![hashmap5](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/hashmap5.png)
+>
+> (2)key的hashcode与equals方法改写
+> 使用HashMap要求添加的键类明确定义了hashCode()和equals()(可以重写hashCode()和equals())
+> 当往hashmap中put元素时，先根据key的hash值得到这个元素在数组中的位置（即下标），然后就可以把这个元素放到对应的位置中了。
 > 如果这个元素所在的位置上已经存放有其他元素了，那么在同一个位置上的元素将以链表的形式存放，新加入的放在链头，最先加入的放在链尾。
 > 从hashmap中get元素时，首先计算key的hashcode，找到数组中对应位置的某一元素，然后通过key的equals方法在对应位置的链表中找到需要的元素。
-> 如果每个位置上的链表只有一个元素，那么hashmap的get效率将是最高的。                        
->                   
-> (2).hash算法                    
-> 在hashmap中要找到某个元素，需要根据key的hash值来求得对应数组中的位置。hashmap的数据结构是数组和链表的结合，
-> 希望这个hashmap里面的元素位置尽量的分布均匀些，尽量使得每个位置上的元素数量只有一个，那么当用hash算法求得这个位置的时候，
-> 马上就可以知道对应位置的元素就是想要的，而不用再去遍历链表。                        
+> 如果每个位置上的链表只有一个元素，那么hashmap的get效率将是最高的。
+>
+> 所以，hashcode与equals方法对于找到对应元素是两个关键方法。
+  Hashmap的key可以是任何类型的对象，但一定要是不可变对象。
+  在改写equals方法的时候，需要满足以下三点：
+  自反性：就是说a.equals(a)必须为true。
+  对称性：就是说a.equals(b)=true的话，b.equals(a)也必须为true。
+  传递性：就是说a.equals(b)=true，并且b.equals(c)=true的话，a.equals(c)也必须为true。
+  通过改写key对象的equals和hashcode方法，可以将任意的业务对象作为map的key(前提是你确实有这样的需要)。
+>
+> (3).hash算法
+> 在hashmap中要找到某个元素，需要根据key的hash值来求得对应数组中的位置。希望这个hashmap里面的元素位置尽量的分布均匀些，
+> 尽量使得每个位置上的元素数量只有一个，那么当用hash算法求得这个位置时，马上就可以知道对应位置的元素就是想要的，而不用再去遍历链表,效率将是最高的。
   首先想到的就是把hashcode对数组长度取模运算，这样一来，元素的分布相对来说是比较均匀的。但是，“模”运算的消耗还是比较大的。
-> 所以Java中是这样做的：首先算得key的hashcode值，然后跟数组的长度-1做一次“与”运算（&）。                                     
+> 所以Java中是这样做的：hashmap的数组初始化大小都是2的次方大小。首先算得key的hashcode值，然后跟数组的长度-1做一次“与”运算（&）。
+> 减少碰撞的几率，提高查询的效率。
+> 2的次方是偶数，减1之后是奇数，奇数的二进制末尾是1，与key的hashcode值做“与”运算产生空间浪费。
+>
 > static int indexFor(int h, int length) {                       
          return h & (length-1);                     
   }                 
@@ -1151,32 +1172,16 @@ public class FilesTest {
 > 所以当数组长度为2的n次幂的时候，不同的key算得得index相同的几率较小，那么数据在数组上分布就比较均匀，也就是说碰撞的几率小，相对的，查询的时候就不用遍历某个位置上的链表，这样查询效率也就较高了。                              
   在存储大容量数据的时候，最好预先指定hashmap的size为2的整数次幂次方。就算不指定的话，也会以大于且最接近指定值大小的2次幂来初始化的。              
 >                   
-> (3).HashMap的resize                    
-> 当hashmap中的元素越来越多时，碰撞的几率也就越来越高（因为数组的长度是固定的），所以为了提高查询的效率，就要对hashmap的数组进行扩容，
-> 在hashmap数组扩容之后，最消耗性能的点就出现了：原数组中的数据必须重新计算其在新数组中的位置，并放进去，这就是resize。             
-  那么hashmap什么时候进行扩容呢？当hashmap中的元素个数超过数组大小 x loadFactor时，就会进行数组扩容，loadFactor的默认值为0.75，
-> 也就是说，默认情况下，数组大小为16，那么当hashmap中元素个数超过16 x 0.75=12的时候，就把数组的大小扩展为2 x 16=32，即扩大一倍，
-> 然后重新计算每个元素在数组中的位置，而这是一个非常消耗性能的操作，所以如果已经预知hashmap中元素的个数，那么预设元素的个数能够有效的提高hashmap的性能。
+> (4).HashMap的resize
+> 当hashmap中的元素越来越多时，碰撞的几率也就越来越高（因为数组的长度是固定的），所以为了提高查询的效率，就要对hashmap的数组进行扩容。
+> 当hashmap中的元素个数超过数组大小 x loadFactor时，就会进行数组扩容，loadFactor的默认值为0.75。
+> 在hashmap数组扩容之后，最消耗性能的点就是原数组中的数据必须重新计算其在新数组中的位置，并放进去。
+> 所以如果已经预知hashmap中元素的个数，预设元素的个数能够有效的提高hashmap的性能。
 > 比如说，有1000个元素new HashMap(1000), 但是理论上来讲new HashMap(1024)更合适，即使是1000，hashmap也自动会将其设置为1024。
 > 但是new HashMap(1024)还不是更合适的，因为0.75*1000 < 1000, 也就是说为了让0.75 * size > 1000, 必须这样new HashMap(2048)才最合适，既考虑了&的问题，也避免了resize的问题。                           
 >                                   
-> (4)key的hashcode与equals方法改写                        
-  hashmap的get方法的过程：首先计算key的hashcode，找到数组中对应位置的某一元素，然后通过key的equals方法在对应位置的链表中找到需要的元素。
-> 所以，hashcode与equals方法对于找到对应元素是两个关键方法。                  
-  Hashmap的key可以是任何类型的对象，但一定要是不可变对象。                 
-  在改写equals方法的时候，需要满足以下三点：                      
-  自反性：就是说a.equals(a)必须为true。                            
-  对称性：就是说a.equals(b)=true的话，b.equals(a)也必须为true。                    
-  传递性：就是说a.equals(b)=true，并且b.equals(c)=true的话，a.equals(c)也必须为true。                         
-  通过改写key对象的equals和hashcode方法，可以将任意的业务对象作为map的key(前提是你确实有这样的需要)。 
->                                      
-> (5).JDK1.8中对HashMap的优化                
-> [1].HashMap是数组+链表+红黑树（JDK1.8增加了红黑树部分）实现的                  
-> 当链表长度太长（TREEIFY_THRESHOLD默认超过8）时，链表就转换为红黑树，利用红黑树快速增删改查的特点提高HashMap的性能,从原来的O(n)到O(logn)。当长度小于（UNTREEIFY_THRESHOLD默认为6），就会退化成链表。
-  HashMap 中关于红黑树的三个关键参数             
-> ![hashmap5](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/hashmap5.png)                   
-> [2].扩容机制              
-> 使用的是2次幂的扩展(指长度扩为原来2倍)，所以元素的位置要么是在原位置，要么是在原位置再移动2次幂的位置。                    
+> JDK1.8中对HashMap扩容机制进行了优化。
+> 使用的是2次幂的扩展(指长度扩为原来2倍)，所以元素的位置要么是在原位置，要么是在原位置再移动2次幂的位置。
 > 图（a）表示扩容前的key1和key2两种key确定索引位置的示例，图（b）表示扩容后key1和key2两种key确定索引位置的示例，其中hash1是key1对应的哈希与高位运算结果。              
 > ![hashmap6](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/hashmap6.png)                                          
 > 元素在重新计算hash之后，因为n变为2倍，那么n-1的mask范围在高位多1bit(红色)，因此新的index就会发生这样的变化：            
@@ -1234,10 +1239,10 @@ public class FilesTest {
 > (1).从数据结构上看，ArrayList是实现了基于动态数组的结构，而LinkedList则是基于实现链表的数据结构。              
   (2).对于随机访问get和set，ArrayList要优于LinkedList，因为LinkedList要移动指针。               
   (3).对于添加和删除操作add和remove，一般认为LinkedList要比ArrayList快，因为ArrayList要移动数据。
-> 但是实际情况并非这样，对于添加或删除，LinkedList和ArrayList并不能明确说明谁快谁慢。                             
-  当插入的数据量很小时，两者区别不太大，当插入的数据量大时，大约在容量的1/10之前，LinkedList会优于ArrayList，在其后就劣与ArrayList，且越靠近后面越差。                
-  所以，一般首选用ArrayList，由于LinkedList可以实现栈、队列以及双端队列等数据结构，所以当特定需要时候，使用LinkedList。数据量小的时候，两者差不多，
-> 视具体情况去选择使用；当数据量大的时候，如果只需要在靠前的部分插入或删除数据，那也可以选用LinkedList，反之选择ArrayList反而效率更高。                      
+> 但是实际情况并非这样，对于添加或删除，LinkedList和ArrayList并不能明确说明谁快谁慢。
+  当插入的数据量很小时，两者区别不太大，当插入的数据量大时，大约在容量的1/10之前，LinkedList会优于ArrayList，在其后就劣与ArrayList，且越靠近后面越差。
+  所以，一般首选用ArrayList，由于LinkedList可以实现栈、队列以及双端队列等数据结构，所以当特定需要时候，使用LinkedList。
+> 数据量小的时候，两者差不多，视具体情况去选择使用；当数据量大的时候，如果只需要在靠前的部分插入或删除数据，那也可以选用LinkedList，反之选择ArrayList反而效率更高。
 ### 23.如何实现数组和List之间的转换？
 > 数组转List ，使用JDK中java.util.Arrays工具类的asList方法               
 ```java
@@ -1304,12 +1309,13 @@ public class ListToArray {
   (3).支持操作:             
   ArrayList提供更多操作，添加全部addAll()、删除全部removeAll()、返回迭代器iterator()等。                
   Array提供的更多是依赖于Arrays提供的方法。                
-  使用建议:         
-  当集合长度固定时，使用数组；当集合的长度不固定时，使用ArrayList。但如果长度增长频繁，应考虑预设ArrayList的长度或者使用链表LinkedList代替，ArrayList每次扩容都要进行数组的拷贝。                
-  由于ArrayList不支持基本数据类型，所以保存基本数据类型时需要装箱处理，对比数组性能会下降。这种情况尽量使用数组。              
-  数组支持的操作方法很少，但内存占用少，如果只需对集合进行随机读写，选数组；如果需要进行插入和删除，使用数组的话，需要手动编写移动元素的代码，ArrayList中内置了这些操作，开发更方便。                
-  如果单纯只是想要以数组的形式保存数据，而不对数据进行增加等操作，只是方便进行查找的话，那么就选择ArrayList。                
-  如果需要对元素进行频繁的移动或删除，或者是处理的是超大量的数据，使用ArrayList就真的不是一个好的选择，因为它的效率很低，使用数组进行这样的动作也很麻烦，那么，可以考虑选择LinkedList。              
+>           
+> 使用建议:         
+  (1).当集合长度固定时，使用数组；当集合的长度不固定时，使用ArrayList。但如果长度增长频繁，应考虑预设ArrayList的长度或者使用链表LinkedList代替，ArrayList每次扩容都要进行数组的拷贝。                
+  (2).由于ArrayList不支持基本数据类型，所以保存基本数据类型时需要装箱处理，对比数组性能会下降。这种情况尽量使用数组。              
+  (3).数组支持的操作方法很少，但内存占用少，如果只需对集合进行随机读写，选数组；如果需要进行插入和删除，使用数组的话，需要手动编写移动元素的代码，ArrayList中内置了这些操作，开发更方便。                
+  (4).如果单纯只是想要以数组的形式保存数据，而不对数据进行增加等操作，只是方便进行查找的话，那么就选择ArrayList。                
+  (5).如果需要对元素进行频繁的移动或删除，或者是处理的是超大量的数据，使用ArrayList就真的不是一个好的选择，因为它的效率很低，使用数组进行这样的动作也很麻烦，那么，可以考虑选择LinkedList。              
 ### 26.在Queue中poll()和remove()有什么区别？
 > Queue中remove()和poll()都是用来从队列头部删除一个元素。                         
   在队列元素为空的情况下，remove()方法会抛出NoSuchElementException异常，poll()方法只会返回null。                   
@@ -1378,7 +1384,8 @@ public class ListToArray {
   hasNext()：如果返回true，则确认集合中有更多元素。               
   next()：返回列表的下一个元素。            
   remove()：从集合中删除元素。                
-  ListIterator的方法如下：                
+>           
+> ListIterator的方法如下：                
   hasNext()：如果返回true，则确认集合中有更多元素。               
   next()：返回列表的下一个元素。                
   nextIndex()：返回列表中下一个元素的索引。                
@@ -1390,11 +1397,17 @@ public class ListToArray {
   add()：在集合中添加新元素。              
 ### 31.什么是反射？
 > JAVA反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；
-> 对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。                   
+> 对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。           
+> 反射的本质是获取到Class对象后，通过Class对象反向获取对象的构造方法、成员变量、成员方法等各种信息                 
+>                                
+> 获取Class对象的三种方式：                              
+  Object ——> getClass()                         
+  任何数据类型（包括基本数据类型）都有一个“静态”的class属性                      
+  通过Class类的静态方法：forName（String className）(常用)                                                                         
 >                   
 > https://github.com/xidianlina/java_practice/blob/master/%E5%8F%8D%E5%B0%84.md
 ### 32.动态代理是什么？有哪些应用？
-> 代理模式是一种设计模式，提供了对目标对象额外的访问方式，即通过代理对象访问目标对象，这样可以在不修改原目标对象的前提下，提供额外的功能操作，扩展目标对象的功能。          
+> 通过代理对象访问目标对象，在不修改原目标对象的前提下，提供额外的功能操作，扩展目标对象的功能。          
   简言之，代理模式就是设置一个中间代理来控制访问原目标对象，以达到增强原对象的功能和简化访问方式。                  
 > 静态代理:                 
   静态代理需要代理对象和目标对象实现一样的接口。               
@@ -1465,9 +1478,11 @@ public class StaticUserProxy {
  */
 ```
 > InvocationHandler:在触发（invoke）真实角色的方法之前或者之后做一些额外的业务。那么，为了构造出具有通用性和简单性的代理类，
-> 可以将所有的触发真实角色动作交给一个触发的管理器，让这个管理器统一地管理触发。这种管理器就是Invocation Handler。             
+> 可以将所有的触发真实角色动作交给一个触发的管理器，让这个管理器统一地管理触发。这种管理器就是Invocation Handler。         
+>                                
 > 动态代理模式的结构跟上面的静态代理模式稍微有所不同，多引入了一个InvocationHandler角色。动态代理工作的基本模式就是将自己的方法功能的实现交给
-> InvocationHandler角色，外界对Proxy角色中的每一个方法的调用，Proxy角色都会交给InvocationHandler来处理，而InvocationHandler则调用具体对象角色的方法。              
+> InvocationHandler角色，外界对Proxy角色中的每一个方法的调用，Proxy角色都会交给InvocationHandler来处理，而InvocationHandler则调用具体对象角色的方法。                  
+>                                
 > ![proxy](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/proxy.png)             
 > 代理Proxy和目标对象target应该实现相同的功能(某个类的public方法)。            
 > 在面向对象的编程之中，如果想要约定Proxy和target可以实现相同的功能，有两种方式：             
@@ -1570,8 +1585,9 @@ public class JDKProxy {
   (1).查找A上的所有非final的public类型的方法定义；              
   (2).将这些方法的定义转换成字节码；               
   (3).将组成的字节码转换成相应的代理的class对象；              
-  (4).实现MethodInterceptor接口，用来处理对代理类上所有方法的请求（这个接口和JDK动态代理InvocationHandler的功能和角色是一样的）           
-  CGLIB原理:动态生成一个要代理类的子类，子类重写要代理的类的所有不是final的方法。在子类中采用方法拦截的技术拦截所有父类方法的调用，顺势织入横切逻辑。它比使用java反射的JDK动态代理要快。              
+  (4).实现MethodInterceptor接口，用来处理对代理类上所有方法的请求（这个接口和JDK动态代理InvocationHandler的功能和角色是一样的）               
+>                                                          
+> CGLIB原理:动态生成一个要代理类的子类，子类重写要代理的类的所有不是final的方法。在子类中采用方法拦截的技术拦截所有父类方法的调用，顺势织入横切逻辑。它比使用java反射的JDK动态代理要快。              
   CGLIB底层:使用字节码处理框架ASM，来转换字节码并生成新的类。不鼓励直接使用ASM，因为它要求你必须对JVM内部结构包括class文件的格式和指令集都很熟悉。                
   CGLIB缺点:对于final方法，无法进行代理。       
 >               
@@ -1656,27 +1672,38 @@ public class CglibProxy {
 ```
 >                                                
 > 参考 https://segmentfault.com/a/1190000011291179                    
-> https://www.cnblogs.com/xidian2014/p/10282666.html
-### 33.什么是java序列化？什么情况下需要序列化？
-> 把对象转换为字节序列的过程称为对象的序列化；把字节序列恢复为对象的过程称为对象的反序列化。             
+> https://www.cnblogs.com/xidian2014/p/10282666.html        
+### 33.如何实现对象克隆？
+> 对象克隆有两种方式:                        
+  实现Cloneable接口并重写Object类中的clone()方法实现浅克隆。              
+> protected native Object clone() throws CloneNotSupportedException;                            
+  实现Serializable或者Externalizable接口，通过对象的序列化和反序列化实现克隆，可以实现真正的深度克隆。   
+### 34.什么是java序列化？什么情况下需要序列化？
+> 把对象转换为字节序列的过程称为对象的序列化；把字节序列恢复为对象的过程称为对象的反序列化。     
+>                                    
 > 对象的序列化主要有两种用途:                    
-  把对象的字节序列永久地保存到硬盘上，通常存放在一个文件中。由于Java对象的生命周期比JVM短，JVM停止运行之后，Java对象就不复存在，如果想要在JVM停止运行之后，获取Java对象，就需要对其进行序列化后进行保存。                    
-  需要将Java对象通过网络传输时，通过将Java对象序列化为二进制的形式在网络中传输。发送方需要把这个Java对象转换为字节序列，才能在网络上传送；接收方则需要把字节序列再恢复为Java对象。                  
-  Java序列化的原理:               
-  ObjectOutputStream代表对象输出流，它的writeObject(Object obj)方法可对参数指定的obj对象进行序列化，把得到的字节序列写到一个目标输出流中。                    
-  ObjectInputStream代表对象输入流，它的readObject()方法从一个源输入流中读取字节序列，再把它们反序列化为一个对象，并将其返回。                  
-  只有实现了Serializable和Externalizable接口的类的对象才能被序列化。Externalizable接口继承自Serializable接口，实现Externalizable接口的类完全由自身来控制序列化的行为，而仅实现Serializable接口的类可以 采用默认的序列化方式。                 
-  ObjectOutputStream在实现序列化的方法中，限制了序列化对象必须是String、Array、Enum以及实现了Serializable接口的类型。                  
+  把对象的字节序列永久地保存到硬盘上，通常存放在一个文件中。由于Java对象的生命周期比JVM短，JVM停止运行之后，Java对象就不复存在，如果想要在JVM停止运行之后，获取Java对象，就需要对其进行序列化后进行保存。                                   
+  需要将Java对象通过网络传输时，通过将Java对象序列化为二进制的形式在网络中传输。发送方需要把这个Java对象转换为字节序列，才能在网络上传送；接收方则需要把字节序列再恢复为Java对象。              
+>                                 
+> Java序列化的原理:               
+  ObjectOutputStream代表对象输出流，它的writeObject(Object obj)方法可对参数指定的obj对象进行序列化，把得到的字节序列写到一个目标输出流中。                                    
+  ObjectInputStream代表对象输入流，它的readObject()方法从一个源输入流中读取字节序列，再把它们反序列化为一个对象，并将其返回。                               
+  只有实现了Serializable和Externalizable接口的类的对象才能被序列化。Externalizable接口继承自Serializable接口，
+> 实现Externalizable接口的类完全由自身来控制序列化的行为，而仅实现Serializable接口的类可以 采用默认的序列化方式。                                 
+  ObjectOutputStream在实现序列化的方法中，限制了序列化对象必须是String、Array、Enum以及实现了Serializable接口的类型。              
+>                                        
 > 通过实现java.io.Externalizable接口，然后重写writeExternal()和readExternal()方法，可以自定义序列化以及反序列化的方式。
 > Externalizable接口继承了Serializable接口。在ObjectInputStream和ObjectOutputStream进行序列化和反序列化时会判断是否实现此接口，
 > 从而决定是否调用重写的writeExternal()和readExternal()方法。                                                    
-> 在序列化对象时，如果有一些变量的值不想被记录下来，可以通过static（静态变量）或者transient（瞬态变量）关键词修饰变量。注意：static变量反序列化的值为 类中被赋予的初始值。                                     
+> 在序列化对象时，如果有一些变量的值不想被记录下来，可以通过static（静态变量）或者transient（瞬态变量）关键词修饰变量。注意：static变量反序列化的值为类中被赋予的初始值。                
+>                                                           
 > 对象序列化包括如下步骤:                  
   创建一个对象输出流，它可以包装一个其他类型的目标输出流，如文件输出流；                   
-  通过对象输出流的writeObject()方法写对象。                   
-  对象反序列化的步骤如下:              
-  创建一个对象输入流，它可以包装一个其他类型的源输入流，如文件输入流；                    
-  通过对象输入流的readObject()方法读取对象。                       
+  通过对象输出流的writeObject()方法写对象。                                
+>               
+> 对象反序列化的步骤如下:                            
+  创建一个对象输入流，它可以包装一个其他类型的源输入流，如文件输入流；                                      
+  通过对象输入流的readObject()方法读取对象。                                       
 >               
 > 对象序列化和反序列示例：    
 > 定义一个类，实现Serializable接口                    
@@ -1759,6 +1786,7 @@ public class ObjectSerializeAndDeserializeTest {
     }
 }
 ```
+>                   
 > serialVersionUID的作用:                                            
 > serialVersionUID序列化版本号，凡是实现Serializable接口的类都有一个表示序列化版本标识符的静态变量 private static final long serialVersionUID                                              
 > serialVersionUID是依据类名，接口名。方法和属性等来生成的。                     
@@ -1777,17 +1805,14 @@ public class ObjectSerializeAndDeserializeTest {
 > 在某些场合，不希望类的不同版本对序列化兼容，因此需要确保类的不同版本具有不同serialVersionUID。               
 >                                                     
 > 参考 https://segmentfault.com/a/1190000037558199                
-> https://segmentfault.com/a/1190000013052960               
-### 34.如何实现对象克隆？
-> 对象克隆有两种方式:                        
-  实现Cloneable接口并重写Object类中的clone()方法；               
-  实现Serializable或者Externalizable接口，通过对象的序列化和反序列化实现克隆，可以实现真正的深度克隆。               
+> https://segmentfault.com/a/1190000013052960                                         
 ### 35.深拷贝和浅拷贝区别是什么？
-> 数据分为基本数据类型和对象数据类型。                    
-  基本数据类型直接存储在栈(stack)中，引用数据类型存储的是该对象在栈中引用，真实的数据存放在堆内存里                  
+> 数据分为基本数据类型和引用数据类型。                    
+  基本数据类型直接存储在栈(stack)中，引用数据类型在栈中存储的是该对象引用，真实的数据存放在堆内存里                  
   引用数据类型在栈中存储了指针，该指针指向堆中该实体的起始地址。当解释器寻找引用值时，会首先检索其在栈中的地址，取得地址后从堆中获得实体。                  
-  深拷贝和浅拷贝是只针对Object和Array这样的引用数据类型的。                    
-  浅拷贝只复制指向某个对象的指针，而不复制对象本身，新旧对象还是共享同一块内存。但深拷贝会另外创造一个一模一样的对象，新对象跟原对象不共享内存，修改新对象不会改到原对象。              
+  深拷贝和浅拷贝是指针对Object和Array这样的引用数据类型的来说的。                    
+  浅拷贝只复制指向某个对象的指针，而不复制对象本身，新旧对象还是共享同一块内存，修改新对象会改到原对象。                   
+> 深拷贝会另外创造一个一模一样的对象，在内存中申请一块新的内存用于存放复制的对象。新对象跟原对象不共享内存，修改新对象不会改到原对象。              
   浅拷贝和深拷贝的区别:                   
   浅拷贝:对基本数据类型进行值传递，对引用数据类型进行引用传递。                   
   深拷贝:对基本数据类型进行值传递，对引用数据类型，创建一个新的对象，并复制其内容。                         
@@ -1868,7 +1893,8 @@ public class ObjectSerializeAndDeserializeTest {
  重写(Override)发生在子类和父类之间。子类继承父类，子类需要重写实现父类中已有方法的方法体，被重写的方法的方法声明(方法名、参数列表、返回类型)必须一致。              
  子类方法的访问修饰权限一定要大于被重写方法的访问修饰符（public>protected>default>private)。重写方法一定不能抛出新的检查异常或者比被重写方法申明更加宽泛的检查型异常。            
  重载(Overload)发生在一个类中，同名的方法如果有不同的参数列表（参数类型不同、参数个数不同甚至是参数顺序不同）则视为重载。
->同时，重载对返回类型没有要求，可以相同也可以不同，但不能通过返回类型是否相同来判断重载。               
+>同时，重载对返回类型没有要求，可以相同也可以不同，但不能通过返回类型是否相同来判断重载。       
+>根据不同子类对象确定调用哪个方法。                       
 ### 42.常用的hash算法有哪些?
 >(1).加法hash:把输入元素一个一个的加起来构成最后的结果。               
 >(2).位运算hash:通过利用各种位运算（常见的是移位和异或）来充分的混合输入元素。                
@@ -1917,7 +1943,7 @@ public class ObjectSerializeAndDeserializeTest {
  (1).速度                     
  go的速度比java快                    
  (2).可扩展性                   
- Go代码可以自动扩展到多个核心；ava并不总是具有足够的可扩展性               
+ Go代码可以自动扩展到多个核心；java并不总是具有足够的可扩展性               
  (3).多态                 
  java默认允许多态;而Go不支持多态                
  (4).函数重载               
@@ -1926,16 +1952,208 @@ public class ObjectSerializeAndDeserializeTest {
  go语言的继承通过匿名组合完成:基类以Struct的方式定义，子类只需要把基类作为成员放在子类的定义中，支持多继承。             
  java语言的继承需要先定义基类,子类继承基类需要extends关键字显示声明，不支持多继承。                        
 ### 48.aop
->
+>AOP,面向切面编程，对业务逻辑的各个部分进行隔离，使业务逻辑各部分之间的耦合度降低，提高代码的可重用性，同时提高了开发的效率的一种编程范式。
+>比如把日志，事务，权限等这些通用的方法提取出来。在使用这些功能的地方横向切入。Java中是通过动态代理和动态字节码技术实现了AOP的。                            
 ### 49.ioc
-### 50.
+>IOC，控制反转,也称为依赖注入，是一种设计思想。传统应用程序是程序在类内部主动创建依赖对象，程序自己去new自己需要的对象，使类与类之间的耦合度高、复用性底。               
+>IOC的设计思想是专门有一个容器负责创建对象，把创建对象的控制权交给了容器，由容器创建对象，注入到程序中，从而使对象与对象之间耦合度降低、复用性提高。                
+>之所以又称为依赖注入，是从容器的角度出发的，组件之间依赖关系由容器在运行期决定，容器动态的将依赖关系注入到组件之中。                     
+>依赖注入的目的是为了提高组件复用性。通过依赖注入机制，只需要通过配置，无需任何代码就可指定目标需要的资源，完成自身的业务逻辑。                
+>IOC可以降低耦合度、提高复用性的同时也是有缺点的。IOC容器生成对象是通过反射方式，在运行效率上有一定的损耗。需要进行大量的配制工作，比较繁琐。                          
+### 50.New和init的区别
+>new是一个关键字，用于创建类的新实例。new关键字后面的参数必须是类名，类名的后面也必须是一组构造方法参数(必须带括号)。参数集合必须与类的构造方法的签名匹配。              
+ jvm识别到new关键字之后就会使用虚拟机提供的new指令去创建所指定的对象。                    
+ 过程包括：                      
+ (1).校验:检查这个指令的参数是否能在常量池中定位到一个符号引用，这个符号引用代表的类是否已经被虚拟机加载过、解析、和初始化过。如果没有，就必须先执行类的加载过程。                    
+ (2).分配内存:根据在类加载过程中确定的对象所需内存大小为新生的对象在堆中分配内存。                
+ (3).初始化:内存分配完成后，虚拟机需要将分配到的内存空间都初始化为零值（不包括对象头），这一操作保证了对象的实例字段在Java代码中可以不赋初始值就可以直接使用。                
+ (4).设置对象头:类的元数据信息、对象的哈希码、GC的对象分代年龄等信息储存在对象头中（Object Header）之中。                 
+ 这时对象的所有的字段都为零。接下来执行<init>方法，按照构造方法参数为字段设置对应的值。             
+### 51.init和clinit区别
+>(1).init和clinit方法执行目的不同                    
+ init是根据对象构造器传递的参数对非静态变量解析初始化。                  
+ clinit是class类构造器，对静态变量以及静态代码块进行初始化。                    
+>       
+>(2).init和clinit方法执行时机不同                                
+ init是对象构造器方法，在程序执行new关键字创建对象时，调用该类的构造方法时才会执行init方法。                          
+ clinit是类构造器方法，在JVM进行类加载——验证——准备——解析等初始化阶段会调用clinit方法。      
+### 52.泛型
+>(1).什么是泛型                                
+ 泛型，即“参数化类型”。就是将类型由原来的具体类型参数化。类似于方法中的变量参数，在声明时定义成参数形式（类型形参），在使用/调用时传入具体的类型（类型实参）。                                   
+ 泛型的本质是为了参数化类型，这种参数类型可以用在类、接口和方法中，分别被称为泛型类、泛型接口、泛型方法。                   
+>           
+>(2).泛型的作用
+>在编译期间对类型进行检查以提高类型安全，减少运行时由于对象类型不匹配引发的异常。                   
+ 消除了强制类型转换，使得代码可读性好。                
+ 所有的强制转换都是自动和隐式的，提高代码的重用率。                  
+>                              
+>(3).泛型擦除                       
+ 泛型只在编译阶段有效。在编译之后程序会采取去泛型化的措施，对范型进行擦出。在生成的字节码中是不包含泛型中的类型信息的，使用泛型的时候加上类型参数，
+>在编译器编译的时候会去掉，这个过程成为类型擦除。其目的是避免过多的创建类而造成的运行时的过度消耗。                  
+>           
+>(4).泛型的使用              
+ [1].泛型类                
+ 泛型类型用于类的定义中，被称为泛型类。通过泛型可以完成对一组类的操作对外开放相同的接口。最典型的就是各种容器类，如：List、Set、Map。                
+ 定义的泛型类不一定要传入泛型类型实参。在使用泛型的时候如果传入泛型实参，则会根据传入的泛型实参做相应的限制，此时泛型才会起到本应起到的限制作用。
+>如果不传入泛型类型实参的话，在泛型类中使用泛型的方法或成员变量定义的类型可以为任何的类型。                  
+ 注意：                
+ 泛型的类型参数只能是类类型，不能是简单类型。                 
+ 不能对确切的泛型类型使用instanceof操作。如下面的操作是非法的，编译时会出错。                    
+ if(ex_num instanceof FanXingClass<Number>){ } 
+```java
+package com.java.topic.fanxing;
 
+/*
+    此处T可以随便写为任意标识，常见的如T、E、K、V等形式的参数常用于表示泛型
+    在实例化泛型类时，必须指定T的具体类型
+ */
+public class FanXingClass<T> {
+    private T key;//key这个成员变量的类型为T,T的类型由外部指定
 
+    public FanXingClass(T key) { //泛型构造方法形参key的类型也为T，T的类型由外部指定
+        this.key = key;
+    }
 
+    public T getKey() { //泛型方法getKey的返回值类型为T，T的类型由外部指定
+        return key;
+    }
 
+    public static void main(String[] args) {
+        FanXingClass<Integer> fanXingClass = new FanXingClass<>(123);
+        System.out.println(fanXingClass.getKey());
+    }
+}
+```             
+>           
+>[2].泛型接口                   
+ 泛型接口与泛型类的定义及使用基本相同。泛型接口常被用在各种类的生产器中。           
+>定义一个范型接口                                  
+```java
+package com.java.topic.fanxing;
 
+//定义一个泛型接口
+public interface Generator<T> {
+    public T next();
+}
+```                         
+>实现泛型接口的类传入泛型实参         
+```java
+package com.java.topic.fanxing;
+import java.util.Random;
 
+/**
+ * 传入泛型实参时：
+ * 定义一个生产器实现这个接口,虽然只创建了一个泛型接口Generator<T>
+ * 但是可以为T传入无数个实参，形成无数种类型的Generator接口。
+ * 在实现类实现泛型接口时，如已将泛型类型传入实参类型，则所有使用泛型的地方都要替换成传入的实参类型
+ * 即：Generator<T>，public T next();中的的T都要替换成传入的String类型。
+ */
+public class FruitGenerator implements Generator<String> {
+    private String[] fruits = new String[]{"Apple", "Banana", "Pear"};
 
+    @Override
+    public String next() {
+        Random rand = new Random();
+        return fruits[rand.nextInt(3)];
+    }
 
+    public static void main(String[] args) {
+        FruitGenerator generator = new FruitGenerator();
+        String fruit = generator.next();
+        System.out.println(fruit);
+    }
+}
+```
+>       
+>[3].泛型方法
+>泛型类是在实例化类的时候指明泛型的具体类型。                     
+ 泛型方法是在调用方法的时候指明泛型的具体类型。                
+ 泛型方法可以出现在任何地方和任何场景中使用。当然可以当泛型方法出现在泛型类中。            
+```java
+package com.java.topic.fanxing;
 
+public class FanXingMethod {
+    //这个类是个泛型类
+    public class Generic<T> {
+        private T key;
 
+        public Generic(T key) {
+            this.key = key;
+        }
+
+        /**
+         * 方法中使用了泛型，但是这并不是一个泛型方法。
+         * 这只是类中一个普通的成员方法，只不过他的返回值是在声明泛型类已经声明过的泛型。
+         * 所以在这个方法中才可以继续使用 T 这个泛型。
+         */
+        public T getKey() {
+            return key;
+        }
+
+        /**
+         * 这个方法显然是有问题的，在编译器提示这样的错误信息"cannot reslove symbol E"
+         * 因为在类的声明中并未声明泛型E，所以在使用E做形参和返回值类型时，编译器会无法识别。
+         public E setKey(E key){
+         this.key = keu
+         }
+         */
+    }
+
+    /**
+     * 这才是一个真正的泛型方法。
+     * 首先在public与返回值之间的<T>必不可少，这表明这是一个泛型方法，并且声明了一个泛型T
+     * 这个T可以出现在这个泛型方法的任意位置.
+     * 泛型的数量也可以为任意多个
+     * 如：public <T,K> K showKeyName(Generic<T> container){
+     * ...
+     * }
+     */
+    public <T> T showKeyName(Generic<T> container) {
+        System.out.println("container key :" + container.getKey());
+        //当然这个例子举的不太合适，只是为了说明泛型方法的特性。
+        T test = container.getKey();
+        return test;
+    }
+
+    //这也不是一个泛型方法，这就是一个普通的方法，只是使用了Generic<Number>这个泛型类做形参而已。
+    public void showKeyValue1(Generic<Number> obj) {
+        System.out.println("泛型测试 key value is " + obj.getKey());
+    }
+
+    //这也不是一个泛型方法，这也是一个普通的方法，只不过使用了泛型通配符?
+    //同时这也印证了泛型通配符章节所描述的，?是一种类型实参，可以看做为Number等所有类的父类
+    public void showKeyValue2(Generic<?> obj) {
+        System.out.println("泛型测试 key value is " + obj.getKey());
+    }
+}
+```
+>                           
+>静态方法无法访问类上定义的泛型,如果静态方法操作的引用数据类型不确定的时候，必须要将泛型定义在方法上。即如果静态方法要使用泛型的话，必须将静态方法也定义成泛型方法。             
+```java
+package com.java.topic.fanxing;
+
+public class StaticGenerator {
+    /**
+     * 如果在类中定义使用泛型的静态方法，需要添加额外的泛型声明（将这个方法定义成泛型方法）
+     * 即使静态方法要使用泛型类中已经声明过的泛型也不可以。
+     * 如：public static void show(T t){..},此时编译器会提示错误信息：
+     * "StaticGenerator cannot be refrenced from static context"
+     */
+    public static <T> void show(T t) {
+
+    }
+}
+```
+>               
+>[4].泛型通配符 
+> <?> 是无边界的通配符                  
+>无边通配符的主要作用就是让泛型能够接受未知类型的数据。                    
+ 无边通配符是类型实参。？和Number、String、Integer一样都是一种实际的类型，可以把？看成所有类型的父类。是一种真实的类型。              
+>                       
+>[5].泛型上下边界         
+>为泛型添加上边界，即传入的类型实参必须是指定类型的子类型。                           
+ public void showKeyValue1(Generic<? extends Number> obj){}                        
+>为泛型添加下边界，即传入的类型实参必须是指定类型的父类型。      
+> public void showKeyValue2(Generic<? super Integer> obj){}                 
+>       
+>参考 https://www.cnblogs.com/coprince/p/8603492.html       
