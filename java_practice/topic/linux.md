@@ -23,6 +23,15 @@ linux
 ### 19.xargs
 ### 20.df
 ### 21.du 
+### 22.stat
+### 23.cat
+### 24.rev
+### 25.paste
+### 26.tail 
+### 27.uptime             
+### 28.                  
+### 29.                  
+### 30. 
 
 ## 问题答案
 ### 1.wc
@@ -226,18 +235,139 @@ sed [options] -f scriptfile file(s)
 >参考 https://man.linuxde.net/sed         
 >https://www.cnblogs.com/ctaixw/p/5860221.html          
 ### 6.sort
+>sort是用于对单个或多个文本文件内容或标准输出进行排序。sort命令默认以空格作为字段分隔符，将一行分割为多个关键字对文件进行排序。                 
+ sort命令并不对文件内容进行实际的排序(即文件内容没有修改)，只是将文件内容按有序输出。除非你将输出重定向到文件中。        
+>sort命令默认按照字典序排序               
+>               
+```shell script
+# sort命令选项
+
+# -r 文件内容进行逆序排序
+# -n 对数值内容进行排序
+# -k 以第几个列为标准进行排序
+# -u 删除重复的行
+# -t 指定列的分隔符，默认是空格
+# -o<输出文件>   将排序后的结果存入指定的文件
+```
+>       
+>参考 https://linux.cn/article-5372-1.html        
+>https://www.cnblogs.com/hitwtx/archive/2011/12/03/2274592.html         
 ### 7.uniq
+```shell script
+# uniq命令用于报告或忽略文件中的重复行，一般与sort命令结合使用。
+# 语法 uniq (选项) (参数)
+
+# 注意:
+# 1.对文本操作时，它一般会和sort命令进行组合使用，因为uniq 不会检查重复的行，除非它们是相邻的行。
+# 2.对文本操作时，若域中为先空字符(通常包括空格以及制表符)，然后非空字符，域中字符前的空字符将被跳过
+
+# 选项
+# -c或——count    在每列旁边显示该行重复出现的次数
+# -d或--repeated     仅显示重复出现的行
+# -D    只输出重复的行，不过有几行输出几行
+# -f<栏位>     忽略比较指定的栏位
+# -s<字符位置>      忽略比较指定的字符
+# -u或——unique       仅显示出一次的行列
+# -w<字符位置N>      对每行第N个字符以后的内容不作对照
+
+sort  uni.txt | uniq -c | sort -r
+```
+>           
+>参考 https://man.linuxde.net/uniq       
+>https://blog.csdn.net/xiaoyida11/article/details/51481499
 ### 8.touch
+>linux的touch命令不常用，一般在使用make的时候可能会用到，用来修改文件时间戳，或者新建一个不存在的文件。         
+> ![linux_touch](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_touch.png)                   
 ### 9.chown
+```shell script
+# chown命令用于设置文件所有者和文件关联组的命令。
+
+# user : 新的文件拥有者的使用者 ID
+# group : 新的文件拥有者的使用者组(group)
+# -c : 显示更改的部分的信息
+# -f : 忽略错误信息
+# -h :修复符号链接
+# -v : 显示详细的处理信息
+# -R : 处理指定目录以及其子目录下的所有文件
+# --help : 显示辅助说明
+# --version : 显示版本
+```
 ### 10.chmod
+```shell script
+# chmod命令是控制用户对文件的权限的命令
+# linux文件调用权限分为三级 : 文件所有者（Owner）、用户组（Group）、其它用户（Other Users）。
+# rwx rwx rwx 读写可执行
+
+# 用法 chmod [选项] [文件...]
+
+# 文件及目录的权限范围:
+# u：User，即文件或目录的拥有者；
+# g：Group，即文件或目录的所属群组；
+# o：Other，除了文件或目录拥有者或所属群组之外，其他用户皆属于这个范围；
+# a：All，即全部的用户，包含拥有者、所属群组以及其他用户。
+
+# 权限的代号:
+# r：读取权限，数字代号为4；
+# w：写入权限，数字代号为2；
+# x：执行或切换权限，数字代号为1；
+# -：不具任何权限，数字代号为0；
+# s：当文件被执行时，根据who参数指定的用户类型设置文件的setuid或者setgid权限。
+
+# 所有者 = rwx = 4+2+1 = 7
+# 所属组 = rw- = 4+2 = 6
+# 其他人 = r-x = 4+1 = 5
+
+
+chmod u=rwx,go=rx .bashrc
+chmod 777 .bashrc
+chmod u+w .bashrc
+chmod g-x .bashrc
+chmod o=r .bashrc
+```
 ### 11.ps
+```shell script
+
+```
 ### 12.top
+```shell script
+
+```
 ### 13.netstat
+```shell script
+
+```
 ### 14.ifconfig
-### 15.kill
+```shell script
+
+```
+### 15.uptime
+```shell script
+# uptime命令能够打印系统总共运行了多长时间和系统的平均负载。
+# uptime命令可以显示的信息显示依次为：现在时间、系统已经运行了多长时间、目前有多少登陆用户、系统在过去的1分钟、5分钟和15分钟内的平均负载。
+
+# [root@LinServ-1 ~]# uptime
+ 15:31:30 up 127 days,  3:00,  1 user,  load average: 0.00, 0.00, 0.00
+
+# 显示内容说明：
+
+# 15:31:30             //系统当前时间
+# up 127 days,  3:00   //主机已运行时间,时间越大，说明你的机器越稳定。
+# 1 user               //用户连接数，是总连接数而不是用户数
+# load average: 0.00, 0.00, 0.00         // 系统平均负载，统计最近1，5，15分钟的系统平均负载
+```
+>参考 https://man.linuxde.net/uptime          
 ### 16.tr
 ### 17.cut
 ### 18.ulimit
 ### 19.xargs
 ### 20.df
-### 21.du               
+### 21.du 
+### 22.stat
+### 23.cat
+### 24.rev
+### 25.paste
+### 26.tail 
+### 27.kill         
+### 28.rm                  
+### 29.                  
+### 30.                  
