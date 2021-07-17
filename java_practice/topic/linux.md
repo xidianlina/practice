@@ -20,8 +20,9 @@ linux
 ### 16.tr
 ### 17.cut
 ### 18.ulimit
-### 19.
-### 20.
+### 19.xargs
+### 20.df
+### 21.du 
 
 ## 问题答案
 ### 1.wc
@@ -71,7 +72,8 @@ linux
 >                           
 >参考  https://man.linuxde.net/find                                 
 ### 3.grep
->文本搜索工具，它能使用正则表达式搜索文本，并把匹配的行打印出来。           
+>文本搜索工具，它能使用正则表达式搜索文本，并把匹配的行打印出来。                          
+>搜索的结果被送到标准输出，不影响原文件内容。                            
 ```shell script
 grep match_pattern file_name   #在文件中搜索"match_pattern"，返回一个包含“match_pattern”的文本行             
 
@@ -124,6 +126,118 @@ grep "aaa" file* -lZ | xargs -0 rm
 >参考 https://man.linuxde.net/grep            
 >https://www.cnblogs.com/forestwolf/p/6413916.html          
 ### 4.awk
+>awk是一个强大的文本分析工具。awk就是把文件逐行的读入，以空格为默认分隔符将每行切片，切开的部分再进行各种分析处理。           
+ 使用方法  awk '{pattern + action}' {filenames}             
+ 其中 pattern 表示 AWK 在数据中查找的内容，而 action 是在找到匹配内容时所执行的一系列命令。花括号（{}）不需要在程序中始终出现，
+>但它们用于根据特定的模式对一系列指令进行分组。 pattern就是要表示的正则表达式，用斜杠括起来。             
+ awk语言的最基本功能是在文件或者字符串中基于指定规则浏览和抽取信息，awk抽取信息后，才能进行其他文本操作。完整的awk脚本通常用来格式化文本文件中的信息。                
+ 通常，awk是以文件的一行为处理单位的。awk每接收文件的一行，然后执行相应的命令，来处理文本。                   
+>               
+>有三种方式调用awk                         
+ (1).命令行方式                      
+ awk [-F  field-separator]  'commands'  input-file(s)                   
+ 其中，commands 是真正awk命令，[-F域分隔符]是可选的。 input-file(s) 是待处理的文件。                      
+ 在awk中，文件的每一行中，由域分隔符分开的每一项称为一个域。通常，在不指名-F域分隔符的情况下，默认的域分隔符是空格。               
+>                   
+>(2).shell脚本方式                  
+ 将所有的awk命令插入一个文件，并使awk程序可执行，然后awk命令解释器作为脚本的首行，一遍通过键入脚本名称来调用。                    
+ 相当于shell脚本首行的：#!/bin/sh                
+ 可以换成：#!/bin/awk                    
+>               
+>(3).将所有的awk命令插入一个单独文件，然后调用：                        
+ awk -f awk-script-file input-file(s)                   
+ 其中，-f选项加载awk-script-file中的awk脚本，input-file(s)跟上面的是一样的。                 
+>                   
+>awk工作流程：读入有'\n'换行符分割的一条记录，然后将记录按指定的域分隔符划分，$0则表示所有域,$1表示第一个域,$n表示第n个域。默认域分隔符是"空白键" 或 "[tab]键"。              
+>           
+```shell script
+cat /etc/passwd |awk  -F ':'  'BEGIN {print "name,shell"}  {print $1","$7} END {print "blue,/bin/nosh"}'
+# awk工作流程是这样的：先执行BEGING，然后读取文件，读入有\n换行符分割的一条记录，然后将记录按指定的域分隔符划分域，填充域，$0则表示所有域,$1表示第一个域,$n表示第n个域,随后开始执行模式所对应的动作action。接着开始读入第二条记录······直到所有的记录都读完，最后执行END操作。
+
+awk -F: '/root/' /etc/passwd    #awk搜索支持正则,匹配了pattern的行才会执行action,没有指定action，默认输出每行的内容。
+
+#awk内置变量
+ARGC               #命令行参数个数
+ARGV               #命令行参数排列
+ENVIRON            #支持队列中系统环境变量的使用
+FILENAME           #awk浏览的文件名
+FNR                #浏览文件的记录数
+FS                 #设置输入域分隔符，等价于命令行 -F选项
+NF                 #浏览记录的域的个数
+NR                 #已读的记录数
+OFS                #输出域分隔符
+ORS                #输出记录分隔符
+RS                 #控制记录分隔符
+
+awk  -F ':'  '{print "filename:" FILENAME ",linenumber:" NR ",columns:" NF ",linecontent:"$0}' /etc/passwd
+
+awk  -F ':'  '{printf("filename:%10s,linenumber:%s,columns:%s,linecontent:%s\n",FILENAME,NR,NF,$0)}' /etc/passwd
+
+# 其中print函数的参数可以是变量、数值或者字符串。字符串必须用双引号引用，参数用逗号分隔。如果没有逗号，参数就串联在一起而无法区分。这里，逗号的作用与输出文件的分隔符的作用是一样的，只是后者是空格而已。
+
+# printf函数，其用法和c语言中printf基本相似,可以格式化字符串,输出复杂时，printf更加好用，代码更易懂。
+
+# awk编程
+# 除了awk的内置变量，awk还可以自定义变量。
+awk '{count++;print $0;} END{print "user count is ", count}' /etc/passwd
+
+awk 'BEGIN {count=0;print "[start]user count is ", count} {count=count+1;print $0;} END{print "[end]user count is ", count}' /etc/passwd
+
+awk -F ':' 'BEGIN {count=0;} {name[count] = $1;count++;}; END{for (i = 0; i < NR; i++) print i, name[i]}' /etc/passwd
+# 因为awk中数组的下标可以是数字和字母，数组的下标通常被称为关键字(key)。值和关键字都存储在内部的一张针对key/value应用hash的表格里。由于hash不是顺序存储，因此在显示数组内容时会发现，它们并不是按照你预料的顺序显示出来的。数组和变量一样，都是在使用时自动创建的，awk也同样会自动判断其存储的是数字还是字符串。一般而言，awk中的数组用来从记录中收集信息，可以用于计算总和、统计单词以及跟踪模板被匹配的次数等等。
+``` 
+>参考 https://www.cnblogs.com/ggjucheng/archive/2013/01/13/2858470.html           
+>https://www.cnblogs.com/emanlee/p/3327576.html         
+>http://blog.sina.com.cn/s/blog_5a3640220100b7c8.html           
 ### 5.sed
+>sed是一种流编辑器，能够完美的配合正则表达式使用。处理时，把当前处理的行存储在临时缓冲区中，称为“模式空间”（pattern space），
+>接着用sed命令处理缓冲区中的内容，处理完成后，把缓冲区的内容送往屏幕。接着处理下一行，直到文件末尾。文件内容并没有 改变，
+>除非你使用重定向存储输出。Sed主要用来自动编辑一个或多个文件；简化对文件的反复操作；编写转换程序等。                    
+>       
+```shell script
+# 命令格式
+
+sed [options] 'command' file(s)
+sed [options] -f scriptfile file(s)
+
+# sed命令的选项(option)：
+
+# -n ：只打印模式匹配的行
+# -i ：直接修改文件内容
+# -e ：直接在命令行模式上进行sed动作编辑，此为默认选项
+# -f ：将sed的动作写在一个文件内，用–f filename 执行filename内的sed动作
+# -r ：支持扩展表达式
+
+# sed命令
+# a 在当前行下面插入文本。
+# i 在当前行上面插入文本。
+# c 把选定的行改为新的文本。
+# d 删除，删除选择的行。
+# D 删除模板块的第一行。
+# s 替换指定字符。
+# g 获得内存缓冲区的内容，并替代当前模板块中的文本。
+# n 读取下一个输入行，用下一个命令处理新的行而不是用第一个命令。
+# p 打印模板块的行。
+
+
+# 选定行的范围用,（逗号）
+```
+>       
+>参考 https://man.linuxde.net/sed         
+>https://www.cnblogs.com/ctaixw/p/5860221.html          
 ### 6.sort
-### 7.uniq              
+### 7.uniq
+### 8.touch
+### 9.chown
+### 10.chmod
+### 11.ps
+### 12.top
+### 13.netstat
+### 14.ifconfig
+### 15.kill
+### 16.tr
+### 17.cut
+### 18.ulimit
+### 19.xargs
+### 20.df
+### 21.du               
