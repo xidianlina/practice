@@ -1165,3 +1165,36 @@ chmod o=r .bashrc
 # 正斜线（/）：可以用正斜线指定时间的间隔频率，例如“0-23/2”表示每两小时执行一次。同时正斜线可以和星号一起使用，例如*/10，如果用在minute字段，表示每十分钟执行一次。
 ```
 >参考 https://www.cnblogs.com/peida/archive/2013/01/08/2850483.html   
+### 46.vim
+```shell
+# vi分为三种模式：一般指令模式、编辑模式、指令列命令模式。
+# 
+# 一般指令模式(command mode)： 以vi打开一个文件就直接进入一般指令模式了(这是默认的模式,也简称为一般模式)。
+# 在这个模式中, 使用『上下左右」按键来移动光标,可以使用「删除字符」或「删除整列」来处理文件内容, 也可以使用[复制、贴上」来处理你的文件数据。。
+# 
+# 编辑模式(insert mode)： 在一般指令模式中可以进行删除、复制、贴上等等的动作,但是却无法编辑文件内容的! 
+# 按下「i, 1, o,0, a, A, r,RJ等任何一个字母之后才会进入编辑模式。
+# 按下这些按键时,在画面的左下方会出现「INSERT或REPLACE 」的字样,此时才可以进行编辑。
+# 如果要回到一般指令模式时, 则必须要按下「Esc」这个按键即可退出编辑模式。
+# 
+# 指令列命令模式(command-line mode)： 在一般模式当中,输入「:/?」三个中的任何一个按钮,就可以将光标移动到最底下那一列。
+# 在这个模式当中, 可以提供你「搜寻资料」的动作。
+# 读取、存盘、大量取代字符、离开vi、显示行号等等的动作也是在此模式中达成的!
+# 
+# 一般指令模式可与编辑模式及指令列模式切换，但编辑模式与指令列模式之间不可互相切换。
+
+# 常用的按键有：
+# i : 进入编辑模式，
+# [:] : 进入到指令列命令模式，
+# [ESC] : 退出编辑模式或指令列命令模式到一般指令模式， 
+# :wq ：存档退出指令列命令模式。
+```
+> ![linux_vim1](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim1.png)
+> ![linux_vim2](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim2.png)
+> ![linux_vim3](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim3.png)
+> ![linux_vim4](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim4.png)
+> ![linux_vim5](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim5.png)
+> ![linux_vim6](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim6.png)
+> ![linux_vim7](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim7.png)
+
+> 参考 https://blog.csdn.net/sanhewuyang/article/details/91040639   
