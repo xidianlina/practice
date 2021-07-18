@@ -1189,12 +1189,12 @@ chmod o=r .bashrc
 # [ESC] : 退出编辑模式或指令列命令模式到一般指令模式， 
 # :wq ：存档退出指令列命令模式。
 ```
-> ![linux_vim1](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim1.png)
-> ![linux_vim2](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim2.png)
-> ![linux_vim3](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim3.png)
-> ![linux_vim4](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim4.png)
-> ![linux_vim5](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim5.png)
-> ![linux_vim6](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim6.png)
-> ![linux_vim7](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim7.png)
+> ![linux_vim1](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim1.png)        
+> ![linux_vim2](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim2.png)       
+> ![linux_vim3](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim3.png)      
+> ![linux_vim4](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim4.png)     
+> ![linux_vim5](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim5.png)     
+> ![linux_vim6](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim6.png)     
+> ![linux_vim7](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim7.png)      
 
 > 参考 https://blog.csdn.net/sanhewuyang/article/details/91040639   
