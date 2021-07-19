@@ -1196,5 +1196,6 @@ chmod o=r .bashrc
 > ![linux_vim5](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim5.png)     
 > ![linux_vim6](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim6.png)     
 > ![linux_vim7](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim7.png)      
+> ![linux_vim8](http://github.com/xidianlina/practice/raw/master//java_practice/topic/picture/linux_vim8.png)            
 
 > 参考 https://blog.csdn.net/sanhewuyang/article/details/91040639   
