@@ -21,6 +21,8 @@ java虚拟机JVM
 ### 18.jvm调优的工具？
 ### 19.常用的jvm调优的参数都有哪些？
 ### 20.java中的内存泄露和内存溢出？
+### 21.谈谈对JVM的理解
+### 22.Full GC
 
 ## 问题答案
 ### 1.JVM的主要组成部分？及其作用？
@@ -430,4 +432,26 @@ public class JMM {
  (6).单例模式:因为单例对象的初始化将在JVM的整个生命周期内存在，如果它持有一个外部对象的(生命周期比较短)引用，那么这个外部对象就不能被回收，
 >从而导致内存泄露。如果这个外部对象还持有其他对象的引用，那么内存泄露更严重。                                                                                         
                                             
-### 参考 https://blog.csdn.net/qq_41701956/article/details/81664921
+### 参考 https://blog.csdn.net/qq_41701956/article/details/81664921           
+### 21.谈谈对JVM的理解
+>JVM可以理解为一个虚构出来的计算机，是通过在实际的计算机上仿真模拟各种计算机功能来实现的。Java语言的平台无关性主要就是Java语言规范、Class文件、JVM实现的。                             
+ JVM主要由类加载器、运行时数据区、执行引擎、本地库接口4部分组成。一段Java代码要运行起来，首先通过类加载器把Java代码转换成字节码，然后运行时数据区再把字节码加载到内存中，
+ 而字节码文件只是JVM的一套指令集规范，并不能直接交个底层操作系统去执行，因此需要特定的命令解析器执行引擎将字节码翻译成底层系统指令再交由CPU去执行，
+>而这个过程中需要调用其他语言的本地库接口来实现整个程序的功能。                                
+### 22.Full GC
+>JVM的heap区域是分代的，分为年轻代和老年代，GC时新生代使用的是复制算法，老年代使用的是标记整理算法，新生代里有3个分区：Eden、To Survivor、From Survivor，默认占比是 8:1:1。                    
+ JVM的堆对象分配的一般规则：                
+ 对象在新生代Eden区中分配。当Eden区没有足够的空间进行分配时，虚拟机将发起一次Minor GC。Java对象大多数都具有朝生夕灭的特性，多以Minor GC非常频繁，一般回收速度也比较快。              
+ 新生代GC是把Eden + From Survivor存活的对象放入To Survivor 区；                   
+ 清空Eden和From Survivor分区；                
+ From Survivor和 To Survivor分区交换，From Survivor变To Survivor，To Survivor变From Survivor。                
+ 每次在From Survivor到To Survivor移动时都存活的对象年龄会+1，当年龄到达15（默认配置是15）时，升级为老年代。大对象也会直接进入老生代。                  
+ 当老年代空间占用到达某个值之后就会触发Full GC。Full GC的速度一般会比Minor GC慢10倍以上。                                  
+ 触发Full GC的情况主要有4种：                 
+ (1).调用System.gc()方法。此方法的调用是建议JVM进行Full GC,虽然只是建议而非一定，但很多情况下它会触发 Full GC,从而增加Full GC的频率，
+>也即增加了间歇性停顿的次数。建议能不使用此方法就别使用，让虚拟机自己去管理它的内存，可通过-XX:+ DisableExplicitGC来禁止RMI（Java远程方法调用）调用System.gc。                 
+ (2).老年代空间不足。老年代空间只有在新生代对象转入及创建为大对象、大数组时才会出现不足的现象，当执行Full GC后空间仍然不足，
+>则抛出错误：java.lang.OutOfMemoryError: Java heap space 。为避免以上两种状况引起的FullGC，调优时应尽量做到让对象在Minor GC阶段被回收、
+>让对象在新生代多存活一段时间及不要创建过大的对象及数组。                       
+ (3).在发生Minor GC时，虚拟机就会检测之前每次晋升到老年代的平均大小是否大于老年代的剩余空间，如果大于，则改为直接进行一次Full GC                  
+ (4).在发生Minor GC时，如果允许分配担保，由Eden区、From Space区向To Space区复制时，对象大小大于To Space可用内存，则把该对象转存到老年代，且老年代的可用内存小于该对象大小。                         
