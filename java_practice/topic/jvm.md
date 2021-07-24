@@ -2,27 +2,49 @@ java虚拟机JVM
 ======
 ## 问题列表
 ### 1.对JVM的理解
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/jvm/%E5%AF%B9JVM%E7%9A%84%E7%90%86%E8%A7%A3.md
 ### 2.JVM的主要组成部分？及其作用？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/jvm/JVM%E7%9A%84%E4%B8%BB%E8%A6%81%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86%E5%8F%8A%E5%85%B6%E4%BD%9C%E7%94%A8.md
 ### 3.Java虚拟机运行时数据区域
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/jvm/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F.md
 ### 4.jvm中堆栈的区别
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/jvm/jvm%E4%B8%AD%E5%A0%86%E6%A0%88%E7%9A%84%E5%8C%BA%E5%88%AB.md
 ### 5.对象是如何创建、如何布局以及如何访问的？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/jvm/%E5%AF%B9%E8%B1%A1%E6%98%AF%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E3%80%81%E5%A6%82%E4%BD%95%E5%B8%83%E5%B1%80%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E8%AE%BF%E9%97%AE%E7%9A%84.md
 ### 6.Student s=new Student();在内存中做了哪些事情?
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/jvm/Student%20s%3Dnew%20Student()%3B%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E5%81%9A%E4%BA%86%E5%93%AA%E4%BA%9B%E4%BA%8B%E6%83%85.md
 ### 7.判断对象是否已死
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/jvm/%E5%88%A4%E6%96%AD%E5%AF%B9%E8%B1%A1%E6%98%AF%E5%90%A6%E5%B7%B2%E6%AD%BB.md
 ### 8.对象的引用
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/jvm/%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%BC%95%E7%94%A8.md
 ### 9.垃圾回收算法
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/jvm/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95.md
 ### 10.垃圾回收器
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/jvm/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8.md
 ### 11.简述分代垃圾回收器是怎么工作的？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/jvm/%E5%88%86%E4%BB%A3%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8%E6%98%AF%E6%80%8E%E4%B9%88%E5%B7%A5%E4%BD%9C%E7%9A%84.md
 ### 12.回收方法区
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/jvm/%E5%9B%9E%E6%94%B6%E6%96%B9%E6%B3%95%E5%8C%BA.md
 ### 13.内存分配与回收策略
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/jvm/%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E4%B8%8E%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5.md
 ### 14.Minor GC和Full GC
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/jvm/MinorGc%E5%92%8CFullGc.md
 ### 15.Java内存模型
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/jvm/%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B.md
 ### 16.先行发生原则
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/jvm/%E5%85%88%E8%A1%8C%E5%8F%91%E7%94%9F%E5%8E%9F%E5%88%99.md
 ### 17.类加载机制
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/jvm/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6.md
 ### 18.类加载器
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/jvm/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8.md
 ### 19.双亲委派模型
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/jvm/%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B.md
 ### 20.jvm调优的工具？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/jvm/jvm%E8%B0%83%E4%BC%98%E7%9A%84%E5%B7%A5%E5%85%B7.md
 ### 21.常用的jvm调优的参数都有哪些？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/jvm/%E5%B8%B8%E7%94%A8%E7%9A%84jvm%E8%B0%83%E4%BC%98%E7%9A%84%E5%8F%82%E6%95%B0%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B.md
 ### 22.java中的内存泄露和内存溢出？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/jvm/%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E5%92%8C%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA.md
 
 ## 问题答案
 ### 1.对JVM的理解
