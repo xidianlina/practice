@@ -3,30 +3,55 @@ mysql练习
 # 一.基础知识
 ## 问题列表
 ### 1.关系型数据库和非关系型数据库区别
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E5%92%8C%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8C%BA%E5%88%AB.md
 ### 2.mysql数据库的基本架构 
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84.md
 ### 3.数据库事务
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1.md
 ### 4.数据库事务特性
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%89%B9%E6%80%A7.md
 ### 5.事务隔离级别 
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB.md
 ### 6.MVCC 
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/MVCC.md
 ### 7.数据库引擎
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BC%95%E6%93%8E.md
 ### 8.索引分类
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/%E7%B4%A2%E5%BC%95%E5%88%86%E7%B1%BB.md
 ### 9.数据库索引的优缺点
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9.md
 ### 10.建索引的几大原则
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/%E5%BB%BA%E7%B4%A2%E5%BC%95%E7%9A%84%E5%87%A0%E5%A4%A7%E5%8E%9F%E5%88%99.md
 ### 11.数据库索引失效
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88.md
 ### 12.索引的底层实现
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/%E7%B4%A2%E5%BC%95%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0.md
 ### 13.最左匹配原则
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/%E6%9C%80%E5%B7%A6%E5%8C%B9%E9%85%8D%E5%8E%9F%E5%88%99.md
 ### 14.数据库范式
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%8C%83%E5%BC%8F.md
 ### 15.MySQL的锁机制 — 共享锁和排它锁
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/%E5%85%B1%E4%BA%AB%E9%94%81%E5%92%8C%E6%8E%92%E5%AE%83%E9%94%81.md
 ### 16.MySQL的锁机制 — 记录锁、间隙锁和临键锁
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/%E8%AE%B0%E5%BD%95%E9%94%81%E3%80%81%E9%97%B4%E9%9A%99%E9%94%81%E5%92%8C%E4%B8%B4%E9%94%AE%E9%94%81.md
 ### 17.覆盖索引
-### 18.局部索引            
-### 19.回表查询      
-### 20.mysql调优  
-### 21.explain 
-### 22.order by排序优化 
-### 23.sql中drop、delete和truncate的区别   
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%95.md
+### 18.局部索引  
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/%E5%B1%80%E9%83%A8%E7%B4%A2%E5%BC%95.md          
+### 19.回表查询
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/%E5%9B%9E%E8%A1%A8%E6%9F%A5%E8%AF%A2.md      
+### 20.mysql调优
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/mysql%E8%B0%83%E4%BC%98.md  
+### 21.explain
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/explain.md
+### 22.order by排序优化
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/%E6%8E%92%E5%BA%8F%E4%BC%98%E5%8C%96.md 
+### 23.sql中drop、delete和truncate的区别
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/drop%E3%80%81delete%E5%92%8Ctruncate%E7%9A%84%E5%8C%BA%E5%88%AB.md   
 ### 24.insert into
-### 25.varchar与char的区别   
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/insert%20into.md
+### 25.varchar与char的区别 
+>https://github.com/xidianlina/practice/blob/master/mysql_practice/mysql/varchar%E4%B8%8Echar%E7%9A%84%E5%8C%BA%E5%88%AB.md
                 
             
 ## 问题答案
