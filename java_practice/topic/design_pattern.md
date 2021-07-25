@@ -32,16 +32,16 @@
 > 创建型模式(Creational Pattern)对类的实例化过程进行了抽象，能够将模块中对象的创建和对象的使用分离。
 > 为了使结构更加清晰，外界对于这些对象只需要知道它们共同的接口，而不清楚其具体的实现细节，使整个系统的设计更加符合单一职责原则。               
 > 1.简单工厂模式（Simple Factory Pattern）
-> https://github.com/xidianlina/practice/blob/master/java_practice/topic/design_pattern/simple_factory.md              
-  2.工厂方法模式（Factory Method Pattern）  
-> https://github.com/xidianlina/practice/blob/master/java_practice/topic/design_pattern/factory_method.md               
-> 3.抽象工厂模式（Abstract Factory Pattern） 
-> https://github.com/xidianlina/practice/blob/master/java_practice/topic/design_pattern/abstract_factory.md             
-> 4.单例模式（Singleton Pattern）
-> https://github.com/xidianlina/practice/blob/master/java_practice/topic/design_pattern/singleton.md              
-> 5.生成器模式（Builder Pattern）
-> https://github.com/xidianlina/practice/blob/master/java_practice/topic/design_pattern/builder.md                    
-> 6.原型模式（Prototype Pattern）                                                                          
+> https://github.com/xidianlina/practice/blob/master/java_practice/topic/design_pattern/simple_factory.md                             
+  2.工厂方法模式（Factory Method Pattern）                   
+> https://github.com/xidianlina/practice/blob/master/java_practice/topic/design_pattern/factory_method.md                            
+> 3.抽象工厂模式（Abstract Factory Pattern）                 
+> https://github.com/xidianlina/practice/blob/master/java_practice/topic/design_pattern/abstract_factory.md                              
+> 4.单例模式（Singleton Pattern）                 
+> https://github.com/xidianlina/practice/blob/master/java_practice/topic/design_pattern/singleton.md                                
+> 5.生成器模式（Builder Pattern）                  
+> https://github.com/xidianlina/practice/blob/master/java_practice/topic/design_pattern/builder.md                                        
+> 6.原型模式（Prototype Pattern）                                                                                            
 ### 结构型
 > 结构型模式(Structural Pattern)描述如何将类或者对象结合在一起形成更大的结构，就像搭积木，可以通过简单积木的组合形成复杂的、功能更为强大的结构。
 > 结构型模式可以分为类结构型模式和对象结构型模式：                  
@@ -52,8 +52,8 @@
   2.适配器模式             
   3.桥接模式                      
   4.代理模式          
-  5.装饰者模式 
-> https://github.com/xidianlina/practice/blob/master/java_practice/topic/design_pattern/decorator.md       
+  5.装饰者模式               
+> https://github.com/xidianlina/practice/blob/master/java_practice/topic/design_pattern/decorator.md                        
 > 6.享元模式                                                                
 ### 行为型
 > 行为型模式(Behavioral Pattern)是对在不同的对象之间划分责任和算法的抽象化。行为型模式不仅仅关注类和对象的结构，
@@ -66,8 +66,8 @@
   6.备忘录模式             
   7.观察者模式             
   8.状态模式              
-  9.策略模式
-> https://github.com/xidianlina/practice/blob/master/java_practice/topic/design_pattern/strategy.md              
+  9.策略模式                        
+> https://github.com/xidianlina/practice/blob/master/java_practice/topic/design_pattern/strategy.md                                     
 > 10.模板方法模式                
   11.访问者模式 
 # 创建型                                                              
