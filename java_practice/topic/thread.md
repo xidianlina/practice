@@ -2,30 +2,57 @@
 ======
 ## 问题列表
 ### 1.并行和并发有什么区别？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/%E5%B9%B6%E8%A1%8C%E5%92%8C%E5%B9%B6%E5%8F%91.md
 ### 2.进程、线程和协程的区别？java、go和python中对线程的实现及与操作系统中内核的对应关系？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%8D%8F%E7%A8%8B.md
 ### 3.守护线程是什么？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B.md
 ### 4.创建线程有哪几种方式？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B%E6%96%B9%E5%BC%8F.md
 ### 5.runnable和callable有什么区别？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/runnable%E5%92%8Ccallable%E5%8C%BA%E5%88%AB.md
 ### 6.线程有哪些状态？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/%E7%BA%BF%E7%A8%8B%E6%9C%89%E5%93%AA%E4%BA%9B%E7%8A%B6%E6%80%81.md
 ### 7.sleep()和wait()有什么区别？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/sleep()wait()yield().md
 ### 8.notify()和notifyAll()有什么区别？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/notify()%E5%92%8CnotifyAll().md
 ### 9.线程的run()和start()有什么区别？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/run()%E5%92%8Cstart().md
 ### 10.java多线程中join()方法？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/join()%E6%96%B9%E6%B3%95.md
 ### 11.创建线程池有哪几种方式？线程池都有哪些状态？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%96%B9%E5%BC%8F%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%8A%B6%E6%80%81.md
 ### 12.如何设计一个线程池？线程池参数详解？线程池的工作原理？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/%E8%AE%BE%E8%AE%A1%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.md
 ### 13.线程池中submit()和execute()方法有什么区别？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E4%B8%ADsubmit()%E5%92%8Cexecute().md
 ### 14.什么是线程安全？在java程序中怎么保证多线程的运行安全？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%92%8C%E6%80%8E%E4%B9%88%E4%BF%9D%E8%AF%81%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E8%BF%90%E8%A1%8C%E5%AE%89%E5%85%A8.md
 ### 15.什么是死锁？怎么防止死锁？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/%E6%AD%BB%E9%94%81.md
 ### 16.ThreadLocal是什么？有哪些使用场景？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/ThreadLocal.md
 ### 17.synchronized底层实现原理？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/synchronized%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86.md
 ### 18.多线程锁的升级原理是什么？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%94%81%E7%9A%84%E5%8D%87%E7%BA%A7.md
 ### 19.volatile关键字？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/volatile%E5%85%B3%E9%94%AE%E5%AD%97.md
 ### 20.synchronized和volatile的区别是什么？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/synchronized%E5%92%8Cvolatile%E5%8C%BA%E5%88%AB.md
 ### 21.synchronized和Lock有什么区别？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/synchronized%E5%92%8CLock%E5%8C%BA%E5%88%AB.md
 ### 22.synchronized和ReentrantLock区别是什么？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/synchronized%E5%92%8CReentrantLock%E5%8C%BA%E5%88%AB.md
 ### 23.atomic的原理？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/atomic%E7%9A%84%E5%8E%9F%E7%90%86.md
 ### 24.乐观锁和悲观锁？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81.md
 ### 25.线程同步与阻塞的关系？同步一定阻塞吗？阻塞一定同步吗？
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5%E4%B8%8E%E9%98%BB%E5%A1%9E.md
+### 26.AQS
+>https://github.com/xidianlina/practice/blob/master/java_practice/thread/AQS.md
 
 ## 问题答案
 ### 1.并行和并发有什么区别？
