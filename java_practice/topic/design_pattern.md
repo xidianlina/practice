@@ -619,8 +619,8 @@ public class Singleton4 {
  5.当使用JDK 1.7等动态语言支持时，如果一个java.lang.invoke.MethodHandle实例最后的解析结果REF_getStatic、REF_putStatic、REF_invokeStatic的方法句柄，并且这个方法句柄所对应的类没有进行过初始化，则需要先触发其初始化。                 
  这5种情况被称为是类的主动引用，那么，除此之外的所有引用类都不会对类进行初始化，称为被动引用。静态内部类就属于被动引用的行列。                    
 >               
->虚拟机会保证一个类的<clinit>()方法在多线程环境中被正确地加锁、同步，如果多个线程同时去初始化一个类，那么只会有一个线程去执行这个类的<clinit>()方法，
->其他线程都需要阻塞等待，直到活动线程执行<clinit>()方法完毕。在实际应用中，这种阻塞往往是很隐蔽的。                 
+>虚拟机会保证一个类的clinit()方法在多线程环境中被正确地加锁、同步，如果多个线程同时去初始化一个类，那么只会有一个线程去执行这个类的clinit()方法，
+>其他线程都需要阻塞等待，直到活动线程执行clinit()方法完毕。在实际应用中，这种阻塞往往是很隐蔽的。                 
 >getInstance()方法，调用的是LazyHolder.INSTANCE，取的是LazyHolder里的INSTANCE对象，getInstance()方法并没有多次去new对象，
 >故不管多少个线程去调用getInstance()方法，取的都是同一个INSTANCE对象，而不用去重新创建。                     
  当getInstance()方法被调用时，LazyHolder才在SingleTon的运行时常量池里，把符号引用替换为直接引用，这时静态对象INSTANCE也真正被创建，然后再被getInstance()方法返回出去。                      
