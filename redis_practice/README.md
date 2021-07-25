@@ -2,39 +2,75 @@ redis知识
 ======
 # 题目列表
 ## 1.为什么用Redis？
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%94%A8Redis.md
 ## 2.redis有哪些数据结构？
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/redis%E6%9C%89%E5%93%AA%E4%BA%9B%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.md
 ## 3.如果有大量的key需要设置同一时间过期，需要注意什么？
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/%E5%A4%A7%E9%87%8F%E7%9A%84key%E9%9C%80%E8%A6%81%E8%AE%BE%E7%BD%AE%E5%90%8C%E4%B8%80%E6%97%B6%E9%97%B4%E8%BF%87%E6%9C%9F.md
 ## 4.Redis分布式锁
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/Redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81.md
 ## 5.假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如何将它们全部找出来？
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/%E6%9C%8910w%E4%B8%AAkey%E6%98%AF%E4%BB%A5%E6%9F%90%E4%B8%AA%E5%9B%BA%E5%AE%9A%E7%9A%84%E5%B7%B2%E7%9F%A5%E7%9A%84%E5%89%8D%E7%BC%80%E5%BC%80%E5%A4%B4%E7%9A%84%EF%BC%8C%E5%A6%82%E4%BD%95%E5%B0%86%E5%AE%83%E4%BB%AC%E5%85%A8%E9%83%A8%E6%89%BE%E5%87%BA%E6%9D%A5.md
 ## 6.如何使用Redis做异步队列？
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/Redis%E5%81%9A%E5%BC%82%E6%AD%A5%E9%98%9F%E5%88%97.md
 ## 7.Redis中如何实现消息生产一次消费多次？
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/Redis%E4%B8%AD%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%94%9F%E4%BA%A7%E4%B8%80%E6%AC%A1%E6%B6%88%E8%B4%B9%E5%A4%9A%E6%AC%A1.md
 ## 8.redis中pub/sub有什么缺点？
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/redis%E4%B8%ADpubsub%E6%9C%89%E4%BB%80%E4%B9%88%E7%BC%BA%E7%82%B9.md
 ## 9.Redis如何实现延时队列？
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/Redis%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%BB%B6%E6%97%B6%E9%98%9F%E5%88%97.md
 ## 10.Redis是怎么持久化的？
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/%E6%8C%81%E4%B9%85%E5%8C%96.md
 ## 11.Pipeline有什么好处，为什么要用pipeline？
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/pipeline.md
 ## 12.Redis的同步机制？
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/Redis%E7%9A%84%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6.md
 ## 13.Redis集群的高可用怎么保证，集群的原理是什么？
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/%E9%9B%86%E7%BE%A4%E7%9A%84%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%8E%E4%B9%88%E4%BF%9D%E8%AF%81.md
 ## 14.NoSQL数据库的分类？
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/NoSQL%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%88%86%E7%B1%BB.md
 ## 15.CAP理论
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/CAP%E7%90%86%E8%AE%BA.md
 ## 16.BASE理论
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/BASE%E7%90%86%E8%AE%BA.md
 ## 17.Redis和Memcached的区别？
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/Redis%E5%92%8CMemcached%E7%9A%84%E5%8C%BA%E5%88%AB.md
 ## 18.单线程的redis为什么这么快
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/%E5%8D%95%E7%BA%BF%E7%A8%8B%E7%9A%84redis%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E5%BF%AB.md
 ## 19.redis的过期策略以及内存淘汰机制
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/%E8%BF%87%E6%9C%9F%E7%AD%96%E7%95%A5%E4%BB%A5%E5%8F%8A%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0%E6%9C%BA%E5%88%B6.md
 ## 20.使用redis的缺点?
-## 21.缓存预热                                       
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/%E4%BD%BF%E7%94%A8redis%E7%9A%84%E7%BC%BA%E7%82%B9.md
+## 21.缓存预热
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/%E7%BC%93%E5%AD%98%E9%A2%84%E7%83%AD.md                                       
 ## 22.缓存降级
-## 23.布隆过滤器                         
-## 24.跳跃表                              
-## 25.字符串类型值存储最大容量是多少？默认有多少个库？Redis集群之间是如何复制的？Redis集群最大节点个数是多少？          
-## 26.Redis 如何设置密码及验证密码？             
-## 27.Redis 集群会有写操作丢失吗？为什么？ 
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/%E7%BC%93%E5%AD%98%E9%99%8D%E7%BA%A7.md
+## 23.布隆过滤器
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8.md                         
+## 24.跳跃表
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/%E8%B7%B3%E8%B7%83%E8%A1%A8.md                              
+## 25.字符串类型值存储最大容量是多少？默认有多少个库？Redis集群之间是如何复制的？Redis集群最大节点个数是多少？ 
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/16384.md         
+## 26.Redis 如何设置密码及验证密码？ 
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/%E5%AF%86%E7%A0%81.md            
+## 27.Redis 集群会有写操作丢失吗？为什么？
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/%E5%86%99%E6%93%8D%E4%BD%9C%E4%B8%A2%E5%A4%B1.md 
 ## 28.MySQL里有2000w数据，redis中只存20w的数据，如何保证redis中的数据都是热点数据？
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/%E4%BF%9D%E8%AF%81%E7%83%AD%E7%82%B9%E6%95%B0%E6%8D%AE.md
 ## 29.Redis最适合的场景？
-## 30.关系型数据库跟Redis本质上的区别    
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/Redis%E6%9C%80%E9%80%82%E5%90%88%E7%9A%84%E5%9C%BA%E6%99%AF.md
+## 30.关系型数据库跟Redis本质上的区别  
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E8%B7%9FRedis%E6%9C%AC%E8%B4%A8%E4%B8%8A%E7%9A%84%E5%8C%BA%E5%88%AB.md  
 ## 31.如何使用 Redis 更节省内存？
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8Redis%E6%9B%B4%E8%8A%82%E7%9C%81%E5%86%85%E5%AD%98.md
 ## 32.为什么Redis是单线程的?
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/%E4%B8%BA%E4%BB%80%E4%B9%88Redis%E6%98%AF%E5%8D%95%E7%BA%BF%E7%A8%8B%E7%9A%84.md
 ## 33.redis常见的性能问题有哪些？该如何解决？
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/redis%E5%B8%B8%E8%A7%81%E7%9A%84%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98.md
 ## 34.Redis缓存模式？
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/Redis%E7%BC%93%E5%AD%98%E6%A8%A1%E5%BC%8F.md
+## 35.一致性Hash
+>https://github.com/xidianlina/practice/blob/master/redis_practice/redis/%E4%B8%80%E8%87%B4%E6%80%A7Hash.md
 
 # 题目答案
 ## 1.为什么用Redis？
