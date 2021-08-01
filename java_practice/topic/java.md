@@ -22,47 +22,89 @@ java基础题目
 ### 10.java中操作字符串都有哪些类？它们之间有什么区别？  String、StringBuffer、StringBuilder
 > https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/String%E3%80%81StringBuffer%E3%80%81StringBuilder.md
 ### 11.String类的常用方法都有那些？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/String%E7%B1%BB%E7%9A%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E9%83%BD%E6%9C%89%E9%82%A3%E4%BA%9B.md
 ### 12.抽象类必须要有抽象方法吗？抽象类能使用final修饰吗？普通类和抽象类有哪些区别？接口和抽象类有什么区别？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/%E6%8E%A5%E5%8F%A3%E5%92%8C%E6%8A%BD%E8%B1%A1%E7%B1%BB.md
 ### 13.Files的常用方法都有哪些？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/Files%E7%9A%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B.md
 ### 14.java中IO流分为几种？BIO、NIO、AIO 有什么区别?
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/java%E4%B8%ADIO%E6%B5%81%E5%88%86%E4%B8%BA%E5%87%A0%E7%A7%8D%EF%BC%9FBIO%E3%80%81NIO%E3%80%81AIO%20%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB.md
 ### 15.java常用的集合容器都有哪些？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/java%E5%B8%B8%E7%94%A8%E7%9A%84%E9%9B%86%E5%90%88%E5%AE%B9%E5%99%A8%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B.md
 ### 16.Collection和Collections有什么区别？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/Collection%E5%92%8CCollections%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB.md
 ### 17.List、Set、Map之间的区别是什么？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/List%E3%80%81Set%E3%80%81Map%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB.md
 ### 18.HashMap和Hashtable有什么区别？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/HashMap%E5%92%8CHashtable%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB.md
 ### 19.如何决定使用HashMap还是TreeMap？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/%E5%A6%82%E4%BD%95%E5%86%B3%E5%AE%9A%E4%BD%BF%E7%94%A8HashMap%E8%BF%98%E6%98%AFTreeMap.md
 ### 20.HashMap的实现原理？HashSet的实现原理？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/HashMap%E5%92%8CHashSet.md
 ### 21.HashMap和ConcurrentHashMap的区别？ConcurrentHashMap的实现原理？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/ConcurrentHashMap.md
 ### 22.ArrayList和LinkedList的区别是什么？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/ArrayList%E5%92%8CLinkedList%E7%9A%84%E5%8C%BA%E5%88%AB.md
 ### 23.如何实现数组和List之间的转换？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/%E6%95%B0%E7%BB%84%E5%92%8CList%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2.md
 ### 24.ArrayList和Vector的区别是什么？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/ArrayList%E5%92%8CVector%E7%9A%84%E5%8C%BA%E5%88%AB.md
 ### 25.Array和ArrayList有何区别？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/Array%E5%92%8CArrayList%E5%8C%BA%E5%88%AB.md
 ### 26.在Queue中poll()和remove()有什么区别？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/%E5%9C%A8Queue%E4%B8%ADpoll()%E5%92%8Cremove()%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB.md
 ### 27.哪些集合类是线程安全的？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/%E5%93%AA%E4%BA%9B%E9%9B%86%E5%90%88%E7%B1%BB%E6%98%AF%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84.md
 ### 28.写时复制(CopyOnWrite)
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/CopyOnWrite.md
 ### 29.迭代器Iterator是什么？Iterator怎么使用？有什么特点？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/%E8%BF%AD%E4%BB%A3%E5%99%A8Iterator.md
 ### 30.Iterator和ListIterator有什么区别？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/Iterator%E5%92%8CListIterator%E5%8C%BA%E5%88%AB.md
 ### 31.什么是反射？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/%E5%8F%8D%E5%B0%84.md
 ### 32.动态代理是什么？有哪些应用？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86.md
 ### 33.如何实现对象克隆？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%B1%A1%E5%85%8B%E9%9A%86.md
 ### 34.什么是java序列化？什么情况下需要序列化？
-### 35.深拷贝和浅拷贝区别是什么？                      
-### 36.throw和throws的区别？                  
-### 37.常见的异常类有哪些？                      
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96.md
+### 35.深拷贝和浅拷贝区别是什么？      
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/%E6%B7%B1%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B5%85%E6%8B%B7%E8%B4%9D%E5%8C%BA%E5%88%AB.md                
+### 36.throw和throws的区别？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/throw%E5%92%8Cthrows%E7%9A%84%E5%8C%BA%E5%88%AB.md                  
+### 37.常见的异常类有哪些？ 
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/%E5%B8%B8%E8%A7%81%E7%9A%84%E5%BC%82%E5%B8%B8%E7%B1%BB%E6%9C%89%E5%93%AA%E4%BA%9B.md                     
 ### 38.Object类的方法？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/Object%E7%B1%BB%E7%9A%84%E6%96%B9%E6%B3%95.md
 ### 39.java的四个基本特性:抽象、封装、继承、多态
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/java%E7%9A%84%E5%9B%9B%E4%B8%AA%E5%9F%BA%E6%9C%AC%E7%89%B9%E6%80%A7:%E6%8A%BD%E8%B1%A1%E3%80%81%E5%B0%81%E8%A3%85%E3%80%81%E7%BB%A7%E6%89%BF%E3%80%81%E5%A4%9A%E6%80%81.md
 ### 40.面向对象和面向过程的区别？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%92%8C%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB.md
 ### 41.重写和重载的区别？如何确定调用哪个函数？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/%E9%87%8D%E5%86%99%E5%92%8C%E9%87%8D%E8%BD%BD%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F%E5%A6%82%E4%BD%95%E7%A1%AE%E5%AE%9A%E8%B0%83%E7%94%A8%E5%93%AA%E4%B8%AA%E5%87%BD%E6%95%B0.md
 ### 42.常用的hash算法有哪些?
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/%E5%B8%B8%E7%94%A8%E7%9A%84hash%E7%AE%97%E6%B3%95%E6%9C%89%E5%93%AA%E4%BA%9B.md
 ### 43.常用的构造散列函数的方法
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/%E5%B8%B8%E7%94%A8%E7%9A%84%E6%9E%84%E9%80%A0%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B0%E7%9A%84%E6%96%B9%E6%B3%95.md
 ### 44.解决hash冲突的办法
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/%E8%A7%A3%E5%86%B3hash%E5%86%B2%E7%AA%81%E7%9A%84%E5%8A%9E%E6%B3%95.md
 ### 45.整数a = 5和new Integer(5)有什么区别？
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/%E6%95%B4%E6%95%B0a%20%3D%205%E5%92%8Cnew%20Integer(5)%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB.md
 ### 46.Integer类和int的区别
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/Integer%E7%B1%BB%E5%92%8Cint%E7%9A%84%E5%8C%BA%E5%88%AB.md
 ### 47.java和go的区别
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/java%E5%92%8Cgo%E7%9A%84%E5%8C%BA%E5%88%AB.md
 ### 48.aop
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/aop.md
 ### 49.ioc
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/ioc.md
 ### 50.New和init的区别
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/New%E5%92%8Cinit%E7%9A%84%E5%8C%BA%E5%88%AB.md
 ### 51.init和clinit区别
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/init%E5%92%8Cclinit%E5%8C%BA%E5%88%AB.md
 ### 52.泛型
+>https://github.com/xidianlina/practice/blob/master/java_practice/topic/java_base/%E6%B3%9B%E5%9E%8B.md
 ## 问题答案
 ### 1.JDK和JRE有什么区别？
 > JDK:Java Development Kit的简称，java开发工具包，提供了java的开发环境和运行环境。                         
@@ -1157,7 +1199,7 @@ public class FilesTest {
   首先想到的就是把hashcode对数组长度取模运算，这样一来，元素的分布相对来说是比较均匀的。但是，“模”运算的消耗还是比较大的。             
 > 所以Java中是这样做的：hashmap的数组初始化大小都是2的次方大小。首先算得key的hashcode值，然后跟数组的长度-1做一次“与”运算（&）。             
 > 减少碰撞的几率，提高查询的效率。              
-> 2的次方是偶数，减1之后是奇数，奇数的二进制末尾是1，与key的hashcode值做“与”运算产生空间浪费。                
+> 2的次方是偶数，减1之后是奇数，奇数的二进制末尾是1，与key的hashcode值做“与”运算不易产生空间浪费。                
 >               
 > static int indexFor(int h, int length) {                                      
          return h & (length-1);                               
